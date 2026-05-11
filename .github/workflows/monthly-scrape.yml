@@ -1,0 +1,88 @@
+# Monthly Job Monitor - GitHub Actions Workflow
+# Runs on the 1st of every month at 8:00 AM UTC
+
+name: Monthly Job Scraping
+
+on:
+  # Schedule: Run on the 1st of every month at 8:00 AM UTC
+  schedule:
+    - cron: '0 8 1 * *'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Run with debug output'
+        required: false
+        default: 'false'
+  
+  # Run on push to main branch
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'config.yaml'
+      - 'requirements.txt'
+      - '.github/workflows/monthly-scrape.yml'
+
+jobs:
+  scrape-and-send:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      # Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      # Run scraper
+      - name: Run job scraper
+        env:
+          CONFIG_PATH: config.yaml
+        run: |
+          cd src
+          python main.py
+        continue-on-error: true
+      
+      # Upload report as artifact
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recruitment-report
+          path: reports/
+          retention-days: 30
+      
+      # Commit and push report
+      - name: Commit report
+        if: github.event_name == 'schedule'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add reports/
+          git diff --staged --quiet || git commit -m "Add recruitment report $(date +%Y-%m)"
+          git push
+        continue-on-error: true
+
+  # Notify on failure
+  notify-failure:
+    needs: scrape-and-send
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send failure notification
+        run: |
+          echo "Monthly job scraping failed. Please check the logs."

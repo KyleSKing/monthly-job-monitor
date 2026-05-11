@@ -1,0 +1,58 @@
+# Monthly Job Monitor Configuration
+
+## Email Settings
+email:
+  # 收件人
+  to: bin.deng2@boeing.com
+  # 发件人 (需要开启SMTP)
+  from: your-email@gmail.com
+  smtp_server: smtp.gmail.com
+  smtp_port: 587
+  username: your-email@gmail.com
+  # 使用应用密码而非登录密码
+  password: your-app-password
+
+## Scraper Settings
+scraper:
+  # 招聘网站目标
+  targets:
+    - name: "LinkedIn Jobs"
+      enabled: true
+      url: "https://www.linkedin.com/jobs/search/"
+      keywords:
+        - "software engineer"
+        - "data scientist"
+        - "product manager"
+    
+    - name: "Indeed"
+      enabled: true
+      url: "https://www.indeed.com/jobs"
+      keywords:
+        - "software engineer"
+        - "developer"
+    
+    - name: "Glassdoor"
+      enabled: false
+      url: "https://www.glassdoor.com/Job/jobs.htm"
+      keywords:
+        - "software engineer"
+
+  # 爬虫配置
+  request_delay: 2  # 请求间隔(秒)
+  timeout: 30       # 请求超时(秒)
+  max_results: 50   # 每个网站最大获取数量
+
+## Report Settings
+report:
+  # 报告输出格式
+  format: "markdown"
+  # 报告保存路径
+  output_dir: "reports"
+  # 包含内容
+  include:
+    - job_title
+    - company
+    - location
+    - salary
+    - posted_date
+    - job_url

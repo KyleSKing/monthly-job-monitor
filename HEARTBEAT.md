@@ -1,7 +1,23 @@
-# HEARTBEAT.md Template
+# Heartbeat Configuration
 
 ```markdown
-# Keep this file empty (or with only comments) to skip heartbeat API calls.
+# Monthly Job Monitor - Heartbeat Schedule
+# Runs on the 1st of every month at 8:00 AM
 
-# Add tasks below when you want the agent to check something periodically.
+schedule: "0 8 1 * *"
+enabled: true
+
+tasks:
+  - name: monthly-job-scrape
+    description: Scrape job listings and send recruitment report
+    command: python src/main.py
 ```
+
+## Schedule Format (cron)
+- Minute: 0
+- Hour: 8 (8:00 AM)
+- Day of Month: 1 (1st)
+- Month: * (every month)
+- Day of Week: * (any day)
+
+**Result**: Runs at 8:00 AM on the 1st of every month
