@@ -1,5 +1,5 @@
 # Monthly Recruitment Report - 2026-05
-**Generated:** 2026-05-17 20:52:01
+**Generated:** 2026-05-18 00:13:02
 **Total Jobs:** 0
 
 ## Summary
@@ -9,5 +9,5 @@
 
 ## Job Listings
 
-| Title | Company | Location | Source | Salary |
-|-------|---------|----------|--------|--------|
+| Title | Company | Location | Source | Salary | Score |
+|-------|---------|----------|--------|--------|-------|

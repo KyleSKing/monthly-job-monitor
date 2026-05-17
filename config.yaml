@@ -1,60 +1,37 @@
-# Monthly Job Monitor Configuration
-
-# 搜索关键词配置
-search:
-  keywords:
-    - "Python Developer"
-    - "Backend Engineer"
-    - "Software Engineer"
-    - "Data Scientist"
-  
-  # 搜索地点
-  locations:
-    - "Remote"
-    - "USA"
-    - "China"
-
-# 目标网站配置
-targets:
-  - name: "LinkedIn"
-    enabled: true
-    url: "https://www.linkedin.com/jobs/search"
-    keywords:
-      - "software engineer"
-      - "python developer"
-  
-  - name: "Indeed"
-    enabled: true
-    url: "https://www.indeed.com/jobs"
-    keywords:
-      - "software engineer"
-      - "developer"
-
-# 爬虫设置
-crawler:
-  request_delay: 2
-  timeout: 30
-  max_results: 50
-  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-
-# 报告设置
-report:
-  format: "markdown"
-  output_dir: "reports"
-  include:
-    - job_title
-    - company
-    - location
-    - salary
-    - posted_date
-    - job_url
-
-# 邮件设置
+---
 email:
-  smtp_server: "smtp.gmail.com"
+  from: no-reply@company.com
+  to: stakeholder@example.com
+  smtp_server: smtp.gmail.com
   smtp_port: 587
-  username: "your-email@gmail.com"
-  password: "your-app-password"
-  from: "your-email@gmail.com"
-  to:
-    - "your-email@gmail.com"
+  username: your-real-email@gmail.com
+  password: your-app-password
+
+tavily:
+  api_key: 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
+  search_max_results: 20  
+scraper:
+  mock_data: false
+  targets:
+    - name: zhaopin
+      url: https://www.zhaopin.com
+      enabled: true
+    - name: fiftyonejob
+      url: https://www.51job.com
+      enabled: true
+    - name: liepin
+      url: https://www.liepin.com
+      enabled: true
+    - name: lagou
+      url: https://www.lagou.com
+      enabled: true
+    - name: indeed
+      url: https://www.indeed.com
+      enabled: true
+    - name: linkedin
+      url: https://www.linkedin.com/jobs
+      enabled: true
+
+session_management: true
+weighted_scoring: true
+trust_this_host: true

@@ -53,15 +53,15 @@ class EmailSender:
         <head>
             <style>
                 body {{ font-family: Arial, sans-serif; margin: 20px; }}
-                h1 { color: #2c3e50; }
-                h2 { color: #34495e; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
-                table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-                th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-                th { background-color: #3498db; color: white; }
-                tr:nth-child(even) { background-color: #f2f2f2; }
-                tr:hover { background-color: #e8f4f8; }
-                .summary { background-color: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0; }
-                .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #7f8c8d; font-size: 12px; }
+                h1 {{ color: #2c3e50; }}
+                h2 {{ color: #34495e; border-bottom: 2px solid #3498db; padding-bottom: 5px; }}
+                table {{ border-collapse: collapse; width: 100%; margin-top: 20px; }}
+                th, td {{ border: 1px solid #ddd; padding: 12px; text-align: left; }}
+                th {{ background-color: #3498db; color: white; }}
+                tr:nth-child(even) {{ background-color: #f2f2f2; }}
+                tr:hover {{ background-color: #e8f4f8; }}
+                .summary {{ background-color: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0; }}
+                .footer {{ margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #7f8c8d; font-size: 12px; }}
             </style>
         </head>
         <body>
