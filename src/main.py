@@ -8,6 +8,7 @@ import logging
 import sys
 import os
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from pathlib import Path
 
 # Add src to path
@@ -114,10 +115,7 @@ def main():
 
         # ------------------ Git operations ------------------
         # 1️⃣ Delete previous month's report if exists
-        from dateutil.relativedelta import relativedelta
         import subprocess
-        import os
-
         prev_month = (datetime.now() - relativedelta(months=1)).strftime('%Y-%m')
         prev_file = f"reports/recruitment_report_{prev_month}.md"
         # Use git rm to stage deletion (ignores missing file)
