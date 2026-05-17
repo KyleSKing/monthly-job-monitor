@@ -48,3 +48,13 @@ report:
     - salary
     - posted_date
     - job_url
+
+# 邮件设置
+email:
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+  username: "your-email@gmail.com"
+  password: "your-app-password"
+  from: "your-email@gmail.com"
+  to:
+    - "your-email@gmail.com"

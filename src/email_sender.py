@@ -52,7 +52,7 @@ class EmailSender:
         <html>
         <head>
             <style>
-                body { font-family: Arial, sans-serif; margin: 20px; }
+                body {{ font-family: Arial, sans-serif; margin: 20px; }}
                 h1 { color: #2c3e50; }
                 h2 { color: #34495e; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
                 table { border-collapse: collapse; width: 100%; margin-top: 20px; }
