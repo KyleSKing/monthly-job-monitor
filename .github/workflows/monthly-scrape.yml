@@ -51,7 +51,7 @@ jobs:
       # Run scraper
       - name: Run job scraper
         env:
-          CONFIG_PATH: config.yaml
+          CONFIG_PATH: ${{ github.workspace }}/config.yaml
         run: |
           cd src
           python main.py
@@ -69,7 +69,7 @@ jobs:
       # Initialize Git repository and configure
       - name: Setup Git
         run: |
-          cd /tmp/monthly-job-monitor
+          cd ${{ github.workspace }}
           git init
           git remote add origin https://github.com/KyleSKing/monthly-job-monitor.git
           git fetch --all
@@ -77,7 +77,7 @@ jobs:
       # Commit and push report
       - name: Setup Git
         run: |
-          cd /tmp/monthly-job-monitor
+          cd ${{ github.workspace }}
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git fetch --all
