@@ -11,10 +11,6 @@ webdriver-manager>=4.0.0
 pandas>=1.5.0
 pyyaml>=6.0
 
-# Email
-pyyaml>=6.0
-secure-smtplib>=0.4.1
-
 # Date/Time
 python-dateutil>=2.8.0
 

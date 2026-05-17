@@ -111,6 +111,34 @@ def main():
         else:
             logger.error("❌ Failed to send email")
             sys.exit(1)
+
+        # ------------------ Git operations ------------------
+        # 1️⃣ Delete previous month's report if exists
+        from dateutil.relativedelta import relativedelta
+        import subprocess
+        import os
+
+        prev_month = (datetime.now() - relativedelta(months=1)).strftime('%Y-%m')
+        prev_file = f"reports/recruitment_report_{prev_month}.md"
+        # Use git rm to stage deletion (ignores missing file)
+        subprocess.run(["git", "rm", "-f", prev_file], check=False, cwd="/tmp/monthly-job-monitor")
+
+        # 2️⃣ Stage new report
+        subprocess.run(["git", "add", "reports/"], check=False, cwd="/tmp/monthly-job-monitor")
+
+        # 3️⃣ Commit if there is a change
+        diff = subprocess.run(["git", "diff", "--staged", "--quiet"], cwd="/tmp/monthly-job-monitor", capture_output=True)
+        if diff.returncode != 0:
+            subprocess.run(["git", "commit", "-m", f"Add recruitment report {datetime.now().strftime('%Y-%m')}"], cwd="/tmp/monthly-job-monitor", check=False)
+
+        # 4️⃣ Push changes
+        subprocess.run(["git", "push"], cwd="/tmp/monthly-job-monitor", check=False)
+
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
         
     except Exception as e:
         logger.error(f"Error: {e}")
