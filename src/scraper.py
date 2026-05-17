@@ -77,10 +77,10 @@ class JobScraper:
             try:
                 job = {
                     'source': 'LinkedIn',
-                    'title': card.find('h3', class_='job-card-list__title')?.text.strip(),
-                    'company': card.find('span', class_='job-card-container__company-name')?.text.strip(),
-                    'location': card.find('li', class_='job-card-container__metadata-item')?.text.strip(),
-                    'url': card.find('a', class_='job-card-list__title')?.get('href'),
+                    'title': card.find('h3', class_='job-card-list__title').text.strip() if card.find('h3', class_='job-card-list__title') else 'N/A',
+                    'company': card.find('span', class_='job-card-container__company-name').text.strip() if card.find('span', class_='job-card-container__company-name') else 'N/A',
+                    'location': card.find('li', class_='job-card-container__metadata-item').text.strip() if card.find('li', class_='job-card-container__metadata-item') else 'N/A',
+                    'url': card.find('a', class_='job-card-list__title').get('href') if card.find('a', class_='job-card-list__title') else '#',
                     'posted_date': datetime.now().strftime('%Y-%m-%d')
                 }
                 if job['title']:
@@ -101,12 +101,12 @@ class JobScraper:
             try:
                 job = {
                     'source': 'Indeed',
-                    'title': card.find('h2', class_='jobTitle')?.text.strip(),
-                    'company': card.find('span', class_='companyName')?.text.strip(),
-                    'location': card.find('div', class_='companyLocation')?.text.strip(),
-                    'salary': card.find('div', class_='salary-snippet')?.text.strip(),
-                    'url': 'https://www.indeed.com' + card.find('a', class_='jobTitle')?.get('href', ''),
-                    'posted_date': card.find('span', class_='date')?.text.strip() or datetime.now().strftime('%Y-%m-%d')
+                    'title': card.find('h3', class_='job-card-list__title').text.strip() if card.find('h3', class_='job-card-list__title') else 'N/A',
+                    'company': card.find('span', class_='job-card-container__company-name').text.strip() if card.find('span', class_='job-card-container__company-name') else 'N/A',
+                    'location': card.find('li', class_='job-card-container__metadata-item').text.strip() if card.find('li', class_='job-card-container__metadata-item') else 'N/A',
+                    'url': card.find('a', class_='job-card-list__title').get('href') if card.find('a', class_='job-card-list__title') else '#',
+                    'url': 'https://www.indeed.com' + card.find('a', class_='jobTitle').get('href') if card.find('a', class_='jobTitle') else '',
+                    'posted_date': card.find('span', class_='date').text.strip() if card.find('span', class_='date') else datetime.now().strftime('%Y-%m-%d')
                 }
                 if job['title']:
                     jobs.append(job)

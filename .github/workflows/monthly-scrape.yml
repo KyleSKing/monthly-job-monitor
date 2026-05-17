@@ -66,6 +66,22 @@ jobs:
           path: reports/
           retention-days: 30
       
+      # Initialize Git repository and configure
+      - name: Setup Git
+        run: |
+          cd /tmp/monthly-job-monitor
+          git init
+          git remote add origin https://github.com/KyleSKing/monthly-job-monitor.git
+          git fetch --all
+
+      # Commit and push report
+      - name: Setup Git
+        run: |
+          cd /tmp/monthly-job-monitor
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git fetch --all
+
       # Commit and push report
       - name: Commit report
         if: github.event_name == 'schedule'
