@@ -137,12 +137,6 @@ def main():
         import traceback
         traceback.print_exc()
         sys.exit(1)
-        
-    except Exception as e:
-        logger.error(f"Error: {e}")
-        import traceback
-        traceback.print_exc()
-        sys.exit(1)
 
 
 if __name__ == '__main__':
