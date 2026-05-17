@@ -66,16 +66,8 @@ jobs:
           path: reports/
           retention-days: 30
       
-      # Initialize Git repository and configure
-      - name: Setup Git
-        run: |
-          cd ${{ github.workspace }}
-          git init
-          git remote add origin https://github.com/KyleSKing/monthly-job-monitor.git
-          git fetch --all
-
-      # Commit and push report
-      - name: Setup Git
+      # Configure Git for commit/push
+      - name: Configure Git
         run: |
           cd ${{ github.workspace }}
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
