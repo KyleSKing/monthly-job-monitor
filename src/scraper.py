@@ -53,7 +53,7 @@ class JobScraper:
         }
 
     def _fetch_page_static(self, url: str, retry_count: int = 0) -> Optional[str]:
-        """Fetch a web page with error handling and retries."""
+        """Fetch a web page with error handling and retries. Falls back to Playwright on 403."""
         try:
             logger.info(f"Fetching: {url}")
             response = self.session.get(
@@ -64,6 +64,16 @@ class JobScraper:
             response.raise_for_status()
             time.sleep(self.request_delay + random.uniform(0, 1))
             return response.text
+        except requests.HTTPError as e:
+            if e.response is not None and e.response.status_code == 403:
+                logger.info(f"403 on {url}, falling back to Playwright...")
+                return self._fetch_page_playwright(url)
+            if retry_count < 3:
+                logger.warning(f"Retry {retry_count + 1} for {url}: {e}")
+                time.sleep(2 ** retry_count)
+                return self._fetch_page_static(url, retry_count + 1)
+            logger.error(f"Error fetching {url}: {e}")
+            return None
         except requests.RequestException as e:
             if retry_count < 3:
                 logger.warning(f"Retry {retry_count + 1} for {url}: {e}")
@@ -104,12 +114,8 @@ class JobScraper:
                 logger.warning("No Tavily API key configured")
                 return []
             
-            headers = {
-                "Content-Type": "application/json",
-                "x-api-key": self.tavily_api_key
-            }
-            
             payload = {
+                "api_key": self.tavily_api_key,
                 "query": query,
                 "limit": limit
             }
@@ -118,7 +124,6 @@ class JobScraper:
                 response = requests.post(
                     "https://api.tavily.com/search",
                     json=payload,
-                    headers=headers,
                     timeout=30
                 )
                 response.raise_for_status()
@@ -134,21 +139,35 @@ class JobScraper:
             return []
 
     def _parse_linkedin(self, html: str) -> List[Dict]:
+        """Parse LinkedIn job search results page."""
         jobs = []
         soup = BeautifulSoup(html, 'lxml')
-        job_cards = soup.find_all('div', class_='job-card-container')
+        # LinkedIn 2024+ structure: base-search-card
+        job_cards = soup.find_all('div', class_='base-search-card')
+        if not job_cards:
+            job_cards = soup.select('li div.job-search-card, div.base-card--link')
         for card in job_cards[:self.max_results]:
             try:
+                title_el = card.find('h3', class_='base-search-card__title') or card.find(['h3', 'span'], string=True)
+                company_el = card.find('h4', class_='base-search-card__subtitle') or card.find('a', class_='hidden-nested-link')
+                location_el = card.find('span', class_='job-search-card__location')
+                date_el = card.find('time', class_='job-search-card__listdate')
+                link_el = card.find('a', class_='base-card__full-link') or card.find('a', href=True)
+                
+                title = title_el.get_text(strip=True) if title_el else ''
+                if not title:
+                    continue
+                    
                 job = {
                     'source': 'LinkedIn',
-                    'title': card.find('h3', class_='job-card-list__title').text.strip() if card.find('h3', class_='job-card-list__title') else 'N/A',
-                    'company': card.find('span', class_='job-card-container__company-name').text.strip() if card.find('span', class_='job-card-container__company-name') else 'N/A',
-                    'location': card.find('li', class_='job-card-container__metadata-item').text.strip() if card.find('li', class_='job-card-container__metadata-item') else 'N/A',
-                    'url': card.find('a', class_='job-card-list__title').get('href') if card.find('a', class_='job-card-list__title') else '#',
-                    'posted_date': datetime.now().strftime('%Y-%m-%d')
+                    'title': title,
+                    'company': company_el.get_text(strip=True) if company_el else 'N/A',
+                    'location': location_el.get_text(strip=True) if location_el else 'N/A',
+                    'url': link_el.get('href', '').split('?')[0] if link_el else '#',
+                    'posted_date': date_el.get('datetime', datetime.now().strftime('%Y-%m-%d')) if date_el else datetime.now().strftime('%Y-%m-%d'),
+                    'salary': 'N/A',
                 }
-                if job['title']:
-                    jobs.append(job)
+                jobs.append(job)
             except Exception as e:
                 logger.debug(f"Error parsing LinkedIn card: {e}")
         return jobs
@@ -300,13 +319,23 @@ class JobScraper:
     def scrape_all(self) -> List[Dict]:
         all_jobs = []
         if self.use_tavily:
-            for keyword in self.tavily_keywords:
-                logger.info(f"Tavily searching for: {keyword}")
-                tavily_results = self._search_tavily(keyword, limit=10)
+            # Targeted site searches for actual job listing pages
+            job_site_queries = [
+                ("linkedin", 'site:linkedin.com/jobs "security engineer" hiring 2026'),
+                ("linkedin", 'site:linkedin.com/jobs "cyber security" engineer'),
+                ("linkedin", 'site:linkedin.com/jobs "cloud security" engineer'),
+                ("linkedin", 'site:linkedin.com/jobs "application security" engineer'),
+            ]
+            seen_urls = set()
+            
+            for site, query in job_site_queries:
+                logger.info(f"Tavily searching [{site}]: {query}")
+                tavily_results = self._search_tavily(query, limit=5)
                 for result in tavily_results:
                     url = result.get('url', '')
-                    if not url:
+                    if not url or url in seen_urls:
                         continue
+                    seen_urls.add(url)
                     logger.info(f"Fetching URL from Tavily: {url}")
                     html = self._fetch_page_static(url)
                     if not html:
@@ -352,7 +381,16 @@ class JobScraper:
                 all_jobs.extend(jobs)
                 logger.info(f"Found {len(jobs)} jobs from {target['name']}")
 
-        return all_jobs
+        # Deduplicate by title + company
+        seen = set()
+        deduped = []
+        for j in all_jobs:
+            key = (j.get('title', ''), j.get('company', ''))
+            if key not in seen:
+                seen.add(key)
+                deduped.append(j)
+        logger.info(f"Deduped: {len(all_jobs)} -> {len(deduped)} unique jobs")
+        return deduped
 
 def main():
     logging.basicConfig(level=logging.INFO)
