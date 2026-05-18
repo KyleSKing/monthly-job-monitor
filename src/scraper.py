@@ -67,7 +67,13 @@ class JobScraper:
         except requests.HTTPError as e:
             if e.response is not None and e.response.status_code == 403:
                 logger.info(f"403 on {url}, falling back to Playwright...")
-                return self._fetch_page_playwright(url)
+                try:
+                    pw_html = self._fetch_page_playwright(url)
+                    if pw_html:
+                        return pw_html
+                except Exception as pw_err:
+                    logger.warning(f"Playwright fallback failed for {url}: {pw_err}")
+                return None
             if retry_count < 3:
                 logger.warning(f"Retry {retry_count + 1} for {url}: {e}")
                 time.sleep(2 ** retry_count)
@@ -283,6 +289,63 @@ class JobScraper:
                 logger.debug(f"Generic parse error: {e}")
         return jobs
 
+    def _parse_from_tavily_result(self, result: Dict, site_name: str) -> List[Dict]:
+        """Extract job info directly from Tavily result content (no page fetch).
+        Used for sites that block direct scraping (WAF, 403, etc.)."""
+        jobs = []
+        title = result.get('title', '')
+        content = result.get('content', '')
+        url = result.get('url', '')
+        
+        if not title:
+            return jobs
+        
+        # Try to split title into job title + company using common separators
+        company = 'N/A'
+        job_title = title
+        for sep in [' at ', ' - ', ' | ', ' @ ', ' – ', ' — ', ' · ']:
+            if sep in title:
+                parts = title.split(sep, 1)
+                job_title = parts[0].strip()
+                company = parts[1].strip()
+                break
+        
+        # Extract location from content using regex
+        location = 'N/A'
+        loc_patterns = [
+            r'(?:北京|上海|深圳|广州|杭州|成都|南京|武汉|西安|Remote|remote)',
+            r'(?:地点|位置|工作地点|location)[：:]\s*([^，。,\n]+)',
+        ]
+        for pat in loc_patterns:
+            m = re.search(pat, content)
+            if m:
+                location = m.group(1) if m.lastindex else m.group(0)
+                break
+        
+        # Extract salary
+        salary = 'N/A'
+        salary_patterns = [
+            r'(\d+[kK]-?\d*[kK]?)',
+            r'(?:薪资|工资|月薪|年薪|salary)[：:]\s*([^，。,\n]+)',
+        ]
+        for pat in salary_patterns:
+            m = re.search(pat, content)
+            if m:
+                salary = m.group(1) if m.lastindex else m.group(0)
+                break
+        
+        job = {
+            'source': f'Tavily-{site_name}',
+            'title': job_title,
+            'company': company,
+            'location': location,
+            'salary': salary,
+            'url': url,
+            'posted_date': datetime.now().strftime('%Y-%m-%d'),
+        }
+        jobs.append(job)
+        return jobs
+
     def _extract_salary(self, text: str) -> str:
         if not text:
             return 'N/A'
@@ -319,12 +382,32 @@ class JobScraper:
     def scrape_all(self) -> List[Dict]:
         all_jobs = []
         if self.use_tavily:
-            # Targeted site searches for actual job listing pages
+            # Targeted site searches — all targets × bilingual keywords × Beijing/Remote
             job_site_queries = [
-                ("linkedin", 'site:linkedin.com/jobs "security engineer" hiring 2026'),
-                ("linkedin", 'site:linkedin.com/jobs "cyber security" engineer'),
-                ("linkedin", 'site:linkedin.com/jobs "cloud security" engineer'),
-                ("linkedin", 'site:linkedin.com/jobs "application security" engineer'),
+                # ── LinkedIn (English, Beijing + Remote) ──
+                ("linkedin", 'site:linkedin.com/jobs "security engineer" Beijing OR remote'),
+                ("linkedin", 'site:linkedin.com/jobs "information security" Beijing OR remote'),
+                ("linkedin", 'site:linkedin.com/jobs "cyber security" Beijing OR remote'),
+                ("linkedin", 'site:linkedin.com/jobs "cloud security" Beijing OR remote'),
+                ("linkedin", 'site:linkedin.com/jobs "application security" Beijing OR remote'),
+                ("linkedin", 'site:linkedin.com/jobs "data security" OR "data protection" Beijing OR remote'),
+                ("linkedin", 'site:linkedin.com/jobs "data governance" Beijing OR remote'),
+                ("linkedin", 'site:linkedin.com/jobs "data privacy" OR "data compliance" Beijing OR remote'),
+                ("linkedin", 'site:linkedin.com/jobs "risk management" OR "risk analyst" Beijing OR remote'),
+                # ── Zhaopin (中文, 北京/远程) ──
+                ("zhaopin", 'site:zhaopin.com 安全工程师 OR 信息安全 OR 网络安全 北京 OR 远程'),
+                ("zhaopin", 'site:zhaopin.com 数据安全 OR 数据治理 OR 数据合规 北京 OR 远程'),
+                ("zhaopin", 'site:zhaopin.com 风险管理 OR 风控 OR 隐私保护 北京 OR 远程'),
+                # ── 51Job (中文, 北京/远程) ──
+                ("51job", 'site:51job.com 安全工程师 OR 信息安全 OR 网络安全 北京 OR 远程'),
+                ("51job", 'site:51job.com 数据安全 OR 数据治理 OR 数据合规 北京 OR 远程'),
+                ("51job", 'site:51job.com 风险管理 OR 风控 OR 隐私保护 北京 OR 远程'),
+                # ── Liepin (中文, 北京/远程) ──
+                ("liepin", 'site:liepin.com 安全工程师 OR 信息安全 OR 数据安全 北京 OR 远程'),
+                ("liepin", 'site:liepin.com 数据治理 OR 数据合规 OR 风险管理 北京 OR 远程'),
+                # ── Lagou (中文, 北京/远程) ──
+                ("lagou", 'site:lagou.com 安全工程师 OR 信息安全 OR 数据安全 北京 OR 远程'),
+                ("lagou", 'site:lagou.com 数据合规 OR 风险管理 OR 风控 北京 OR 远程'),
             ]
             seen_urls = set()
             
@@ -337,23 +420,26 @@ class JobScraper:
                         continue
                     seen_urls.add(url)
                     logger.info(f"Fetching URL from Tavily: {url}")
-                    html = self._fetch_page_static(url)
-                    if not html:
-                        continue
-                    if 'indeed' in url.lower():
-                        jobs = self._parse_indeed(html)
-                    elif 'linkedin' in url.lower():
-                        jobs = self._parse_linkedin(html)
-                    elif 'zhaopin' in url.lower():
-                        jobs = self._parse_zhaopin(html)
-                    elif '51job' in url.lower():
-                        jobs = self._parse_51job(html)
+                    
+                    # LinkedIn: fetch & parse list page (proven to work)
+                    if 'linkedin' in url.lower():
+                        html = self._fetch_page_static(url)
+                        if html:
+                            jobs = self._parse_linkedin(html)
+                            for job in jobs:
+                                job['source'] = f"Tavily-{job.get('source', 'Web')}"
+                                all_jobs.append(job)
+                            logger.info(f"Found {len(jobs)} jobs from {url}")
+                        else:
+                            # Fallback to Tavily content
+                            jobs = self._parse_from_tavily_result(result, site)
+                            all_jobs.extend(jobs)
+                            logger.info(f"Tavily content: {len(jobs)} jobs from {url}")
                     else:
-                        jobs = self._generic_parse(html, result.get('title', 'Unknown'))
-                    for job in jobs:
-                        job['source'] = f"Tavily-{job.get('source', 'Web')}"
-                        all_jobs.append(job)
-                    logger.info(f"Found {len(jobs)} jobs from {url}")
+                        # Chinese sites: parse Tavily content directly (WAF blocks page fetch)
+                        jobs = self._parse_from_tavily_result(result, site)
+                        all_jobs.extend(jobs)
+                        logger.info(f"Tavily content: {len(jobs)} jobs from {url}")
         else:
             for target in self.targets:
                 if not target.get('enabled', True):
@@ -390,7 +476,17 @@ class JobScraper:
                 seen.add(key)
                 deduped.append(j)
         logger.info(f"Deduped: {len(all_jobs)} -> {len(deduped)} unique jobs")
-        return deduped
+
+        # Filter: Beijing & remote only
+        location_keywords = ['beijing', '北京', 'remote', '远程', '线上', '异地',
+                            'united states', 'nationwide', 'remote -', '(remote)']
+        filtered = []
+        for j in deduped:
+            loc = (j.get('location', '') or '').lower()
+            if any(kw in loc for kw in location_keywords):
+                filtered.append(j)
+        logger.info(f"Location filter (Beijing/remote): {len(deduped)} -> {len(filtered)} jobs")
+        return filtered
 
 def main():
     logging.basicConfig(level=logging.INFO)

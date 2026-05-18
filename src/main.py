@@ -46,8 +46,8 @@ def generate_report(jobs: list, output_dir: str = "reports") -> str:
         "",
         "## Job Listings",
         "",
-        "| Title | Company | Location | Source | Salary | Score |",
-        "|-------|---------|----------|--------|--------|-------|",
+        "| Title | Company | Location | Source | Salary | Score | URL |",
+        "|-------|---------|----------|--------|--------|-------|-----|",
     ]
     
     for job in jobs:
@@ -59,7 +59,7 @@ def generate_report(jobs: list, output_dir: str = "reports") -> str:
         score = job.get('score', 'N/A')
         url = job.get('url', '#')
         
-        lines.append(f"| [{title}]({url}) | {company} | {location} | {source} | {salary} | {score} |")
+        lines.append(f"| [{title}]({url}) | {company} | {location} | {source} | {salary} | {score} | {url} |")
     
     content = "\n".join(lines)
     
