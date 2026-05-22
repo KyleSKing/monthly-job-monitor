@@ -2,4 +2,6 @@ node_modules/
 *.zip
 *.tar.gz
 .venv/
+venv/
 *.log
+venv/lib/python3.12/site-packages/playwright/driver/node
