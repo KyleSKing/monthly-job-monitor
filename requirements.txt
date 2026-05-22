@@ -1,21 +1,6 @@
-# Monthly Job Monitor - Python Dependencies
-
-# Web Scraping
-requests>=2.28.0
-beautifulsoup4>=4.11.0
-lxml>=4.9.0
-selenium>=4.8.0
-webdriver-manager>=4.0.0
-
-# Data Processing
-pandas>=1.5.0
-pyyaml>=6.0
-
-# Date/Time
-python-dateutil>=2.8.0
-
-# Logging
-loguru>=0.7.0
-
-# HTTP Headers
-fake-useragent>=1.1.0
+requests
+beautifulsoup4
+playwright
+PyYAML
+flake8
+black
