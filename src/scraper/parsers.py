@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
-from datetime import datetime
-from .._exceptions import ScraperError
+from datetime import datetime, timezone
+from ._exceptions import ScraperError
 
 REGISTERED_PARSERS = {}
 
@@ -22,7 +22,7 @@ def parse_linkedin(html):
             "title": title_elem.get_text(strip=True) if title_elem else "",
             "company": company_elem.get_text(strip=True) if company_elem else "",
             "location": loc_elem.get_text(strip=True) if loc_elem else "",
-            "posted_date": datetime.utcnow().isoformat(),
+            "posted_date": datetime.now(timezone.utc).isoformat(),
             "description": desc_elem.get_text(strip=True) if desc_elem else "",
         }
     except Exception as exc:
@@ -40,7 +40,7 @@ def parse_zhaopin(html):
             "title": title_elem.get_text(strip=True) if title_elem else "",
             "company": company_elem.get_text(strip=True) if company_elem else "",
             "location": loc_elem.get_text(strip=True) if loc_elem else "",
-            "posted_date": datetime.utcnow().isoformat(),
+            "posted_date": datetime.now(timezone.utc).isoformat(),
             "description": desc_elem.get_text(strip=True) if desc_elem else "",
         }
     except Exception as exc:
@@ -58,7 +58,7 @@ def parse_51job(html):
             "title": title_elem.get_text(strip=True) if title_elem else "",
             "company": company_elem.get_text(strip=True) if company_elem else "",
             "location": loc_elem.get_text(strip=True) if loc_elem else "",
-            "posted_date": datetime.utcnow().isoformat(),
+            "posted_date": datetime.now(timezone.utc).isoformat(),
             "description": desc_elem.get_text(strip=True) if desc_elem else "",
         }
     except Exception as exc:
@@ -73,7 +73,7 @@ def generic_parse(html):
             "title": title,
             "company": "未知",
             "location": "未知",
-            "posted_date": datetime.utcnow().isoformat(),
+            "posted_date": datetime.now(timezone.utc).isoformat(),
             "description": soup.get_text(separator="\n", strip=True)[:500],
         }
     except Exception as exc:
