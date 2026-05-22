@@ -1,37 +1,17 @@
----
-email:
-  from: no-reply@company.com
-  to: stakeholder@example.com
-  smtp_server: smtp.gmail.com
-  smtp_port: 587
-  username: your-real-email@gmail.com
-  password: your-app-password
+# Monthly Job Monitor 配置文件
 
-tavily:
-  api_key: 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
-  search_max_results: 20  
-scraper:
-  mock_data: false
-  targets:
-    - name: zhaopin
-      url: https://www.zhaopin.com
-      enabled: true
-    - name: fiftyonejob
-      url: https://www.51job.com
-      enabled: true
-    - name: liepin
-      url: https://www.liepin.com
-      enabled: true
-    - name: lagou
-      url: https://www.lagou.com
-      enabled: true
-    - name: indeed
-      url: https://www.indeed.com
-      enabled: true
-    - name: linkedin
-      url: https://www.linkedin.com/jobs
-      enabled: true
+# 可选：手动添加的额外目标（示例）
+targets:
+  - url: "https://careers.microsoft.com/search?keywords=security"
+    parser: "generic"
+  - url: "https://careers.apple.com/search?keywords=compliance"
+    parser: "generic"
 
-session_management: true
-weighted_scoring: true
-trust_this_host: true
+# Tavily 配置（可选，用于搜索前获取关键词相关职位 URL）
+tavily_api_key: "[REDACTED]"  # 替换为你的 Tavily API Key
+use_tavily: false             # 是否启用 Tavily 搜索
+
+# 网络请求配置
+request_delay: 1.0            # 请求间隔（秒）
+timeout: 30                   # 请求超时（秒）
+max_results: 50               # 每个目标最多抓取结果数
