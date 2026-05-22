@@ -1,7 +1,32 @@
-node_modules/
-*.zip
-*.tar.gz
-.venv/
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
 venv/
+.env/
+.env/*
+!.env/.keep   # keep .env if you use it
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
 *.log
-venv/lib/python3.12/site-packages/playwright/driver/node
+
+# Playwright
+playwright.log
+playwright-*.log
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo

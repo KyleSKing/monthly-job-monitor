@@ -7,6 +7,7 @@ from typing import List
 from .fortune500_scraper import Fortune500Scraper
 from .targets import Target
 
+
 @dataclass
 class ScraperConfig:
     targets: List[Target]
@@ -16,7 +17,11 @@ class ScraperConfig:
     timeout: int
     max_results: int
 
+
 def load_config(config_path: str = "config.yaml") -> ScraperConfig:
+    """
+    加载配置并自动生成 Fortune 500 目标列表。
+    """
     cfg_path = Path(config_path)
     if not cfg_path.is_file():
         raise FileNotFoundError(f"Config file not found: {config_path}")
@@ -41,7 +46,7 @@ def load_config(config_path: str = "config.yaml") -> ScraperConfig:
         companies = scraper.scrape_fortune500()
         companies = scraper.generate_career_urls(companies)
         scraper.save_to_csv(companies, "fortune500.csv")
-    
+
     # 加载 Fortune 500 目标并合并到配置中
     fortune_targets = load_fortune500_targets("fortune500.csv")
     cfg.targets = cfg.targets + fortune_targets

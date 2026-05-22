@@ -1,3 +1,4 @@
+import concurrent.futures
 import json
 import os
 from .config import load_config, ScraperConfig
@@ -8,15 +9,26 @@ from .scorer import score_job
 from .email_sender import send_email
 from ._exceptions import ScraperError
 
+
+def process_target(target, scraper):
+    """单个目标的完整处理流程：抓取 → 解析 → 打分 → 返回"""
+    html = scraper.fetch(target.url)
+    parser_fn = REGISTERED_PARSERS.get(
+        target.parser, REGISTERED_PARSERS.get("generic")
+    )
+    job = parser_fn(html)
+    job["score"] = score_job(job)
+    return job
+
+
 def run():
-    # 1️⃣ 加载配置（自动会拉取 Fortune 500 目标并更新 cfg.targets）
+    # 加载配置（自动会拉取 Fortune 500 目标并更新 cfg.targets）
     cfg: ScraperConfig = load_config()
 
-    # 2️⃣ 初始化核心组件
-    tavily = TavilyClient(cfg)          # 目前未使用，可在将来加入关键字预搜索
+    # 初始化核心组件
     scraper = PlaywrightScraper()
 
-    # 3️⃣ 并行抓取所有目标
+    # 并行抓取所有目标
     all_jobs = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         futures = {
@@ -30,7 +42,7 @@ def run():
             except ScraperError as e:
                 print(f"[WARN] 处理目标时出错: {e}")
 
-    # 4️⃣ 保存报告
+    # 保存报告
     reports_dir = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "..", "reports")
     )
@@ -39,11 +51,12 @@ def run():
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(all_jobs, f, ensure_ascii=False, indent=2)
 
-    # 5️⃣ 发送高分（score == 3）职位邮件
+    # 发送高分（score == 3）职位邮件
     high_score = [j for j in all_jobs if j.get("score") == 3]
     if high_score:
         body = "\n".join(
-            f"{j['title']} @ {j['company']} ({j['location']})" for j in high_score
+            f"{j['title']} @ {j['company']} ({j['location']})"
+            for j in high_score
         )
         send_email(
             email_cfg={
@@ -55,13 +68,6 @@ def run():
             body=body,
         )
 
-def process_target(target, scraper):
-    """单个目标的完整处理流程：抓取 → 解析 → 打分 → 返回"""
-    html = scraper.fetch(target.url)
-    parser_fn = REGISTERED_PARSERS.get(target.parser, REGISTERED_PARSERS.get("generic"))
-    job = parser_fn(html)
-    job["score"] = score_job(job)
-    return job
 
 if __name__ == "__main__":
     try:

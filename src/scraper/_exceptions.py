@@ -1,3 +1,6 @@
-class ScraperError(RuntimeError):
-    """Base exception for all scraper-related errors."""
+"""Custom exceptions for the scraper module."""
+
+
+class ScraperError(Exception):
+    """Base exception for scraper errors."""
     pass

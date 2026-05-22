@@ -2,6 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 from ._exceptions import ScraperError
 
+
 def send_email(email_cfg: dict, subject: str, body: str):
     try:
         msg = MIMEText(body, "plain", "utf-8")
