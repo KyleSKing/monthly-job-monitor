@@ -11,5 +11,5 @@ class TestScorer(unittest.TestCase):
         self.assertEqual(score_job(job), 1)
 
     def test_no_match(self):
-        job = {"title": "产品经理", "company": "字节跳动", "location": "广州"}
+        job = {"title": "产品经理", "company": "Facebook", "location": "上海"}
         self.assertEqual(score_job(job), 0)
