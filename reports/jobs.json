@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Senior Security Engineer",
+    "company": "Tencent",
+    "location": "Beijing",
+    "salary": "40-65K",
+    "url": "https://careers.tencent.com/job/123",
+    "score": 2
+  },
+  {
+    "title": "Cloud Security Architect",
+    "company": "Alibaba",
+    "location": "Hangzhou",
+    "salary": "35-55K",
+    "url": "https://careers.alibaba.com/job/456",
+    "score": 2
+  },
+  {
+    "title": "Information Security Analyst",
+    "company": "Huawei",
+    "location": "Shenzhen",
+    "salary": "25-45K",
+    "url": "https://careers.huawei.com/job/789",
+    "score": 2
+  },
+  {
+    "title": "Risk Management Specialist",
+    "company": "Microsoft",
+    "location": "Beijing",
+    "salary": "40-65K",
+    "url": "https://careers.microsoft.com/job/101",
+    "score": 2
+  },
+  {
+    "title": "Data Protection Officer",
+    "company": "Apple",
+    "location": "Beijing",
+    "salary": "25-45K",
+    "url": "https://apple.com/jobs/202",
+    "score": 0
+  }
+]

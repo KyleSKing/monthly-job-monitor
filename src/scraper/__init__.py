@@ -1,5 +1,5 @@
 from .config import load_config, ScraperConfig
-from .tavily_client import TavilyClient
+# Removed outdated TavilyClient import – we now use fallback_fetch directly
 from .playwright_scraper import PlaywrightScraper
 from .parsers import (
     parse_linkedin,
@@ -14,7 +14,7 @@ from .email_sender import send_email
 __all__ = [
     "load_config",
     "ScraperConfig",
-    "TavilyClient",
+    # "TavilyClient",  # No longer exported
     "PlaywrightScraper",
     "parse_linkedin",
     "parse_zhaopin",

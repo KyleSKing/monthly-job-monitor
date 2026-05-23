@@ -2,7 +2,7 @@ import concurrent.futures
 import json
 import os
 from .config import load_config, ScraperConfig
-from .tavily_client import TavilyClient
+from .tavily_client import fallback_fetch
 from .playwright_scraper import PlaywrightScraper
 from .parsers import REGISTERED_PARSERS
 from .scorer import score_job
@@ -12,10 +12,29 @@ from ._exceptions import ScraperError
 
 def process_target(target, scraper):
     """单个目标的完整处理流程：抓取 → 解析 → 打分 → 返回"""
-    html = scraper.fetch(target.url)
-    parser_fn = REGISTERED_PARSERS.get(
-        target.parser, REGISTERED_PARSERS.get("generic")
-    )
+    # 兼容 dict 与 Target 对象两种传入方式
+    if isinstance(target, dict):
+        url = target.get("url") or target.get("search_url") or ""
+        parser_name = target.get("parser", "generic")
+    else:
+        url = getattr(target, "url", None)
+        parser_name = getattr(target, "parser", "generic")
+
+    if not url:
+        raise ScraperError("目标缺少 URL")
+
+    try:
+        html = scraper.fetch(url)
+    except ScraperError as e:
+        # 使用 Tavily 搜索获取候选 URL
+        print(f"[INFO] 使用 Tavily 搜索替代 {url}")
+        candidate_urls = fallback_fetch(url)
+        if not candidate_urls:
+            raise ScraperError(f"无法获取 {url} 的页面，且 Tavily 搜索无结果") from e
+        # 尝试第一个候选 URL
+        html = scraper.fetch(candidate_urls[0])
+
+    parser_fn = REGISTERED_PARSERS.get(parser_name, REGISTERED_PARSERS.get("generic"))
     job = parser_fn(html)
     job["score"] = score_job(job)
     return job
