@@ -38,18 +38,13 @@ def load_config(config_path: str = "config.yaml") -> ScraperConfig:
         max_results=data.get("max_results", 50),
     )
 
-    # 自动生成 fortune500.csv 如果不存在
-    fortune500_csv = Path("fortune500.csv")
-    if not fortune500_csv.is_file():
-        print("fortune500.csv 不存在，正在从 Wikipedia 抓取 Fortune 500 列表...")
-        scraper = Fortune500Scraper()
-        companies = scraper.scrape_fortune500()
-        companies = scraper.generate_career_urls(companies)
-        scraper.save_to_csv(companies, "fortune500.csv")
-
-    # 加载 Fortune 500 目标并合并到配置中
-    fortune_targets = load_fortune500_targets("fortune500.csv")
+    # If fortune500.csv is missing, skip auto-fetch.
+    fortune_targets = []
+    fortune_csv = Path("fortune500.csv")
+    if fortune_csv.is_file():
+        fortune_targets = load_fortune500_targets("fortune500.csv")
     cfg.targets = cfg.targets + fortune_targets
+
 
     return cfg
 
