@@ -5,6 +5,7 @@ from src.scraper.config import load_config
 from src.scraper.tavily_client import search_jobs, extract_keywords_from_url
 from src.scraper.scorer import score_job
 
+
 def main():
     """Run job search using Tavily API only."""
     cfg = load_config()
@@ -41,9 +42,12 @@ def main():
                 parts = job["title"].split(" - ")
                 job["company"] = parts[-1].strip()
             
-            job["score"] = score_job(job)
+            job["Score"] = score_job(job)
+            # Remove lowercase score if present to keep only uppercase field
+            if "score" in job:
+                del job["score"]
             all_jobs.append(job)
-            print(f"[FOUND] {job['title']} @ {job['company']} (score: {job['score']})")
+            print(f"[FOUND] {job['title']} @ {job['company']} (score: {job['Score']})")
     
     # Save report
     reports_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "reports"))
@@ -55,12 +59,33 @@ def main():
     
     print(f"\n[RESULT] Found {len(all_jobs)} jobs, saved to {out_path}")
     
+    # Sort jobs by Score descending and take top 10
+    top_jobs = sorted(all_jobs, key=lambda x: x.get('Score', 0), reverse=True)[:10]
+    
+    # Prepare message for Telegram
+    message = "📊 Top 10 Jobs by Score:\n\n"
+    for i, job in enumerate(top_jobs, 1):
+        title = job.get('title', 'N/A')
+        company = job.get('company', 'N/A')
+        location = job.get('location', 'N/A')
+        score = job.get('Score', 0)
+        url = job.get('url', 'N/A')
+        description = job.get('description', '')[:100].replace('\n', ' ')  # Truncate description
+        
+        message += f"{i}. {title}\n"
+        message += f"   🏢 {company} | 📍 {location} | ⭐ {score}\n"
+        message += f"   📝 {description}\n"
+        message += f"   🔗 {url}\n\n"
+    
+    # Send to Telegram (home channel)
+    send_message(action='send', message=message, target='telegram')
+    
     # Print high-score jobs
-    high_score = [j for j in all_jobs if j.get("score", 0) >= 2]
+    high_score = [j for j in all_jobs if j.get("Score", 0) >= 2]
     if high_score:
         print("\n[HIGH SCORE JOBS]")
         for j in high_score:
-            print(f"  ⭐ {j['title']} @ {j['company']}")
+            print(f"  ⭐ {j.get('title', 'N/A')} @ {j.get('company', 'N/A')}")
 
 if __name__ == "__main__":
     main()

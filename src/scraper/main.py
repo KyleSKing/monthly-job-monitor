@@ -36,7 +36,8 @@ def process_target(target, scraper):
 
     parser_fn = REGISTERED_PARSERS.get(parser_name, REGISTERED_PARSERS.get("generic"))
     job = parser_fn(html)
-    job["score"] = score_job(job)
+job['Score'] = score_job(job)
+        del job['score']  # Ensure only "Score" key remains
     return job
 
 

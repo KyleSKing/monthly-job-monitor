@@ -11,6 +11,20 @@ targets:
 tavily_api_key: "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"  # 替换为你的 Tavily API Key
 use_tavily: true             # 是否启用 Tavily 搜索
 
+# 关键词列表（中英文模糊匹配）
+keywords:
+  - "安全合规"
+  - "compliance"
+  - "data governance"
+  - "data compliance"
+  - "Business Information Security adviser"
+  - "Information security officer"
+  - "安全合规"
+  - "信息安全顾问"
+  - "数据治理"
+  - "数据合规"
+
+
 # 网络请求配置
 request_delay: 1.0            # 请求间隔（秒）
 timeout: 30                   # 请求超时（秒）
