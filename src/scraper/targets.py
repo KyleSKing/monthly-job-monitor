@@ -23,8 +23,8 @@ def load_fortune500_targets(csv_path: str = "fortune500.csv") -> List[Target]:
     with csv_file.open(newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            company = row.get("Company", "").strip()
-            website = row.get("Website", "").strip()
+            company = row.get("company", "").strip()
+            website = row.get("website", "").strip()
             keywords = row.get("Keywords", "").strip()
             if not website:
                 continue

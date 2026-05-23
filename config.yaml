@@ -2,27 +2,37 @@
 
 # 可选：手动添加的额外目标（示例）
 targets:
-  - url: "https://careers.microsoft.com/search?keywords=security"
+  - url: "src/scraper/data/fortune500_full.csv"
+    parser: "csv"
+  - url: "src/scraper/data/state_owned_top50.csv"
+    parser: "csv"
+  - url: "src/scraper/data/unicorn_top20.csv"
+    parser: "csv"
+  - url: "https://www.linkedin.com/jobs/search?keywords=security"
+    parser: "linkedin"
+  - url: "https://www.zhaopin.com/beijing/security"
     parser: "generic"
-  - url: "https://careers.apple.com/search?keywords=compliance"
+  - url: "https://www.51job.com/beijing/security"
     parser: "generic"
 
 # Tavily 配置（可选，用于搜索前获取关键词相关职位 URL）
 tavily_api_key: "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"  # 替换为你的 Tavily API Key
 use_tavily: true             # 是否启用 Tavily 搜索
 
-# 关键词列表（中英文模糊匹配）
+# 关键词列表（中英文适度模糊匹配）
 keywords:
-  - "安全合规"
-  - "compliance"
-  - "data governance"
-  - "data compliance"
-  - "Business Information Security adviser"
   - "Information security officer"
-  - "安全合规"
-  - "信息安全顾问"
-  - "数据治理"
-  - "数据合规"
+  - "信息安全"
+  - "information security manager"
+  - "information security director"
+  - "compliance officer"
+  - "compliance manager"
+  - "compliance director"
+  - "信息安全管理"
+  - "信息安全总监"
+  - "合规专员"
+  - "合规经理"
+  - "合规总监"
 
 
 # 网络请求配置

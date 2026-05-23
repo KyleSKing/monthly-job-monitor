@@ -1,0 +1,51 @@
+rank,company,category,revenue_billions,website
+1,China National Petroleum Corporation (PetroChina),Oil & Gas,416.1,https://www.petrochina.com.cn
+2,China Petroleum & Chemical Corporation (Sinopec),Oil & Gas,416.1,https://www.sinopec.com
+3,State Grid Corporation of China,Electricity,459.8,https://www.sgcc.com.cn
+4,China Southern Power Grid,Electricity,135.2,https://www.cspttg.com
+5,China Eastern Airlines,Aviation,13.4,https://www.chinaeastern.com
+6,Air China,Aviation,11.8,https://www.airchina.com.cn
+7,China Telecom,Telecom,69.9,https://www.chinatelecom.cn
+8,China Unicom, Telecom, 62.5,https://www.chinaunicom.cn
+9,China Mobile, Telecom, 102.3,https://www.chinamobile.com
+10,Industrial and Commercial Bank of China (ICBC),Banking,155.9,https://www.icbc-ltd.com
+11,China Construction Bank, Banking, 135.2,https://www.ccb.com
+12,Bank of China, Banking, 109.5,https://www.bankofchina.com
+13,Agricultural Bank of China, Banking, 130.8,https://www.abchina.com
+14,China Development Bank, Finance, N/A,https://www.cdb.com.cn
+15,Export-Import Bank of China, Finance, N/A,https://www.eximbank.gov.cn
+16,China Life Insurance,Insurance,103.2,https://www.chinalife.com.cn
+17,People's Insurance Company of China (PICC),Insurance,381.4,https://www.picc.com.cn
+18,China Petroleum & Chemical Corporation (Sinopec) Refining,Refining, N/A,https://www.sinopec.com
+19,China Aluminum Corporation,Metals,21.3,https://www.china-aluminum.com
+20,China Northern Rare Earth (Group) Hi-Tech Co.,Rare Earth,6.7,https://www.chinane.com
+21,China Aerospace Science and Technology Corporation,Aerospace, N/A,https://www.cast.gov.cn
+22,China Aerospace Science and Industry Corporation,Aerospace, N/A,https://www.csic.com.cn
+23,China Academy of Launch Vehicle Technology,Aerospace, N/A,https://www.calvt.com
+24,Beijing Hongteng Aviation Co.,Aerospace, N/A,https://www.hongteng.com
+25,China Shipbuilding Industry Corporation,Shipbuilding, N/A,https://www.cssc.com.cn
+26,China State Shipbuilding Corporation,Shipbuilding, N/A,https://www.cssc.com.cn
+27,China Shipbuilding Heavy Industry Co.,Shipbuilding, N/A,https://www.csshc.com
+28,China Eastern Aviation Industry Co.,Aviation, N/A,https://www.ceac.com.cn
+29,AVIC Aircraft Corporation,Aviation, N/A,https://www.avic.com.cn
+30,Commercial Aircraft Corporation of China (COMAC),Aviation, N/A,https://www.comac.com.cn
+31,China Railway Group Limited,Railways, N/A,https://www.chinarc.com
+32,China Railway Construction Co.,Railways, N/A,https://www.crcc.com.cn
+33,National Development and Reform Commission,Planning, N/A,https://www.ndrc.gov.cn
+34,Ministry of Industry and Information Technology, Telecom, N/A,https://www.miit.gov.cn
+35,State Administration of Foreign Exchange,Finance, N/A,https://www.safe.gov.cn
+36,China Securities Regulatory Commission,Finance, N/A,https://www.csrc.gov.cn
+37,China Banking Regulatory Commission,Finance, N/A,https://www.cbrcc.com.cn
+38,China Insurance Regulatory Commission,Insurance, N/A,https://www.circ.gov.cn
+39,Centralized Commission for Integrated Transport, Logistics, N/A,https://www.chinacen.cn
+40,National Natural Science Foundation of China,Research, N/A,https://www.nsfc.gov.cn
+41,Ministry of Science and Technology,Research, N/A,https://www.most.gov.cn
+42,Central Intelligence Exchange,Security, N/A,https://www.cips.gov.cn
+43,Public Security Ministry,Security, N/A,https://www.mps.gov.cn
+44,Cybersecurity Administration of China,Security, N/A,https://www.cac.gov.cn
+45,Ministry of Industry and Information Technology, Telecommunications, N/A,https://www.miit.gov.cn
+46,State-owned Assets Supervision and Administration Commission,Finance, N/A,https://www.saic.gov.cn
+47,Central Committee of the Communist Party of China,Administration, N/A,https://www.cpcc.gov.cn
+48,State Presidium,Administration, N/A,https://www.statepresidium.com
+49,China Association of Science and Technology,Science, N/A,https://www.cast.org.cn
+50,Central Committee Construction Center,Construction, N/A,https://www.ccdc.com

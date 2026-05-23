@@ -1,0 +1,21 @@
+rank,company,valuation_billion_usd,sector,website
+1,ByteDance,300,Internet & Software,https://www.bytedance.com
+2,SpaceX,150,Aerospace & Satellite Internet,https://www.spacex.com
+3,SHEIN,66,Fashion E-commerce,https://www.shein.com
+4,Stripe,95,Fintech,https://stripe.com
+5,Klarna,45,Fintech,https://www.klarna.com
+6,Canva,40,Design Software,https://www.canva.com
+7,Databricks,38,Data & AI,https://www.databricks.com
+8,Epic Games,32,Gaming,https://www.epicgames.com
+9,Chime,25,Fintech,https://www.chime.com
+10,Instacart,39,Grocery Delivery Tech,https://www.instacart.com
+11,Gusto,9.5,HR Tech,https://gusto.com
+12,HashiCorp,5.5,Cloud Infrastructure,https://www.hashicorp.com
+13,Discord,15,Communication Platform,https://discord.com
+14,Reddit,10,Social Media,https://www.reddit.com
+15,CoreWeave,3.5,Cloud GPU,https://www.coreweave.com
+16,Figure AI,2.6,Robotics AI,https://www.figure.ai
+17,Anthropic,18.4,AI Safety & LLMs,https://www.anthropic.com
+18,Cohere,6,Enterprise AI,https://cohere.ai
+19,Scale AI,7.3,AI Data Labeling,https://scale.com
+20,Perplexity AI,5.2,AI Search,https://www.perplexity.ai
