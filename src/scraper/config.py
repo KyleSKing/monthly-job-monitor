@@ -1,10 +1,10 @@
 import csv
+import os
 import yaml
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List
 
-from .fortune500_scraper import Fortune500Scraper
 from .targets import Target
 
 
@@ -16,13 +16,28 @@ class ScraperConfig:
     request_delay: float
     timeout: int
     max_results: int
+    # New Tier 1 & 2 config
+    exa_api_key: str = ""
+    jina_api_key: str = ""
+    serper_api_key: str = ""
+    serper_endpoint: str = ""
+    firecrawl_token: str = ""
+
+
+def _get_key(data: dict, key: str, env_var: str) -> str:
+    """Get key from config file; if empty, fall back to env var."""
+    val = data.get(key, "")
+    return val if val else os.getenv(env_var, "")
 
 
 def load_config(config_path: str = "config.yaml") -> ScraperConfig:
     """
-    加载配置并自动生成 Fortune 500 目标列表。
+    Load config from YAML file with env var fallbacks for API keys.
     """
     cfg_path = Path(config_path)
+    if not cfg_path.is_file():
+        # Try project root
+        cfg_path = Path(__file__).parent.parent.parent / config_path
     if not cfg_path.is_file():
         raise FileNotFoundError(f"Config file not found: {config_path}")
 
@@ -31,35 +46,34 @@ def load_config(config_path: str = "config.yaml") -> ScraperConfig:
 
     cfg = ScraperConfig(
         targets=data.get("targets", []),
-        tavily_api_key=data.get("tavily_api_key", ""),
-        use_tavily=data.get("use_tavily", False),
+        tavily_api_key=_get_key(data, "tavily_api_key", "TAVILY_API_KEY"),
+        use_tavily=data.get("use_tavily", True),
         request_delay=data.get("request_delay", 1.0),
         timeout=data.get("timeout", 30),
         max_results=data.get("max_results", 50),
+        exa_api_key=_get_key(data, "exa_api_key", "EXA_API_KEY"),
+        jina_api_key=_get_key(data, "jina_api_key", "JINA_API_KEY"),
+        serper_api_key=_get_key(data, "serper_api_key", "SERPER_API_KEY"),
+        serper_endpoint=_get_key(data, "serper_endpoint", "SERPER_ENDPOINT"),
+        firecrawl_token=_get_key(data, "firecrawl_token", "FIRECRAWL_TOKEN"),
     )
 
-    # If fortune500.csv is missing, skip auto-fetch.
+    # Auto-append fortune500 targets if file exists
     fortune_targets = []
     fortune_csv = Path("fortune500.csv")
     if fortune_csv.is_file():
         fortune_targets = load_fortune500_targets("fortune500.csv")
     cfg.targets = cfg.targets + fortune_targets
 
-
     return cfg
 
 
 def load_fortune500_targets(csv_path: str = "fortune500.csv") -> List[Target]:
-    """
-    读取 Fortune 500 CSV 文件并生成目标列表。
-    CSV 必须包含至少两列：Company, Website
-    可选列：Keywords（用于后续关键词匹配）
-    每一行会根据 Website 拼接一个搜索 URL（示例实现）。
-    """
+    """Read Fortune 500 CSV and generate target list."""
     targets: List[Target] = []
     csv_file = Path(csv_path)
     if not csv_file.is_file():
-        return targets  # 如果文件不存在，静默返回空列表
+        return targets
 
     with csv_file.open(newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -70,10 +84,6 @@ def load_fortune500_targets(csv_path: str = "fortune500.csv") -> List[Target]:
             if not website:
                 continue
 
-            # 简单示例：在公司官方职业页面后拼接搜索词
-            # 你可以自定义更智能的 URL 生成策略
             search_url = f"{website.rstrip('/')}/search?keywords=information%20security"
-            # 若提供了关键词列表，可在解析器注册表中加入自定义解析器
-            # 本例中统一使用 generic 解析器
             targets.append(Target(url=search_url, parser="generic"))
     return targets

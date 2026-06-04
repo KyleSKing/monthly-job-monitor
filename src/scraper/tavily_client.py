@@ -1,39 +1,57 @@
 """Tavily search client for job fetching and salary extraction."""
 import json
+import os
 import re
 import requests
 from typing import List, Dict
 
-TAVILY_API_KEY = "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"
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")
 TAVILY_ENDPOINT = "https://api.tavily.com/search"
 
 
-def search_jobs(query: str, max_results: int = 10) -> List[Dict]:
-    """
-    Search for jobs using Tavily API with content extraction.
-    Returns a list of result dicts (each contains 'url', 'title', 'content', 'score').
-    """
-    payload = {
-        "api_key": TAVILY_API_KEY,
-        "query": query,
-        "max_results": max_results,
-        "include_answer": True,          # Get AI-summarized answer with salary context
-        "search_depth": "advanced",       # Deep search for richer content
-    }
-    try:
-        resp = requests.post(TAVILY_ENDPOINT, json=payload, timeout=20)
-        resp.raise_for_status()
-        data = resp.json()
-        results = data.get("results", [])
-        # Add the answer field to results if present (contains salary summary)
-        answer = data.get("answer", "")
-        for r in results:
-            r["tavily_answer"] = answer
-        return results
-    except Exception as e:
-        print(f"[Tavily] Search failed for '{query}': {e}")
-        return []
+class TavilyClient:
+    """Tavily search client — Tier 3 fallback search engine."""
 
+    def __init__(self, api_key: str = "", max_results: int = 10):
+        self.api_key = api_key or TAVILY_API_KEY
+        self.max_results = max_results
+        self.session = requests.Session()
+
+    def search(self, query: str, limit: int = 0) -> List[Dict]:
+        """Search jobs via Tavily with content extraction."""
+        limit = limit or self.max_results
+        payload = {
+            "api_key": self.api_key,
+            "query": query,
+            "max_results": limit,
+            "include_answer": True,
+            "search_depth": "advanced",
+        }
+        try:
+            resp = self.session.post(TAVILY_ENDPOINT, json=payload, timeout=20)
+            resp.raise_for_status()
+            data = resp.json()
+            results = data.get("results", [])
+            answer = data.get("answer", "")
+            for r in results:
+                r["tavily_answer"] = answer
+            return results
+        except Exception:
+            return []
+
+    def fallback_fetch(self, target_url: str) -> List[str]:
+        """Get candidate URLs via Tavily when primary fetch fails."""
+        keywords = extract_keywords_from_url(target_url)
+        raw_keywords = keywords.strip()
+        if not raw_keywords:
+            return []
+        query = f"{raw_keywords} job Beijing"
+        results = self.search(query, limit=3)
+        urls = [r["url"] for r in results if "job" in r.get("url", "").lower() or "career" in r.get("url", "").lower()]
+        return urls[:2]
+
+
+# --- Legacy functions kept for backward compatibility ---
 
 def extract_keywords_from_url(url: str) -> str:
     """Extract keywords from a URL for search."""
@@ -44,13 +62,13 @@ def extract_keywords_from_url(url: str) -> str:
     return cleaned
 
 
+def search_jobs(query: str, max_results: int = 10) -> List[Dict]:
+    """Search for jobs using Tavily API with content extraction."""
+    client = TavilyClient()
+    return client.search(query, limit=max_results)
+
+
 def fallback_fetch(target_url: str) -> List[str]:
     """Get candidate URLs via Tavily when primary fetch fails."""
-    keywords = extract_keywords_from_url(target_url)
-    raw_keywords = keywords.strip()
-    if not raw_keywords:
-        return []
-    query = f"{raw_keywords} job Beijing"
-    results = search_jobs(query, max_results=3)
-    urls = [r["url"] for r in results if "job" in r.get("url", "").lower() or "career" in r.get("url", "").lower()]
-    return urls[:2]
+    client = TavilyClient()
+    return client.fallback_fetch(target_url)

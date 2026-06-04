@@ -1,6 +1,12 @@
-# Monthly Job Monitor 配置文件
+exa_api_key: ""
+jina_api_key: ""
+firecrawl_token: ""
+serper_api_key: ""
+use_tavily: true
+timeout: 30
+request_delay: 1.0
+max_results: 50
 
-# 可选：手动添加的额外目标（示例）
 targets:
   - url: "src/scraper/data/fortune500_full.csv"
     parser: "csv"
@@ -8,18 +14,7 @@ targets:
     parser: "csv"
   - url: "src/scraper/data/unicorn_top20.csv"
     parser: "csv"
-  - url: "https://www.linkedin.com/jobs/search?keywords=security"
-    parser: "linkedin"
-  - url: "https://www.zhaopin.com/beijing/security"
-    parser: "generic"
-  - url: "https://www.51job.com/beijing/security"
-    parser: "generic"
 
-# Tavily 配置（可选，用于搜索前获取关键词相关职位 URL）
-tavily_api_key: "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"  # 替换为你的 Tavily API Key
-use_tavily: true             # 是否启用 Tavily 搜索
-
-# 关键词列表（中英文适度模糊匹配）
 keywords:
   - "Information security officer"
   - "信息安全"
@@ -33,9 +28,3 @@ keywords:
   - "合规专员"
   - "合规经理"
   - "合规总监"
-
-
-# 网络请求配置
-request_delay: 1.0            # 请求间隔（秒）
-timeout: 30                   # 请求超时（秒）
-max_results: 50               # 每个目标最多抓取结果数

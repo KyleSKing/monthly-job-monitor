@@ -1,150 +1,143 @@
 #!/usr/bin/env python3
 """
-Monthly Job Monitor - Main Entry Point
-Scrapes job listings, scores them, and sends monthly recruitment report
+Monthly Job Monitor — Main Entry Point
+3-tier scraper: Exa+Jina → Serper+Firecrawl → Tavily
 """
-
 import logging
 import sys
 import os
-import yaml
-from datetime import datetime
-from pathlib import Path
 
-# Add src to path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Ensure the project root is on sys.path so package imports work
+_project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if _project_root not in sys.path:
+    sys.path.insert(0, _project_root)
 
-from scraper import JobScraper
-from scorer import JobScorer
-from email_sender import EmailSender
+from src.scraper.main import TieredScraper
+from src.scraper.scorer import score_job
+from src.scraper.email_sender import send_email
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
+
 def generate_report(jobs: list, output_dir: str = "reports") -> str:
-    """
-    Generate markdown report file
-    """
-    Path(output_dir).mkdir(parents=True, exist_ok=True)
-    
-    month = datetime.now().strftime('%Y-%m')
-    filename = f"{output_dir}/recruitment_report_{month}.md"
-    
-    lines = [
-        f"# Monthly Recruitment Report - {month}",
-        f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
-        f"**Total Jobs:** {len(jobs)}",
-        "",
-        "## Summary",
-        "",
-        f"- Indeed: {len([j for j in jobs if j.get('source') == 'Indeed'])} jobs",
-        f"- LinkedIn: {len([j for j in jobs if j.get('source') == 'LinkedIn'])} jobs",
-        "",
-        "## Job Listings",
-        "",
-        "| Title | Company | Location | Source | Salary | Score | URL |",
-        "|-------|---------|----------|--------|--------|-------|-----|",
-    ]
-    
-    for job in jobs:
-        title = job.get('title', 'N/A')
-        company = job.get('company', 'N/A')
-        location = job.get('location', 'N/A')
-        source = job.get('source', 'N/A')
-        salary = job.get('salary', 'N/A')
-        score = job.get('score', 'N/A')
-        url = job.get('url', '#')
-        
-        lines.append(f"| [{title}]({url}) | {company} | {location} | {source} | {salary} | {score} | {url} |")
-    
-    content = "\n".join(lines)
-    
-    with open(filename, 'w', encoding='utf-8') as f:
-        f.write(content)
-    
-    logger.info(f"Report saved to: {filename}")
-    return filename
+    """Generate markdown report from job listings."""
+    from datetime import datetime
+    from pathlib import Path
+    import re
+
+    out = Path(output_dir)
+    out.mkdir(parents=True, exist_ok=True)
+
+    filename = f"recruitment_report_{datetime.now().strftime('%Y-%m')}.md"
+    filepath = out / filename
+
+    # ── 福利提取函数 ──
+    BENEFIT_KEYWORDS = {
+        "💰薪资": ["stock", "option", "rsu", "bonus", "奖金", "股权", "期权", "分红",
+                  "年薪", "月薪", "薪资", "工资", "13薪", "14薪", "15薪", "16薪"],
+        "🏥保险": ["五险一金", "补充医疗", "商业保险", "health insurance",
+                  "medical", "保险", "公积金", "housing fund"],
+        "🏠远程": ["remote", "远程", "work from home", "居家", "flexible",
+                  "弹性工作", "弹性", "线上", "异地"],
+        "🍱福利": ["免费午餐", "下午茶", "gym", "健身房", "餐补", "交通补",
+                  "补贴", "allowance", "paid leave", "年假", "带薪"],
+        "📈成长": ["training", "培训", "learning", "学习", "career growth",
+                  "晋升", "发展", "education", "深造"],
+    }
+
+    def _extract_benefits(desc: str, title: str, salary: str) -> str:
+        text = (desc + " " + title).lower()
+        found = []
+        if salary and salary not in ("N/A", ""):
+            found.append(f"💰{salary[:30]}")
+        for icon, kws in BENEFIT_KEYWORDS.items():
+            for kw in kws:
+                if kw.lower() in text:
+                    found.append(icon)
+                    break
+        return " ".join(found) if found else "—"
+
+    # ── 评分 → 星星 ──
+    def _score_stars(s):
+        return "⭐" * s if s else "—"
+
+    md = f"# 📋 招聘监控报告\n\n"
+    md += f"_生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M')}_\n\n"
+    md += f"**职位总数: {len(jobs)}**\n\n"
+
+    md += "| # | 职位 | 公司 | 地点 | 薪资/福利 | 评分 |\n"
+    md += "|---|------|------|------|-----------|------|\n"
+    for rank, job in enumerate(jobs[:30], 1):
+        title = job.get("title", "N/A")
+        company = job.get("company", "N/A")
+        loc = job.get("location", "N/A")
+        salary = job.get("salary", "N/A")
+        desc = job.get("description", "") or ""
+        score = job.get("Score", 0)
+        benefits = _extract_benefits(desc, title, salary)
+        md += (
+            f"| {rank} | [{title}]({job.get('url','#')}) "
+            f"| {company} | {loc} "
+            f"| {benefits} "
+            f"| {_score_stars(score)} |\n"
+        )
+
+    # ── 高薪/高福利岗位特别标注 ──
+    high_value = [j for j in jobs if j.get("Score", 0) >= 7]
+    if high_value:
+        md += "\n\n## 🔥 高价值岗位 (评分≥7)\n\n"
+        for j in high_value:
+            title = j.get("title", "N/A")
+            company = j.get("company", "N/A")
+            salary = j.get("salary", "N/A")
+            md += f"- [{title}]({j.get('url','#')}) — {company} | {salary}\n"
+
+    # ── 评分分布 ──
+    from collections import Counter
+    dist = Counter(j.get("Score", 0) for j in jobs)
+    md += "\n\n## 📊 评分分布\n\n"
+    for k in sorted(dist.keys(), reverse=True):
+        bar = "█" * min(dist[k] // 10, 50)
+        pct = dist[k] / len(jobs) * 100
+        md += f"**{k}分**: {bar} {dist[k]}条 ({pct:.1f}%)\n"
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(md)
+
+    logger.info(f"Report saved to {filepath}")
+    return str(filepath)
+
 
 def main():
-    """
-    Main execution function
-    """
-    logger.info("=" * 50)
-    logger.info("Monthly Job Monitor Started")
-    logger.info("=" * 50)
-    
-    # Configuration file path
-    config_path = os.environ.get('CONFIG_PATH', 'config.yaml')
-    
-    # Check if config exists
-    if not os.path.exists(config_path):
-        logger.error(f"Configuration file not found: {config_path}")
-        logger.info("Please create config.yaml with email and scraper settings")
-        sys.exit(1)
-    
-    try:
-        # Step 1: Scrape job listings
-        logger.info("[1/3] Initializing job scraper...")
-        scraper = JobScraper(config_path)
-        
-        logger.info("[2/3] Scraping job listings...")
-        jobs = scraper.scrape_all()
-        
-        # Apply scoring and ranking
-        scorer = JobScorer(config_path)
-        ranked_jobs = scorer.rank_jobs(jobs)
-        logger.info(f"Ranked {len(ranked_jobs)} jobs after scoring")
-        jobs = ranked_jobs
-        
-        if not jobs:
-            logger.warning("No jobs found!")
-            # Still send report with empty list
-        
-        logger.info(f"Found {len(jobs)} jobs")
-        
-        # Step 2: Generate report file
-        logger.info("[3/3] Generating report...")
-        report_path = generate_report(jobs)
-        
-        # Step 3: Send email
-        logger.info("Sending email notification...")
-        sender = EmailSender(config_path)
-        
-        # Use mock data mode to skip email sending during testing
-        if hasattr(sender, 'mock_data') and sender.mock_data:
-            logger.info("Mock data mode: skipping email send")
-        else:
-            success = sender.send_report(jobs)
-            if not success:
-                logger.error("❌ Failed to send email")
-                sys.exit(1)
-        
-        # Git operations remain unchanged
-        # ------------------ Git operations ------------------
-        # 1️⃣ Delete previous month's report if exists
-        import subprocess
-        prev_month = (datetime.now() - relativedelta(months=1)).strftime('%Y-%m')
-        prev_file = f"reports/recruitment_report_{prev_month}.md"
-        # Use git rm to stage deletion (ignores missing file)
-        subprocess.run([sys.executable, "-c", f"import subprocess; subprocess.run(['git', 'rm', '-f', '{prev_file}'], check=False, cwd='{os.getcwd()}')"], shell=True, check=False)
-        # 2️⃣ Stage new report
-        subprocess.run([sys.executable, "-c", "import subprocess; subprocess.run(['git', 'add', 'reports/'], check=False, cwd='{os.getcwd()}')"], shell=True, check=False)
-        # 3️⃣ Commit if there is a change
-        diff = subprocess.run([sys.executable, "-c", "import subprocess; subprocess.run(['git', 'diff', '--staged', '--quiet'], cwd='{os.getcwd()}', capture_output=True)"], shell=True, check=False, capture_output=True)
-        if diff.returncode != 0:
-            subprocess.run([sys.executable, "-c", "import subprocess; subprocess.run(['git', 'commit', '-m', f'Add recruitment report {datetime.now().strftime(\"%Y-%m\")}'], cwd='{os.getcwd()}', check=False)"], shell=True, check=False)
-        # 4️⃣ Push changes
-        subprocess.run([sys.executable, "-c", "import subprocess; subprocess.run(['git', 'push'], cwd='{os.getcwd()}', check=False)"], shell=True, check=False)
-    
-    except Exception as e:
-        logger.error(f"Error: {e}")
-        import traceback
-        traceback.print_exc()
-        sys.exit(1)
+    logger.info("Starting Monthly Job Monitor (3-Tier Scraper)")
+
+    scraper = TieredScraper()
+    jobs = scraper.scrape_all()
+
+    logger.info(f"Total jobs found: {len(jobs)}")
+
+    if not jobs:
+        logger.warning("No jobs found. Check API keys and internet connection.")
+        return
+
+    # Generate reports
+    report_path = generate_report(jobs)
+    logger.info(f"Report generated: {report_path}")
+
+    # Print top 5 summary
+    print(f"\n{'='*60}")
+    print(f"Monthly Job Monitor — Results")
+    print(f"{'='*60}")
+    print(f"Total jobs: {len(jobs)}")
+    print(f"Report: {report_path}")
+    print(f"\nTop 5 jobs:")
+    for rank, job in enumerate(jobs[:5], 1):
+        print(f"  {rank}. {job.get('title','N/A')} — {job.get('company','N/A')} [{job.get('source','N/A')}]")
+
 
 if __name__ == '__main__':
     main()

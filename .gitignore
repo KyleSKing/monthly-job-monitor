@@ -25,6 +25,9 @@ build/
 dist/
 *.egg-info/
 
+# Reports (generated output)
+reports/
+
 # IDE/Editor
 .vscode/
 .idea/
