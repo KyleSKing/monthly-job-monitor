@@ -1,35 +1,64 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Virtual environment
-venv/
-.env/
-.env/*
-!.env/.keep   # keep .env if you use it
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-
-# Playwright
-playwright.log
-playwright-*.log
-
-# Build artifacts
+# iOS specific
+# Xcode
 build/
-dist/
-*.egg-info/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.moved-aside
+DerivedData/
+*.xcworkspace
+!*.xcworkspace/xcuserdata/**/*.xcuserstate
+iosapp.xcodeproj/project.xcworkspace
+*.xcworkspace/contents.xcworkspacedata
+*.xcworkspace/xcuserdata/**/*.xcuserstate
+xcuserdata/
+iosapp.xcodeproj/xcuserdata/
 
-# Reports (generated output)
-reports/
+# CocoaPods
+Podfile.lock
+Pods/
 
-# IDE/Editor
-.vscode/
-.idea/
-*.swp
-*.swo
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+fastlane/logs
+
+# Code Injection
+*.xcodeproj
+*.xcworkspace
+!iosapp.xcodeproj
+!iosapp.xcworkspace
+
+# Carthage
+Carthage/Checkouts
+Carthage/Build
+
+# Accio dependency management
+.accio/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icons
+*.icns
+*.iconset
+
+# Swift Package Manager
+# Packages/
+# Package.pins
+
+# Backup files
+*.bak
+*.backup
+*.old

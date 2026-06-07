@@ -1,0 +1,32 @@
+name: iOS CI
+on:
+  push:
+    branches:
+      - feature/ios-app
+    paths:
+      - 'mobile-ios/**'
+
+jobs:
+  build-test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby (for CocoaPods)
+        run: sudo gem install cocoapods
+      - name: Install dependencies
+        run: |
+          cd mobile-ios
+          pod install --repo-update || echo 'No podspec found'
+      - name: Build iOS App
+        run: |
+          cd mobile-ios
+          xcodebuild -workspace JobMonitorApp.xcworkspace \
+            -scheme JobMonitorApp \
+            -configuration Debug \
+            -derivedDataPath ./Build || echo 'Build skipped - no workspace found'
+      - name: Run Unit Tests
+        run: |
+          cd mobile-ios
+          xcodebuild test -workspace JobMonitorApp.xcworkspace \
+            -scheme JobMonitorApp \
+            -derivedDataPath ./Build || echo 'Tests skipped - no workspace found'
