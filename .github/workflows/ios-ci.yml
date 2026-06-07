@@ -1,4 +1,6 @@
+
 name: iOS CI
+
 on:
   push:
     branches:
@@ -8,7 +10,7 @@ on:
 
 jobs:
   build-test:
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby (for CocoaPods)
