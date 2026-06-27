@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/api/*.py",
+      "src": "src/api/**/*.py",
       "use": "@vercel/python"
     }
   ],
@@ -10,10 +10,6 @@
     {
       "src": "/api/(.*)",
       "dest": "src/api/$1.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/"
     }
   ]
 }
