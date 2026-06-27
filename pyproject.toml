@@ -8,6 +8,9 @@ authors = [
 requires-python = ">=3.9"
 dependencies = []
 
+[tool.vercel]
+entrypoint = "api.jobs:handler"
+
 [tool.vercel.functions]
 "api/jobs" = { runtime = "python", entrypoint = "api/jobs:handler" }
 "api/latest-report" = { runtime = "python", entrypoint = "api/latest-report:handler" }
