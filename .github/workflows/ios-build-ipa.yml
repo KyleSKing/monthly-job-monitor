@@ -35,7 +35,7 @@ jobs:
         xcodebuild -workspace JobMonitorApp.xcworkspace -scheme JobMonitorApp -configuration Release clean archive -archivePath build/JobMonitorApp.xcarchive
         
     - name: Export IPA
-      uses: githubmuseum/ios-export-action@v1
+      uses: zhandc/export-ipa-action@v1
       with:
         archive-path: mobile-ios/build/JobMonitorApp.xcarchive
         output-path: output.ipa
