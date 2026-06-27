@@ -11,6 +11,7 @@ from .targets import Target
 @dataclass
 class ScraperConfig:
     targets: List[Target]
+    keywords: List[str]
     tavily_api_key: str
     use_tavily: bool
     request_delay: float
@@ -46,6 +47,7 @@ def load_config(config_path: str = "config.yaml") -> ScraperConfig:
 
     cfg = ScraperConfig(
         targets=data.get("targets", []),
+        keywords=data.get("keywords", []),
         tavily_api_key=_get_key(data, "tavily_api_key", "TAVILY_API_KEY"),
         use_tavily=data.get("use_tavily", True),
         request_delay=data.get("request_delay", 1.0),
