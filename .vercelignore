@@ -1,0 +1,6 @@
+# .vercelignore
+# Ignore the main crawler source, only build api/
+src/**/*
+*.md
+*.csv
+mobile-ios/**/*
