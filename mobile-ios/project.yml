@@ -1,0 +1,36 @@
+name: JobMonitorApp
+options:
+  bundleIdPrefix: com.yourname
+settings:
+  base:
+    DEVELOPMENT_TEAM: YOUR_TEAM_ID
+    PRODUCT_BUNDLE_IDENTIFIER: com.yourname.JobMonitorApp
+targets:
+  JobMonitorApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - JobMonitorApp
+    resources:
+      - JobMonitorApp/Resources/**/*
+    entitlements:
+      path: JobMonitorApp/JobMonitorApp.entitlements
+    dependencies:
+      - package: Alamofire
+      - package: SwiftyJSON
+      - package: SDWebImage
+      - package: SnapKit
+packages:
+  Alamofire:
+    url: https://github.com/Alamofire/Alamofire.git
+    from: 5.8.0
+  SwiftyJSON:
+    url: https://github.com/SwiftyJSON/SwiftyJSON.git
+    from: 5.0.0
+  SDWebImage:
+    url: https://github.com/SDWebImage/SDWebImage.git
+    from: 5.18.0
+  SnapKit:
+    url: https://github.com/SnapKit/SnapKit.git
+    from: 5.6.0
