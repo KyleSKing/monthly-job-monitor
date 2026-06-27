@@ -1,2 +1,9 @@
-[tool.black]
-line-length = 120
+[project]
+name = "monthly-job-monitor"
+version = "1.0.0"
+description = "Monthly job monitor for security & compliance positions"
+authors = [
+  { name = "Kyle", email = "your@email.com" }
+]
+requires-python = ">=3.9"
+dependencies = []
