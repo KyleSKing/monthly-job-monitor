@@ -2,49 +2,30 @@ name: Build iOS IPA
 
 on:
   push:
-    branches: [ main, feature/* ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: macos-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Select Xcode version
-      uses: maxim-lobanov/setup-xcode@v1
-      with:
-        xcode-version: '15.0'
-        
-    - name: Install XcodeGen
-      run: |
-        cd mobile-ios
-        gem install xcodegen
-        xcodegen generate
-        
-    - name: Install CocoaPods
-      run: |
-        cd mobile-ios
-        pod install --repo-update
-        
-    - name: Build project
-      run: |
-        cd mobile-ios
-        xcodebuild -workspace JobMonitorApp.xcworkspace -scheme JobMonitorApp -configuration Release clean archive -archivePath build/JobMonitorApp.xcarchive
-        
-    - name: Export IPA
-      uses: zhandc/export-ipa-action@v1
-      with:
-        archive-path: mobile-ios/build/JobMonitorApp.xcarchive
-        output-path: output.ipa
-        apple-id: ${{ secrets.APPLE_ID }}
-        apple-id-password: ${{ secrets.APPLE_ID_PASSWORD }}
-        
-    - name: Upload IPA
-      uses: actions/upload-artifact@v4
-      with:
-        name: JobMonitorApp-ipa
-        path: output.ipa
-        retention-days: 30
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build ipa
+        uses: Irving-wang/IOS-Build-Action@main
+        with:
+          project_path: 'mobile-ios'
+          xcodegen: 'true'
+          pod_install: 'true'
+          export_method: 'development'
+          apple_id: '${{ secrets.APPLE_ID }}'
+          password: '${{ secrets.APPLE_ID_PASSWORD }}'
+          output: 'output.ipa'
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: JobMonitorApp-ipa
+          path: output.ipa
+          retention-days: 30
