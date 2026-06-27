@@ -40,7 +40,7 @@ KEYWORDS_COMPANY: Dict[str, List[str]] = {
 # 公司环境、福利关键词（描述中出现的福利/环境词）
 COMPANY_ENV_KEYWORDS: Dict[str, List[str]] = {
     "culture": [
-        "great culture", "amazing culture", "inclusive", "diverse", 
+        "great culture", "amazing culture", "inclusive", "diverse",
         "work-life balance", "flexible hours", "flat hierarchy",
         "扁平管理", "年轻团队", "学习氛围"
     ],
@@ -53,7 +53,7 @@ COMPANY_ENV_KEYWORDS: Dict[str, List[str]] = {
     ],
     "growth": [
         "career growth", "career advancement", "learning budget",
-        "job training", "professional development", 
+        "job training", "professional development",
         "技术培训", "晋升空间", "发展机会"
     ]
 }

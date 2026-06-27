@@ -384,7 +384,7 @@ class TieredScraper:
     def _filter_location(jobs: List[Dict]) -> List[Dict]:
         """Filter to Beijing & remote only."""
         keywords = ["beijing", "北京", "remote", "远程", "线上", "异地",
-                     "united states", "nationwide", "remote -", "(remote)"]
+                    "united states", "nationwide", "remote -", "(remote)"]
         filtered = []
         for j in jobs:
             loc = (j.get("location", "") or "").lower()
