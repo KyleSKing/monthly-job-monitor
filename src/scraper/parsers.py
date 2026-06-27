@@ -64,6 +64,42 @@ def parse_51job(html):
     except Exception as exc:
         raise ScraperError(f"51job parser failed: {exc}") from exc
 
+@register("zhipin")
+def parse_zhipin(html):
+    soup = BeautifulSoup(html, "html.parser")
+    try:
+        title_elem = soup.select_one(".job-title .name")
+        company_elem = soup.select_one(".company-text .name a")
+        loc_elem = soup.select_one(".job-address .text")
+        desc_elem = soup.select_one(".job-sec .text")
+        return {
+            "title": title_elem.get_text(strip=True) if title_elem else "",
+            "company": company_elem.get_text(strip=True) if company_elem else "",
+            "location": loc_elem.get_text(strip=True) if loc_elem else "",
+            "posted_date": datetime.now(timezone.utc).isoformat(),
+            "description": desc_elem.get_text(strip=True) if desc_elem else "",
+        }
+    except Exception as exc:
+        raise ScraperError(f"Boss Zhipin parser failed: {exc}") from exc
+
+@register("liepin")
+def parse_liepin(html):
+    soup = BeautifulSoup(html, "html.parser")
+    try:
+        title_elem = soup.select_one(".job-title .title")
+        company_elem = soup.select_one(".company-info .name a")
+        loc_elem = soup.select_one(".job-area .area")
+        desc_elem = soup.select_one(".job-description .content")
+        return {
+            "title": title_elem.get_text(strip=True) if title_elem else "",
+            "company": company_elem.get_text(strip=True) if company_elem else "",
+            "location": loc_elem.get_text(strip=True) if loc_elem else "",
+            "posted_date": datetime.now(timezone.utc).isoformat(),
+            "description": desc_elem.get_text(strip=True) if desc_elem else "",
+        }
+    except Exception as exc:
+        raise ScraperError(f"Liepin parser failed: {exc}") from exc
+
 @register("generic")
 def generic_parse(html):
     soup = BeautifulSoup(html, "html.parser")
