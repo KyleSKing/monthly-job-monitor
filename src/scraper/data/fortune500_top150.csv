@@ -1,0 +1,101 @@
+rank,company,revenue_billions,website
+1,Walmart,611.3,https://www.walmart.com
+2,Amazon,574.7,https://www.amazon.com
+3,State Grid Corporation of China,459.8,https://www.sgcc.com.cn
+4,China Petroleum & Chemical Corporation,416.1,https://www.sinopec.com
+5,Sinopec Group,416.1,https://www.sinopec.com
+6,People's Insurance Company of China,381.4,https://www.picc.com.cn
+7,Apple,394.3,https://www.apple.com
+8,Saudi Arabian Oil Co.,378.6,https://www.saudiaramco.com
+9,BP,318.5,https://www.bp.com
+10,Exxon Mobil,312.9,https://www.exxonmobil.com
+11,Shell,308.9,https://www.shell.com
+12,JPMorgan Chase,292.4,https://www.jpmorganchase.com
+13,Alphabet,282.8,https://www.abc.xyz
+14,Taikang Insurance,277.2,https://www.taikang.com
+15,Tencent,268.9,https://www.tencent.com
+16,Berkshire Hathaway,265.9,https://www.berkshirehathaway.com
+17,United Health Group,262.9,https://www.unitedhealthgroup.com
+18,Microsoft,254.5,https://www.microsoft.com
+19,Costco Wholesale,226.1,https://www.costco.com
+20,Cardinal Health,222.4,https://www.cardinalhealth.com
+21,Walgreens Boots Alliance,217.7,https://www.walgreens.com
+22,Kroger,204.6,https://www.kroger.com
+23,Home Depot,191.3,https://www.homedepot.com
+24,Boeing,166.4,https://www.boeing.com
+25,Citigroup,119.9,https://www.citigroup.com
+26,Ford Motor,176.9,https://www.ford.com
+27,General Motors,166.7,https://www.gm.com
+28,General Electric,79.4,https://www.ge.com
+29,Honda Motor,139.9,https://www.honda.com
+30,IBM,59.4,https://www.ibm.com
+31,Mitsubishi UFJ Financial,75.6,https://www.mufg.jp
+32,Bank of China,109.5,https://www.bankofchina.com
+33,Industrial and Commercial Bank of China,155.9,https://www.icbc-ltd.com
+34,China Construction Bank,135.2,https://www.ccb.com
+35,Agricultural Bank of China,130.8,https://www.abchina.com
+36,Toyota Motor,275.5,https://www.toyota.com
+37,Volkswagen,330.6,https://www.volkswagenag.com
+38,Daimler AG,202.6,https://www.daimler.com
+39,Bayerische Motoren Werke (BMW),147.8,https://www.bmw.com
+40,Siemens,107.2,https://www.siemens.com
+41,Allianz,149.5,https://www.allianz.com
+42,TotalEnergies,138.9,https://www.totalenergies.com
+43,Chevron,159.5,https://www.chevron.com
+44,Phillips 66,132.2,https://www.phillips66.com
+45,ConocoPhillips,70.8,https://www.conocophillips.com
+46,Marathon Petroleum,108.9,https://www.marathonpetroleum.com
+47,Valero Energy,102.9,https://www.valero.com
+48,Occidental Petroleum,62.3,https://www.oxy.com
+49,Enterprise Products Partners,72.9,https://www.enterpriseproducts.com
+50,Kinder Morgan,70.3,https://www.kindermorgan.com
+51,AT&T,120.7,https://www.att.com
+52,Verizon,135.4,https://www.verizon.com
+53,Comcast,108.8,https://www.comcast.com
+54,Disney,82.7,https://www.disney.com
+55,Netflix,31.6,https://www.netflix.com
+56,Facebook,117.9,https://www.facebook.com
+57,Oracle,40.5,https://www.oracle.com
+58,SAP,30.9,https://www.sap.com
+59,Intel,79.0,https://www.intel.com
+60,NVIDIA,26.9,https://www.nvidia.com
+61,Texas Instruments,21.6,https://www.ti.com
+62,Cisco,51.6,https://www.cisco.com
+63,HP Inc,59.1,https://www.hp.com
+64,Dell Technologies,92.2,https://www.dell.com
+65,Accenture,50.6,https://www.accenture.com
+66,Procter & Gamble,76.1,https://us.pg.com
+67,PepsiCo,86.4,https://www.pepsico.com
+68,Coca-Cola,38.7,https://www.coca-cola.com
+69,Nestle,93.5,https://www.nestle.com
+70,Unilever,60.1,https://www.unilever.com
+71,Danone,29.3,https://www.danone.com
+72,L'Oreal,34.4,https://www.loreal.com
+73,Novartis,51.7,https://www.novartis.com
+74,Roche,65.3,https://www.roche.com
+75,Novo Nordisk,22.0,https://www.novonordisk.com
+76,Johnson & Johnson,95.0,https://www.jnj.com
+77,Pfizer,100.3,https://www.pfizer.com
+78,Merck,47.9,https://www.merck.com
+79,Eli Lilly,28.3,https://www.lilly.com
+80,AbbVie,53.6,https://www.abbvie.com
+81,McKesson,232.8,https://www.mckesson.com
+82,AmerisourceBergen,190.7,https://www.amerisourcebergen.com
+83,Cardinal Health,162.4,https://www.cardinalhealth.com
+84,Express Scripts,106.3,https://www.express-scripts.com
+85,Bristol-Myers Squibb,43.8,https://www.bms.com
+86,Gilead Sciences,24.4,https://www.gilead.com
+87,Amgen,25.4,https://www.amgen.com
+88,Regeneron Pharmaceuticals,9.9,https://www.regeneron.com
+89,Biogen,14.9,https://www.biogen.com
+90,Celgene,23.0,https://www.celgene.com
+91,Los Angeles Department of Water and Power,4.7,https://www.ladwp.com
+92,Lockheed Martin,66.1,https://www.lockheedmartin.com
+93,Boeing,101.0,https://www.boeing.com
+94,Raytheon Technologies,67.1,https://www.raytheon.com
+95,Northrop Grumman,36.6,https://www.northropgrumman.com
+96,General Dynamics,33.4,https://www.generaldynamics.com
+97,Humana,77.3,https://www.humana.com
+98,Anthem,121.6,https://www.anthem.com
+99,Cigna,174.9,https://www.cigna.com
+100,Delta Air Lines,55.1,https://www.delta.com

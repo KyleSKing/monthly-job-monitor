@@ -8,7 +8,7 @@ request_delay: 1.0
 max_results: 50
 
 targets:
-  - url: "src/scraper/data/fortune500_full.csv"
+  - url: "src/scraper/data/fortune500_top150.csv"
     parser: "csv"
   - url: "src/scraper/data/state_owned_top50.csv"
     parser: "csv"
