@@ -18,24 +18,29 @@ jobs:
       with:
         xcode-version: '15.0'
         
-    - name: Install CocoaPods
+    - name: Install XcodeGen
       run: |
         cd mobile-ios
         gem install xcodegen
         xcodegen generate
+        
+    - name: Install CocoaPods
+      run: |
+        cd mobile-ios
         pod install --repo-update
         
-    - name: Build IPA
-      uses: yukiarrr/ios-build-action@v3
+    - name: Build project
+      run: |
+        cd mobile-ios
+        xcodebuild -workspace JobMonitorApp.xcworkspace -scheme JobMonitorApp -configuration Release clean archive -archivePath build/JobMonitorApp.xcarchive
+        
+    - name: Export IPA
+      uses: githubmuseum/ios-export-action@v1
       with:
-        project-path: mobile-ios/JobMonitorApp/JobMonitorApp.xcodeproj
-        scheme: JobMonitorApp
-        configuration: Release
+        archive-path: mobile-ios/build/JobMonitorApp.xcarchive
         output-path: output.ipa
-        export-method: ad-hoc
-        p12-base64: ${{ secrets.P12_BASE64 }}
-        p12-password: ${{ secrets.P12_PASSWORD }}
-        mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+        apple-id: ${{ secrets.APPLE_ID }}
+        apple-id-password: ${{ secrets.APPLE_ID_PASSWORD }}
         
     - name: Upload IPA
       uses: actions/upload-artifact@v4

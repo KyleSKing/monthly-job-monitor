@@ -1,10 +1,10 @@
 name: JobMonitorApp
 options:
-  bundleIdPrefix: com.yourname
+  bundleIdPrefix: com.kyle
 settings:
   base:
     DEVELOPMENT_TEAM: YOUR_TEAM_ID
-    PRODUCT_BUNDLE_IDENTIFIER: com.yourname.JobMonitorApp
+    PRODUCT_BUNDLE_IDENTIFIER: com.kyle.JobMonitorApp
 targets:
   JobMonitorApp:
     type: application
