@@ -57,37 +57,46 @@ struct JobDetailView: View {
                 Divider()
                 
                 // Description
-                if !job.description.isEmpty {
+                if !job.summary.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Job Description")
                             .font(.headline)
-                        Text(job.description)
+                        Text(job.summary)
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.leading)
                     }
                 }
                 
+                if let date = job.publishedDate {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Published: \(date)")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Text("Source: \(job.source)")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                
                 Spacer(minLength: 32)
                 
                 // Apply Button
-                if !job.applyUrl.isEmpty {
-                    Button {
-                        if let url = URL(string: job.applyUrl) {
-                            openURL(url)
-                        }
-                    } label: {
-                        HStack {
-                            Spacer()
-                            Text("Apply Now")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                            Spacer()
-                        }
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
+                Button {
+                    if let url = URL(string: job.url) {
+                        openURL(url)
                     }
+                } label: {
+                    HStack {
+                        Spacer()
+                        Text("Apply Now")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(10)
                 }
             }
             .padding()
@@ -99,14 +108,6 @@ struct JobDetailView: View {
 
 #Preview {
     NavigationView {
-        JobDetailView(job: Job(
-            title: "Senior iOS Engineer",
-            company: "Tech Company",
-            location: "Beijing",
-            salaryRange: "¥300K - 400K/year",
-            score: 9,
-            description: "This is a great opportunity for an experienced iOS engineer to join a fast-growing team. You will be responsible for developing and maintaining the iOS application.",
-            applyUrl: "https://example.com/apply"
-        ))
+        JobDetailView(job: Job.sample)
     }
 }

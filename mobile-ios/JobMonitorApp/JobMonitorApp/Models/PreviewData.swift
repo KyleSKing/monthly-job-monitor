@@ -12,9 +12,9 @@ extension Job {
         title: "Senior Information Security Officer",
         company: "ByteDance",
         location: "Beijing",
-        salaryRange: "¥400K - 600K/year",
+        url: "https://job.bytedance.com/job/12345",
         score: 9,
-        description: """
+        summary: """
         We are looking for an experienced Information Security Officer to join our team. You will be responsible for:
         
         • Develop and implement security policies and procedures
@@ -29,7 +29,9 @@ extension Job {
         • Experience with compliance requirements (GDPR, ISO 27001, etc.)
         • Excellent communication and problem-solving skills
         """,
-        applyUrl: "https://job.bytedance.com/job/12345"
+        source: "bytedance",
+        publishedDate: "2026-06-01",
+        salaryRange: "¥400K - 600K/year"
     )
     
     static let sampleList: [Job] = [
@@ -38,10 +40,12 @@ extension Job {
             title: "Compliance Director",
             company: "Tencent",
             location: "Shenzhen",
-            salaryRange: "¥350K - 500K/year",
+            url: "https://careers.tencent.com/job/67890",
             score: 8,
-            description: "Lead the compliance team to ensure all business operations comply with regulatory requirements.",
-            applyUrl: "https://careers.tencent.com/job/67890"
+            summary: "Lead the compliance team to ensure all business operations comply with regulatory requirements.",
+            source: "tencent",
+            publishedDate: "2026-06-02",
+            salaryRange: "¥350K - 500K/year"
         )
     ]
 }
