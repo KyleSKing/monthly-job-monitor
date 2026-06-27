@@ -15,14 +15,15 @@ class APIService {
     
     private init() {
         #if DEBUG
-        self.baseURL = "http://localhost:8000"
+        self.baseURL = "http://localhost:8000/api"
         #else
-        self.baseURL = "https://your-production-url.com"
+        // Vercel 自动分配的域名格式: https://monthly-job-monitor-yourusername.vercel.app/api
+        self.baseURL = "https://monthly-job-monitor.vercel.app/api"
         #endif
     }
     
     func fetchJobs(completion: @escaping (Result<[Job], Error>) -> Void) {
-        let endpoint = "\(baseURL)/api/jobs"
+        let endpoint = "\(baseURL)/jobs"
         
         AF.request(endpoint)
             .validate()
@@ -37,7 +38,7 @@ class APIService {
     }
     
     func fetchLatestReport(completion: @escaping (Result<JobReport, Error>) -> Void) {
-        let endpoint = "\(baseURL)/api/latest-report"
+        let endpoint = "\(baseURL)/latest-report"
         
         AF.request(endpoint)
             .validate()
