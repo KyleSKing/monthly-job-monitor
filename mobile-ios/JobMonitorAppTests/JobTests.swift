@@ -56,4 +56,35 @@ final class JobTests: XCTestCase {
         XCTAssertEqual(job.source, "")
         XCTAssertNil(job.publishedDate)
     }
+
+    func testDecodesLatestReportPayloadWithBackendJobs() throws {
+        let json = """
+        {
+          "id": "report-2026-07",
+          "date": "2026-07-01",
+          "totalJobs": 1,
+          "highScoreJobs": 0,
+          "jobs": [
+            {
+              "title": "Senior Security Engineer",
+              "company": "Tencent",
+              "location": "Beijing",
+              "salary": "40-65K",
+              "url": "https://careers.tencent.com/job/123",
+              "score": 2
+            }
+          ],
+          "summary": "Monthly job report"
+        }
+        """.data(using: .utf8)!
+
+        let report = try JSONDecoder().decode(JobReport.self, from: json)
+
+        XCTAssertEqual(report.id, "report-2026-07")
+        XCTAssertEqual(report.totalJobs, 1)
+        XCTAssertEqual(report.highScoreJobs, 0)
+        XCTAssertEqual(report.jobs.count, 1)
+        XCTAssertEqual(report.jobs[0].salaryRange, "40-65K")
+        XCTAssertEqual(report.summary, "Monthly job report")
+    }
 }
