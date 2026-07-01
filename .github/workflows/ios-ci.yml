@@ -1,4 +1,3 @@
-
 name: iOS CI
 
 on:
@@ -14,22 +13,24 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Ruby (for CocoaPods)
-        run: sudo gem install cocoapods
-      - name: Install dependencies
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
         run: |
           cd mobile-ios
-          pod install --repo-update || echo 'No podspec found'
+          xcodegen generate
       - name: Build iOS App
         run: |
           cd mobile-ios
-          xcodebuild -workspace JobMonitorApp.xcworkspace \
+          xcodebuild -project JobMonitorApp.xcodeproj \
             -scheme JobMonitorApp \
             -configuration Debug \
-            -derivedDataPath ./Build || echo 'Build skipped - no workspace found'
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -derivedDataPath ./Build build
       - name: Run Unit Tests
         run: |
           cd mobile-ios
-          xcodebuild test -workspace JobMonitorApp.xcworkspace \
+          xcodebuild test -project JobMonitorApp.xcodeproj \
             -scheme JobMonitorApp \
-            -derivedDataPath ./Build || echo 'Tests skipped - no workspace found'
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -derivedDataPath ./Build
