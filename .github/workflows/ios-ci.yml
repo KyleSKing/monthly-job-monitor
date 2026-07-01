@@ -25,12 +25,12 @@ jobs:
           xcodebuild -project JobMonitorApp.xcodeproj \
             -scheme JobMonitorApp \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
             -derivedDataPath ./Build build
       - name: Run Unit Tests
         run: |
           cd mobile-ios
           xcodebuild test -project JobMonitorApp.xcodeproj \
             -scheme JobMonitorApp \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
             -derivedDataPath ./Build
