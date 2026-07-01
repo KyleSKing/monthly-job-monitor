@@ -14,8 +14,6 @@ targets:
       - JobMonitorApp
     resources:
       - JobMonitorApp/Resources/**/*
-    entitlements:
-      path: JobMonitorApp/JobMonitorApp.entitlements
     dependencies:
       - package: Alamofire
       - package: SwiftyJSON
