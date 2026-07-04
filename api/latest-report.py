@@ -18,11 +18,13 @@ def _coerce_score(job):
 
 
 def _job_id(job):
-    key = "|".join([
-        str(job.get("url", "")),
-        str(job.get("title", "")),
-        str(job.get("company", "")),
-    ])
+    key = "|".join(
+        [
+            str(job.get("url", "")),
+            str(job.get("title", "")),
+            str(job.get("company", "")),
+        ]
+    )
     return str(uuid.uuid5(uuid.NAMESPACE_URL, key))
 
 
@@ -37,7 +39,9 @@ def _map_job(job):
         "summary": job.get("summary") or job.get("description") or "",
         "source": job.get("source") or "Job Monitor",
         "publishedDate": job.get("publishedDate") or job.get("published_date"),
-        "salaryRange": job.get("salaryRange") or job.get("salary_range") or job.get("salary"),
+        "salaryRange": job.get("salaryRange")
+        or job.get("salary_range")
+        or job.get("salary"),
     }
 
 
