@@ -1,0 +1,16 @@
+[project]
+name = "monthly-job-monitor"
+version = "1.0.0"
+description = "Monthly job monitor for security & compliance positions"
+authors = [
+  { name = "Kyle", email = "your@email.com" }
+]
+requires-python = ">=3.9"
+dependencies = []
+
+[tool.vercel]
+entrypoint = "api.jobs:handler"
+
+[tool.vercel.functions]
+"api/jobs" = { runtime = "python", entrypoint = "api/jobs:handler" }
+"api/latest-report" = { runtime = "python", entrypoint = "api/latest-report:handler" }

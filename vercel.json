@@ -2,14 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/api/**/*.py",
+      "src": "api/*.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "src/api/$1.py"
+      "src": "/api/jobs",
+      "dest": "/api/jobs.py"
+    },
+    {
+      "src": "/api/latest-report",
+      "dest": "/api/latest-report.py"
     }
   ]
 }

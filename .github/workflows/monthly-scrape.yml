@@ -4,19 +4,14 @@
 name: Monthly Job Scraping
 
 on:
-  # Schedule: Run on the 1st of every month at 8:00 AM UTC
   schedule:
     - cron: '0 8 1 * *'
-  
-  # Allow manual trigger
   workflow_dispatch:
     inputs:
       debug:
         description: 'Run with debug output'
         required: false
         default: 'false'
-  
-  # Run on push to main branch
   push:
     branches:
       - main
@@ -29,35 +24,37 @@ on:
 jobs:
   scrape-and-send:
     runs-on: ubuntu-latest
-    
     steps:
-      # Checkout code
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      # Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
-      
-      # Install dependencies
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      
-      # Run scraper
+
+      - name: Install Playwright browsers
+        run: |
+          pip install playwright
+          python -m playwright install chromium --with-deps
+
       - name: Run job scraper
         env:
           CONFIG_PATH: ${{ github.workspace }}/config.yaml
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
+          JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
+          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+          FIRECRAWL_TOKEN: ${{ secrets.FIRECRAWL_TOKEN }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
         run: |
           cd src
           python main.py
         continue-on-error: true
-      
-      # Upload report as artifact
+
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
@@ -65,19 +62,10 @@ jobs:
           name: recruitment-report
           path: reports/
           retention-days: 30
-      
-      # Configure Git for commit/push
-      - name: Configure Git
-        run: |
-          cd ${{ github.workspace }}
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git fetch --all
 
-      # Commit and push report
       - name: Commit report
-        if: github.event_name == 'schedule'
         run: |
+          mkdir -p reports
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add reports/
@@ -85,12 +73,12 @@ jobs:
           git push
         continue-on-error: true
 
-  # Notify on failure
   notify-failure:
     needs: scrape-and-send
-    if: failure()
     runs-on: ubuntu-latest
     steps:
-      - name: Send failure notification
+      - name: Print failure notice
+        if: failure()
         run: |
-          echo "Monthly job scraping failed. Please check the logs."
+          echo "::error::Monthly job scraping failed!"
+          echo "Check logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"

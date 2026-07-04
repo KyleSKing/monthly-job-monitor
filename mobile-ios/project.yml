@@ -5,10 +5,6 @@ settings:
   base:
     DEVELOPMENT_TEAM: YOUR_TEAM_ID
     PRODUCT_BUNDLE_IDENTIFIER: com.kyle.JobMonitorApp
-packages:
-  Alamofire:
-    url: https://github.com/Alamofire/Alamofire.git
-    from: 5.8.0
 targets:
   JobMonitorApp:
     type: application
@@ -16,8 +12,13 @@ targets:
     deploymentTarget: "17.0"
     sources:
       - JobMonitorApp
+    resources:
+      - JobMonitorApp/Resources/**/*
     dependencies:
       - package: Alamofire
+      - package: SwiftyJSON
+      - package: SDWebImage
+      - package: SnapKit
   JobMonitorAppTests:
     type: bundle.unit-test
     platform: iOS
@@ -29,3 +30,16 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
     dependencies:
       - target: JobMonitorApp
+packages:
+  Alamofire:
+    url: https://github.com/Alamofire/Alamofire.git
+    from: 5.8.0
+  SwiftyJSON:
+    url: https://github.com/SwiftyJSON/SwiftyJSON.git
+    from: 5.0.0
+  SDWebImage:
+    url: https://github.com/SDWebImage/SDWebImage.git
+    from: 5.18.0
+  SnapKit:
+    url: https://github.com/SnapKit/SnapKit.git
+    from: 5.6.0
