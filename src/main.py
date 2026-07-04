@@ -17,8 +17,7 @@ from src.scraper.scorer import score_job
 from src.scraper.email_sender import send_email
 
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -37,16 +36,69 @@ def generate_report(jobs: list, output_dir: str = "reports") -> str:
 
     # ── 福利提取函数 ──
     BENEFIT_KEYWORDS = {
-        "💰薪资": ["stock", "option", "rsu", "bonus", "奖金", "股权", "期权", "分红",
-                  "年薪", "月薪", "薪资", "工资", "13薪", "14薪", "15薪", "16薪"],
-        "🏥保险": ["五险一金", "补充医疗", "商业保险", "health insurance",
-                  "medical", "保险", "公积金", "housing fund"],
-        "🏠远程": ["remote", "远程", "work from home", "居家", "flexible",
-                  "弹性工作", "弹性", "线上", "异地"],
-        "🍱福利": ["免费午餐", "下午茶", "gym", "健身房", "餐补", "交通补",
-                  "补贴", "allowance", "paid leave", "年假", "带薪"],
-        "📈成长": ["training", "培训", "learning", "学习", "career growth",
-                  "晋升", "发展", "education", "深造"],
+        "💰薪资": [
+            "stock",
+            "option",
+            "rsu",
+            "bonus",
+            "奖金",
+            "股权",
+            "期权",
+            "分红",
+            "年薪",
+            "月薪",
+            "薪资",
+            "工资",
+            "13薪",
+            "14薪",
+            "15薪",
+            "16薪",
+        ],
+        "🏥保险": [
+            "五险一金",
+            "补充医疗",
+            "商业保险",
+            "health insurance",
+            "medical",
+            "保险",
+            "公积金",
+            "housing fund",
+        ],
+        "🏠远程": [
+            "remote",
+            "远程",
+            "work from home",
+            "居家",
+            "flexible",
+            "弹性工作",
+            "弹性",
+            "线上",
+            "异地",
+        ],
+        "🍱福利": [
+            "免费午餐",
+            "下午茶",
+            "gym",
+            "健身房",
+            "餐补",
+            "交通补",
+            "补贴",
+            "allowance",
+            "paid leave",
+            "年假",
+            "带薪",
+        ],
+        "📈成长": [
+            "training",
+            "培训",
+            "learning",
+            "学习",
+            "career growth",
+            "晋升",
+            "发展",
+            "education",
+            "深造",
+        ],
     }
 
     def _extract_benefits(desc: str, title: str, salary: str) -> str:
@@ -98,6 +150,7 @@ def generate_report(jobs: list, output_dir: str = "reports") -> str:
 
     # ── 评分分布 ──
     from collections import Counter
+
     dist = Counter(j.get("Score", 0) for j in jobs)
     md += "\n\n## 📊 评分分布\n\n"
     for k in sorted(dist.keys(), reverse=True):
@@ -136,8 +189,10 @@ def main():
     print(f"Report: {report_path}")
     print(f"\nTop 5 jobs:")
     for rank, job in enumerate(jobs[:5], 1):
-        print(f"  {rank}. {job.get('title','N/A')} — {job.get('company','N/A')} [{job.get('source','N/A')}]")
+        print(
+            f"  {rank}. {job.get('title','N/A')} — {job.get('company','N/A')} [{job.get('source','N/A')}]"
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

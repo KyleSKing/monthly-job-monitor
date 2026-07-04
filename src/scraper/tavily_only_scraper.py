@@ -1,4 +1,5 @@
 """Job scraper with Tavily API and 3-tier salary extraction."""
+
 import csv
 import os
 import json
@@ -14,7 +15,9 @@ def parse_csv(csv_path: str) -> list:
     """Read CSV and return company website URLs."""
     urls = []
     if not os.path.isabs(csv_path):
-        csv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), csv_path)
+        csv_path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.dirname(__file__))), csv_path
+        )
     try:
         with open(csv_path, newline="", encoding="utf-8") as f:
             reader = csv.DictReader(f)
@@ -65,9 +68,9 @@ def extract_company_from_url(url: str) -> str:
 def extract_company_from_title(title: str) -> str:
     """Try to extract company name from job title patterns like 'at Company', '- Company'."""
     patterns = [
-        r'(?:at|@|with|at )\s+([A-Z][A-Za-z0-9\s.&]+?)(?:\s*[-–—|]\s*|\s*$)',
-        r'^([A-Z][A-Za-z0-9\s.&]+?)\s*(?:is hiring|hiring|seeking|looking for)',
-        r'[-–—|]\s*([A-Z][A-Za-z0-9\s.&]{2,30}?)\s*$',
+        r"(?:at|@|with|at )\s+([A-Z][A-Za-z0-9\s.&]+?)(?:\s*[-–—|]\s*|\s*$)",
+        r"^([A-Z][A-Za-z0-9\s.&]+?)\s*(?:is hiring|hiring|seeking|looking for)",
+        r"[-–—|]\s*([A-Z][A-Za-z0-9\s.&]{2,30}?)\s*$",
     ]
     for pat in patterns:
         m = re.search(pat, title)
@@ -138,8 +141,8 @@ def format_salary_short(salary: str) -> str:
     if len(salary) < 20:
         return salary
     # Try to compress
-    numbers = re.findall(r'[\d,]+', salary)
-    currency = re.match(r'[¥$£€]', salary)
+    numbers = re.findall(r"[\d,]+", salary)
+    currency = re.match(r"[¥$£€]", salary)
     prefix = currency.group(0) if currency else ""
     if len(numbers) >= 2:
         return f"{prefix}{numbers[0]}-{numbers[1]}"
@@ -166,8 +169,11 @@ def main():
             for company_url in company_urls:
                 job = {
                     "title": f"Various positions at {company_url.split('/')[-1]}",
-                    "company": company_url.split('/')[2]
-                    if "://" in company_url else company_url.split('/')[0],
+                    "company": (
+                        company_url.split("/")[2]
+                        if "://" in company_url
+                        else company_url.split("/")[0]
+                    ),
                     "location": "Beijing",
                     "url": company_url,
                     "description": f"Check {company_url} for available positions.",
@@ -179,7 +185,9 @@ def main():
         else:
             keywords = extract_keywords_from_url(url)
             # Search with salary keywords to improve salary hit rate
-            results = search_jobs(f"{keywords} job Beijing salary compensation", max_results=10)
+            results = search_jobs(
+                f"{keywords} job Beijing salary compensation", max_results=10
+            )
             for r in results:
                 job = build_job(r)
                 all_jobs.append(job)
@@ -191,7 +199,9 @@ def main():
     all_jobs.sort(key=lambda x: x.get("Score", 0), reverse=True)
     top_jobs = all_jobs[:10]
 
-    reports_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "reports"))
+    reports_dir = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "reports")
+    )
     os.makedirs(reports_dir, exist_ok=True)
 
     # ---- Write full jobs.json ----
@@ -213,9 +223,11 @@ def main():
             "salary_range": job.get("salary_range", "N/A"),
             "score": job.get("Score", 0),
             "salary_score": job.get("Score", 0),  # salary component embedded in score
-            "description": (job.get("description", "") or "")[:200] + "..."
-                           if len((job.get("description", "") or "")) > 200
-                           else (job.get("description", "") or ""),
+            "description": (
+                (job.get("description", "") or "")[:200] + "..."
+                if len((job.get("description", "") or "")) > 200
+                else (job.get("description", "") or "")
+            ),
         }
         json_output.append(entry)
 
@@ -234,7 +246,7 @@ def main():
         score = job.get("Score", 0)
         url = job.get("url", "N/A")
         salary = job.get("salary_range", "N/A")
-        desc = (job.get("description", "") or "")
+        desc = job.get("description", "") or ""
 
         # Salary highlight
         if salary and salary != "N/A":

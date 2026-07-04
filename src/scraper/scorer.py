@@ -6,59 +6,142 @@ from typing import List, Dict
 # 匹配标题/岗位描述中可能出现的关键词
 KEYWORDS_TITLE: Dict[str, List[str]] = {
     "security": [
-        "security", "sec", "信息安全", "网络安全", "cyber", "risk", "risk management",
-        "保安", "信息安全工程师", "information security officer", "information security manager",
-        "security analyst", "infosec", "网络安全工程师"
+        "security",
+        "sec",
+        "信息安全",
+        "网络安全",
+        "cyber",
+        "risk",
+        "risk management",
+        "保安",
+        "信息安全工程师",
+        "information security officer",
+        "information security manager",
+        "security analyst",
+        "infosec",
+        "网络安全工程师",
     ],
     "compliance": [
-        "compliance", "合规", "合规专员", "合规经理", "合规总监",
-        "合规审计", "合规岗"
+        "compliance",
+        "合规",
+        "合规专员",
+        "合规经理",
+        "合规总监",
+        "合规审计",
+        "合规岗",
     ],
     "privacy": [
-        "privacy", "个人信息保护", "数据隐私", "gdpr", "privacy officer",
-        "数据安全", "隐私官"
-    ]
+        "privacy",
+        "个人信息保护",
+        "数据隐私",
+        "gdpr",
+        "privacy officer",
+        "数据安全",
+        "隐私官",
+    ],
 }
 
 # 匹配目标公司的权重，按层级划分
 KEYWORDS_COMPANY: Dict[str, List[str]] = {
     "top_tier": [
-        "Tencent", "ByteDance", "Huawei", "ZTE", "China Mobile",
-        "China Telecom", "China Unicom", "Alibaba", "Ant Group",
-        "Ping An", "CICC", "CCB", "Bank of China", "ICBC",
-        "Microsoft", "Google", "Amazon", "Apple", "Intel",
-        "NVIDIA", "Siemens", "BOSCH", "IBM", "Oracle",
-        "Cisco", "SAP", "Adobe", "Salesforce"
+        "Tencent",
+        "ByteDance",
+        "Huawei",
+        "ZTE",
+        "China Mobile",
+        "China Telecom",
+        "China Unicom",
+        "Alibaba",
+        "Ant Group",
+        "Ping An",
+        "CICC",
+        "CCB",
+        "Bank of China",
+        "ICBC",
+        "Microsoft",
+        "Google",
+        "Amazon",
+        "Apple",
+        "Intel",
+        "NVIDIA",
+        "Siemens",
+        "BOSCH",
+        "IBM",
+        "Oracle",
+        "Cisco",
+        "SAP",
+        "Adobe",
+        "Salesforce",
     ],
     "unicorn": [
-        "ByteDance", "SpaceX", "SHEIN", "Stripe", "Klarna",
-        "Canva", "Databricks", "Epic Games", "Chime", "Instacart",
-        "Gusto", "HashiCorp", "Discord", "Reddit", "Palantir"
-    ]
+        "ByteDance",
+        "SpaceX",
+        "SHEIN",
+        "Stripe",
+        "Klarna",
+        "Canva",
+        "Databricks",
+        "Epic Games",
+        "Chime",
+        "Instacart",
+        "Gusto",
+        "HashiCorp",
+        "Discord",
+        "Reddit",
+        "Palantir",
+    ],
 }
 
 # 公司环境、福利关键词（描述中出现的福利/环境词）
 COMPANY_ENV_KEYWORDS: Dict[str, List[str]] = {
     "culture": [
-        "great culture", "amazing culture", "inclusive", "diverse",
-        "work-life balance", "flexible hours", "flat hierarchy",
-        "扁平管理", "年轻团队", "学习氛围"
+        "great culture",
+        "amazing culture",
+        "inclusive",
+        "diverse",
+        "work-life balance",
+        "flexible hours",
+        "flat hierarchy",
+        "扁平管理",
+        "年轻团队",
+        "学习氛围",
     ],
     "benefits": [
-        "stock options", " equity", "rsu", "bonus", "奖金",
-        "health insurance", "medical insurance", "五险一金",
-        "housing fund", "补充医疗", "商业保险", "paid leave",
-        "remote work", "弹性工作", "免费午餐", "下午茶",
-        "gym", "健身房", "education allowance", "培训补贴"
+        "stock options",
+        " equity",
+        "rsu",
+        "bonus",
+        "奖金",
+        "health insurance",
+        "medical insurance",
+        "五险一金",
+        "housing fund",
+        "补充医疗",
+        "商业保险",
+        "paid leave",
+        "remote work",
+        "弹性工作",
+        "免费午餐",
+        "下午茶",
+        "gym",
+        "健身房",
+        "education allowance",
+        "培训补贴",
     ],
     "growth": [
-        "career growth", "career advancement", "learning budget",
-        "job training", "professional development",
-        "技术培训", "晋升空间", "发展机会"
-    ]
+        "career growth",
+        "career advancement",
+        "learning budget",
+        "job training",
+        "professional development",
+        "技术培训",
+        "晋升空间",
+        "发展机会",
+    ],
 }
 
 # ---------- 辅助函数 ----------
+
 
 def _match_keywords(text: str, patterns: List[str]) -> bool:
     """检查文本中是否匹配任意关键词（不区分大小写）"""
@@ -66,6 +149,7 @@ def _match_keywords(text: str, patterns: List[str]) -> bool:
         if re.search(pat, text, re.IGNORECASE):
             return True
     return False
+
 
 def _extract_salary_points(description: str) -> int:
     """
@@ -91,6 +175,7 @@ def _extract_salary_points(description: str) -> int:
         return 1
     return 0
 
+
 def _score_company_env(description: str) -> int:
     """
     根据公司环境、福利关键词给予额外分数（0-2 分）。
@@ -105,13 +190,16 @@ def _score_company_env(description: str) -> int:
         score += 1
 
     # 成长/环境关键词匹配
-    if _match_keywords(text, COMPANY_ENV_KEYWORDS["culture"]) or \
-       _match_keywords(text, COMPANY_ENV_KEYWORDS["growth"]):
+    if _match_keywords(text, COMPANY_ENV_KEYWORDS["culture"]) or _match_keywords(
+        text, COMPANY_ENV_KEYWORDS["growth"]
+    ):
         score += 1
 
     return score
 
+
 # ---------- 评分核心 ----------
+
 
 def score_job(job: dict) -> int:
     """

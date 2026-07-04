@@ -1,4 +1,5 @@
 """Serper (serper.dev) search client — Tier 2 search engine."""
+
 import os
 import requests
 from typing import List, Dict
@@ -14,10 +15,12 @@ class SerperClient:
         self.api_key = api_key or SERPER_API_KEY
         self.max_results = max_results
         self.session = requests.Session()
-        self.session.headers.update({
-            "X-API-KEY": self.api_key,
-            "Content-Type": "application/json",
-        })
+        self.session.headers.update(
+            {
+                "X-API-KEY": self.api_key,
+                "Content-Type": "application/json",
+            }
+        )
 
     def search(self, query: str, limit: int = 0) -> List[Dict]:
         """Search via Serper Google Search API.
@@ -38,12 +41,14 @@ class SerperClient:
             results = data.get("organic", [])
             out = []
             for r in results[:limit]:
-                out.append({
-                    "url": r.get("link", ""),
-                    "title": r.get("title", ""),
-                    "snippet": r.get("snippet", ""),
-                    "position": r.get("position", 0),
-                })
+                out.append(
+                    {
+                        "url": r.get("link", ""),
+                        "title": r.get("title", ""),
+                        "snippet": r.get("snippet", ""),
+                        "position": r.get("position", 0),
+                    }
+                )
             return out
         except Exception as e:
             print(f"[Serper] Search failed for '{query}': {e}")

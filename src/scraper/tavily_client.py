@@ -1,4 +1,5 @@
 """Tavily search client for job fetching and salary extraction."""
+
 import json
 import os
 import re
@@ -47,11 +48,16 @@ class TavilyClient:
             return []
         query = f"{raw_keywords} job Beijing"
         results = self.search(query, limit=3)
-        urls = [r["url"] for r in results if "job" in r.get("url", "").lower() or "career" in r.get("url", "").lower()]
+        urls = [
+            r["url"]
+            for r in results
+            if "job" in r.get("url", "").lower() or "career" in r.get("url", "").lower()
+        ]
         return urls[:2]
 
 
 # --- Legacy functions kept for backward compatibility ---
+
 
 def extract_keywords_from_url(url: str) -> str:
     """Extract keywords from a URL for search."""

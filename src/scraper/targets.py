@@ -3,10 +3,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List
 
+
 @dataclass
 class Target:
     url: str
     parser: str
+
 
 def load_fortune500_targets(csv_path: str = "fortune500.csv") -> List[Target]:
     """

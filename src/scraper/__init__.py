@@ -9,9 +9,13 @@ from .firecrawl_client import FirecrawlClient
 from .parsers import REGISTERED_PARSERS
 
 __all__ = [
-    "load_config", "ScraperConfig",
+    "load_config",
+    "ScraperConfig",
     "PlaywrightScraper",
-    "ExaClient", "JinaClient", "SerperClient",
-    "TavilyClient", "FirecrawlClient",
+    "ExaClient",
+    "JinaClient",
+    "SerperClient",
+    "TavilyClient",
+    "FirecrawlClient",
     "REGISTERED_PARSERS",
 ]
