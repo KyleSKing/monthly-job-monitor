@@ -15,7 +15,8 @@ class APIService {
     
     private init() {
         #if DEBUG
-        self.baseURL = "http://localhost:8000/api"
+        // M3 模拟器验收：临时指向线上 Vercel，确保列表有数据（本地无 output/ 报告）
+        self.baseURL = "https://monthly-job-monitor.vercel.app/api"
         #else
         // Vercel 自动分配的域名格式: https://monthly-job-monitor-yourusername.vercel.app/api
         self.baseURL = "https://monthly-job-monitor.vercel.app/api"
