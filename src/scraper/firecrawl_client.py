@@ -1,4 +1,5 @@
 """Firecrawl client wrapper - Tier 2 content extraction."""
+
 import os
 import requests
 
@@ -37,7 +38,9 @@ class FirecrawlClient:
 
         try:
             resp = self.session.post(
-                FIRECRAWL_API, headers=headers, json=payload,
+                FIRECRAWL_API,
+                headers=headers,
+                json=payload,
                 timeout=8,
             )
             resp.raise_for_status()

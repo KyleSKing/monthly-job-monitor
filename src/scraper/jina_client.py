@@ -4,6 +4,7 @@ Reads a URL and returns clean markdown via Jina's Reader API.
 Usage: GET https://r.jina.ai/http://target-url
 No API key needed for limited usage; set JINA_API_KEY for higher rate limits.
 """
+
 import os
 import requests
 from typing import Optional
@@ -21,11 +22,13 @@ class JinaClient:
         self.session = requests.Session()
         if self.api_key:
             self.session.headers.update({"Authorization": f"Bearer {self.api_key}"})
-        self.session.headers.update({
-            "Accept": "text/markdown",
-            "X-With-Generated-Alt": "true",
-            "X-Return-Format": "markdown",
-        })
+        self.session.headers.update(
+            {
+                "Accept": "text/markdown",
+                "X-With-Generated-Alt": "true",
+                "X-Return-Format": "markdown",
+            }
+        )
 
     def fetch(self, url: str) -> Optional[str]:
         """Fetch a URL and return clean markdown content. Silent on failure."""

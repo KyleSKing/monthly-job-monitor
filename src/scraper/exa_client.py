@@ -1,4 +1,5 @@
 """Exa (exa.ai) search client — Tier 1 primary search engine."""
+
 import os
 import requests
 from typing import List, Dict, Optional
@@ -14,10 +15,12 @@ class ExaClient:
         self.api_key = api_key or EXA_API_KEY
         self.max_results = max_results
         self.session = requests.Session()
-        self.session.headers.update({
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json",
-        })
+        self.session.headers.update(
+            {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+            }
+        )
 
     def search(self, query: str, site: str = "", limit: int = 0) -> List[Dict]:
         """Search Exa for job listings.
@@ -50,13 +53,15 @@ class ExaClient:
             results = data.get("results", data.get("data", []))
             out = []
             for r in results:
-                out.append({
-                    "url": r.get("url", ""),
-                    "title": r.get("title", ""),
-                    "text": r.get("text", r.get("content", "")),
-                    "summary": r.get("summary", ""),
-                    "score": r.get("score", 0.0),
-                })
+                out.append(
+                    {
+                        "url": r.get("url", ""),
+                        "title": r.get("title", ""),
+                        "text": r.get("text", r.get("content", "")),
+                        "summary": r.get("summary", ""),
+                        "score": r.get("score", 0.0),
+                    }
+                )
             return out
         except Exception:
             return []

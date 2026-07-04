@@ -3,4 +3,5 @@
 
 class ScraperError(Exception):
     """Base exception for scraper errors."""
+
     pass

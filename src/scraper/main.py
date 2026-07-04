@@ -9,6 +9,7 @@ Search Tier Strategy:
 Each tier is tried in order. If Tier 1 returns results for a given keyword/site,
 Tier 2 and 3 are skipped for that combo. Results merge and deduplicate at the end.
 """
+
 import concurrent.futures
 import json
 import os
@@ -38,14 +39,23 @@ logger = logging.getLogger(__name__)
 # Tier 1 (Exa) and Tier 2 (Serper) use these; Tier 3 (Tavily) has its own
 JOB_QUERIES = [
     # LinkedIn (English, Beijing + Remote)
-    ("linkedin", "site:linkedin.com/jobs \"security engineer\" Beijing OR remote"),
-    ("linkedin", "site:linkedin.com/jobs \"information security\" Beijing OR remote"),
-    ("linkedin", "site:linkedin.com/jobs \"cyber security\" Beijing OR remote"),
-    ("linkedin", "site:linkedin.com/jobs \"cloud security\" Beijing OR remote"),
-    ("linkedin", "site:linkedin.com/jobs \"data security\" OR \"data protection\" Beijing OR remote"),
-    ("linkedin", "site:linkedin.com/jobs \"data governance\" Beijing OR remote"),
-    ("linkedin", "site:linkedin.com/jobs \"data privacy\" OR \"data compliance\" Beijing OR remote"),
-    ("linkedin", "site:linkedin.com/jobs \"risk management\" OR \"risk analyst\" Beijing OR remote"),
+    ("linkedin", 'site:linkedin.com/jobs "security engineer" Beijing OR remote'),
+    ("linkedin", 'site:linkedin.com/jobs "information security" Beijing OR remote'),
+    ("linkedin", 'site:linkedin.com/jobs "cyber security" Beijing OR remote'),
+    ("linkedin", 'site:linkedin.com/jobs "cloud security" Beijing OR remote'),
+    (
+        "linkedin",
+        'site:linkedin.com/jobs "data security" OR "data protection" Beijing OR remote',
+    ),
+    ("linkedin", 'site:linkedin.com/jobs "data governance" Beijing OR remote'),
+    (
+        "linkedin",
+        'site:linkedin.com/jobs "data privacy" OR "data compliance" Beijing OR remote',
+    ),
+    (
+        "linkedin",
+        'site:linkedin.com/jobs "risk management" OR "risk analyst" Beijing OR remote',
+    ),
     # Zhaopin (Chinese, Beijing/Remote)
     ("zhaopin", "site:zhaopin.com 安全工程师 OR 信息安全 OR 网络安全 北京 OR 远程"),
     ("zhaopin", "site:zhaopin.com 数据安全 OR 数据治理 OR 数据合规 北京 OR 远程"),
@@ -70,14 +80,18 @@ class TieredScraper:
         self.cfg = load_config(config_path)
 
         # Initialize all clients (lazy — only used when needed)
-        self.exa = ExaClient(api_key=self.cfg.exa_api_key, max_results=self.cfg.max_results)
+        self.exa = ExaClient(
+            api_key=self.cfg.exa_api_key, max_results=self.cfg.max_results
+        )
         self.jina = JinaClient(api_key=self.cfg.jina_api_key)
         self.serper = SerperClient(
             api_key=self.cfg.serper_api_key,
             max_results=self.cfg.max_results,
         )
         self.firecrawl = FirecrawlClient(token=self.cfg.firecrawl_token)
-        self.tavily = TavilyClient(api_key=self.cfg.tavily_api_key, max_results=self.cfg.max_results)
+        self.tavily = TavilyClient(
+            api_key=self.cfg.tavily_api_key, max_results=self.cfg.max_results
+        )
         self.playwright = PlaywrightScraper(timeout=self.cfg.timeout * 1000)
 
     # ── Tier 1: Exa + Jina ────────────────────────────────────
@@ -208,25 +222,34 @@ class TieredScraper:
             return []
 
         import csv as csv_module
+
         jobs = []
         try:
             with open(csv_path_resolved, newline="", encoding="utf-8") as f:
                 reader = csv_module.DictReader(f)
                 for row in reader:
-                    company_url = row.get("WebURL") or row.get("url") or row.get("website") or ""
+                    company_url = (
+                        row.get("WebURL") or row.get("url") or row.get("website") or ""
+                    )
                     company_name = row.get("Company") or row.get("company") or ""
                     if company_url:
-                        jobs.append({
-                            "source": "CSV",
-                            "tier": 0,
-                            "title": f"Various positions at {company_name or company_url.split('/')[-1]}",
-                            "company": company_name or company_url.split("/")[2] if "://" in company_url else company_url.split("/")[0],
-                            "location": "Beijing",
-                            "salary": "N/A",
-                            "url": company_url,
-                            "description": f"Check {company_url} for available positions.",
-                            "posted_date": datetime.now().strftime("%Y-%m-%d"),
-                        })
+                        jobs.append(
+                            {
+                                "source": "CSV",
+                                "tier": 0,
+                                "title": f"Various positions at {company_name or company_url.split('/')[-1]}",
+                                "company": (
+                                    company_name or company_url.split("/")[2]
+                                    if "://" in company_url
+                                    else company_url.split("/")[0]
+                                ),
+                                "location": "Beijing",
+                                "salary": "N/A",
+                                "url": company_url,
+                                "description": f"Check {company_url} for available positions.",
+                                "posted_date": datetime.now().strftime("%Y-%m-%d"),
+                            }
+                        )
         except Exception as e:
             logger.error(f"CSV parse error {csv_path}: {e}")
         return jobs
@@ -318,14 +341,19 @@ class TieredScraper:
 
         # Try URL domain
         from urllib.parse import urlparse
+
         try:
             parsed = urlparse(url)
             hostname = parsed.netloc or parsed.path.split("/")[0]
             hostname = hostname.replace("www.", "")
             domain = hostname.split(".")[0] if hostname.count(".") >= 1 else hostname
             known = {
-                "linkedin": "LinkedIn", "zhaopin": "Zhaopin", "51job": "51Job",
-                "liepin": "Liepin", "lagou": "Lagou", "indeed": "Indeed",
+                "linkedin": "LinkedIn",
+                "zhaopin": "Zhaopin",
+                "51job": "51Job",
+                "liepin": "Liepin",
+                "lagou": "Lagou",
+                "indeed": "Indeed",
             }
             return known.get(domain.lower(), domain.capitalize())
         except Exception:
@@ -345,7 +373,8 @@ class TieredScraper:
             return "Shenzhen/Guangzhou"
         # Try regex pattern for location field
         import re
-        m = re.search(r'(?:地点|位置|工作地点|location)[：:]\s*([^，。,\n]+)', content)
+
+        m = re.search(r"(?:地点|位置|工作地点|location)[：:]\s*([^，。,\n]+)", content)
         if m:
             return m.group(1).strip()
         return "Beijing"  # default
@@ -356,10 +385,11 @@ class TieredScraper:
         if not content:
             return "N/A"
         import re
+
         patterns = [
-            r'(?:薪资|工资|月薪|年薪|salary|compensation)[：:]\s*([^，。,\n]{2,30})',
-            r'(¥|$|€|£)?\s*(\d{1,3}(?:,\d{3})*(?:-\d{1,3}(?:,\d{3})?)?)\s*(?:元|K|千|万|w|k|/月|/年)',
-            r'(\d{4,5})\s*(?:元|K)',
+            r"(?:薪资|工资|月薪|年薪|salary|compensation)[：:]\s*([^，。,\n]{2,30})",
+            r"(¥|$|€|£)?\s*(\d{1,3}(?:,\d{3})*(?:-\d{1,3}(?:,\d{3})?)?)\s*(?:元|K|千|万|w|k|/月|/年)",
+            r"(\d{4,5})\s*(?:元|K)",
         ]
         for pat in patterns:
             m = re.search(pat, content, re.IGNORECASE)
@@ -383,8 +413,18 @@ class TieredScraper:
     @staticmethod
     def _filter_location(jobs: List[Dict]) -> List[Dict]:
         """Filter to Beijing & remote only."""
-        keywords = ["beijing", "北京", "remote", "远程", "线上", "异地",
-                    "united states", "nationwide", "remote -", "(remote)"]
+        keywords = [
+            "beijing",
+            "北京",
+            "remote",
+            "远程",
+            "线上",
+            "异地",
+            "united states",
+            "nationwide",
+            "remote -",
+            "(remote)",
+        ]
         filtered = []
         for j in jobs:
             loc = (j.get("location", "") or "").lower()
@@ -436,7 +476,9 @@ def main():
         md += f"- **Company:** {job.get('company', 'N/A')}\n"
         md += f"- **Location:** {job.get('location', 'N/A')}\n"
         md += f"- **Salary:** {job.get('salary', 'N/A')}\n"
-        md += f"- **Source:** {job.get('source', 'N/A')} (Tier {job.get('tier', '?')})\n"
+        md += (
+            f"- **Source:** {job.get('source', 'N/A')} (Tier {job.get('tier', '?')})\n"
+        )
         md += f"- **Score:** {job.get('Score', 0):.1f}\n"
         md += f"- **Apply:** [Job Posting]({job.get('url', '#')})\n\n"
         desc = (job.get("description", "") or "")[:300]

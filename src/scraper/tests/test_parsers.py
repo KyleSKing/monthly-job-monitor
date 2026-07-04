@@ -1,5 +1,11 @@
 import unittest
-from src.scraper.parsers import parse_linkedin, parse_zhaopin, parse_51job, generic_parse
+from src.scraper.parsers import (
+    parse_linkedin,
+    parse_zhaopin,
+    parse_51job,
+    generic_parse,
+)
+
 
 class TestParsers(unittest.TestCase):
     def test_linkedin(self):
@@ -32,7 +38,9 @@ class TestParsers(unittest.TestCase):
         self.assertIn("华为", job["company"])
 
     def test_generic(self):
-        html = "<html><head><title>Generic Job</title></head><body>描述内容</body></html>"
+        html = (
+            "<html><head><title>Generic Job</title></head><body>描述内容</body></html>"
+        )
         job = generic_parse(html)
         self.assertEqual(job["title"], "Generic Job")
         self.assertIn("描述内容", job["description"])

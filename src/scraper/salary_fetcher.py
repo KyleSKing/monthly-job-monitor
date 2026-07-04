@@ -1,4 +1,5 @@
 """Direct HTTP fetcher - replaces Firecrawl with requests + browser headers."""
+
 import os
 import re
 import requests
@@ -54,12 +55,12 @@ def extract_salary_from_text(text: str) -> Optional[str]:
             salary = match.strip().rstrip("/,")
             # Filter out obvious false positives: 4-digit year numbers
             # e.g. "2013" or "2024" without currency prefix
-            if re.match(r'^\d{4}$', salary):
+            if re.match(r"^\d{4}$", salary):
                 continue
             if salary.lower().startswith("20") and len(salary) == 4:
                 continue
             # Filter out "20XX w" where XX are digits (year + 万 character)
-            if re.match(r'^20\d{2}\s*[万wW]', salary):
+            if re.match(r"^20\d{2}\s*[万wW]", salary):
                 continue
             return salary
     return None
@@ -73,7 +74,9 @@ def direct_fetch(url: str, timeout: int = 10) -> Optional[str]:
     if not url or not url.strip():
         return None
     try:
-        resp = requests.get(url.strip(), headers=HEADERS, timeout=timeout, allow_redirects=True)
+        resp = requests.get(
+            url.strip(), headers=HEADERS, timeout=timeout, allow_redirects=True
+        )
         if resp.status_code == 200:
             return resp.text
     except requests.exceptions.Timeout:
@@ -107,6 +110,7 @@ def fetch_salary_range(url: str, tavily_content: str = "") -> str:
 
     # Priority 3: Firecrawl fallback
     from src.scraper.firecrawl_client import scrape as firecrawl_scrape
+
     fc_result = firecrawl_scrape(url, accepted_formats=["text"], timeout=15)
     if fc_result:
         text = fc_result.get("text") or ""
