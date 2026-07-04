@@ -62,3 +62,4 @@ Carthage/Build
 *.bak
 *.backup
 *.old
+__pycache__/
