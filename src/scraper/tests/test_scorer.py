@@ -1,6 +1,7 @@
 import unittest
 from src.scraper.scorer import score_job
 
+
 class TestScorer(unittest.TestCase):
     def test_all_match(self):
         job = {"title": "Security Engineer", "company": "Tencent", "location": "北京"}

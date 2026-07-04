@@ -2,8 +2,8 @@ requests>=2.31
 beautifulsoup4>=4.12
 playwright>=1.40
 PyYAML>=6.0
-flake8
-black
+flake8==7.1.1
+black==24.10.0
 exa-py>=1.0          # Exa search API
 fake-useragent>=1.4
 lxml>=4.9

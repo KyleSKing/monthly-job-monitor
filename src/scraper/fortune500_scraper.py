@@ -8,8 +8,24 @@ from bs4 import BeautifulSoup
 import requests
 
 KEYWORDS = {
-    "title": ["security", "sec", "信息安全", "网络安全", "cyber", "risk", "risk management"],
-    "company": ["Tencent", "Alibaba", "Huawei", "ByteDance", "JD.com", "Microsoft", "Google"],
+    "title": [
+        "security",
+        "sec",
+        "信息安全",
+        "网络安全",
+        "cyber",
+        "risk",
+        "risk management",
+    ],
+    "company": [
+        "Tencent",
+        "Alibaba",
+        "Huawei",
+        "ByteDance",
+        "JD.com",
+        "Microsoft",
+        "Google",
+    ],
     "location": ["北京", "北京/远程", "remote", "线上", "异地"],
 }
 
@@ -47,11 +63,13 @@ class Fortune500Scraper:
             # 构造官网（简单规则）
             website = f"https://{company_name.replace(' ', '').lower()}.com"
             # 保存必要字段
-            companies.append({
-                "Company": company_name,
-                "Website": website,
-                "Keywords": "fortune500, security, engineering"
-            })
+            companies.append(
+                {
+                    "Company": company_name,
+                    "Website": website,
+                    "Keywords": "fortune500, security, engineering",
+                }
+            )
         return companies
 
     def generate_career_urls(self, companies: List[Dict]) -> List[Dict]:
@@ -70,9 +88,11 @@ class Fortune500Scraper:
             writer = csv.DictWriter(f, fieldnames=keys)
             writer.writeheader()
             for c in companies:
-                writer.writerow({
-                    "Company": c.get("Company", ""),
-                    "Website": c.get("Website", ""),
-                    "career_url": c.get("career_url", ""),
-                    "Keywords": c.get("Keywords", "")
-                })
+                writer.writerow(
+                    {
+                        "Company": c.get("Company", ""),
+                        "Website": c.get("Website", ""),
+                        "career_url": c.get("career_url", ""),
+                        "Keywords": c.get("Keywords", ""),
+                    }
+                )

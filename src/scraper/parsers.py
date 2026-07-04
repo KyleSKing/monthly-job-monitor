@@ -4,11 +4,14 @@ from ._exceptions import ScraperError
 
 REGISTERED_PARSERS = {}
 
+
 def register(name):
     def decorator(fn):
         REGISTERED_PARSERS[name] = fn
         return fn
+
     return decorator
+
 
 @register("linkedin")
 def parse_linkedin(html):
@@ -28,6 +31,7 @@ def parse_linkedin(html):
     except Exception as exc:
         raise ScraperError(f"LinkedIn parser failed: {exc}") from exc
 
+
 @register("zhaopin")
 def parse_zhaopin(html):
     soup = BeautifulSoup(html, "html.parser")
@@ -45,6 +49,7 @@ def parse_zhaopin(html):
         }
     except Exception as exc:
         raise ScraperError(f"Zhaopin parser failed: {exc}") from exc
+
 
 @register("51job")
 def parse_51job(html):
@@ -64,6 +69,7 @@ def parse_51job(html):
     except Exception as exc:
         raise ScraperError(f"51job parser failed: {exc}") from exc
 
+
 @register("zhipin")
 def parse_zhipin(html):
     soup = BeautifulSoup(html, "html.parser")
@@ -82,6 +88,7 @@ def parse_zhipin(html):
     except Exception as exc:
         raise ScraperError(f"Boss Zhipin parser failed: {exc}") from exc
 
+
 @register("liepin")
 def parse_liepin(html):
     soup = BeautifulSoup(html, "html.parser")
@@ -99,6 +106,7 @@ def parse_liepin(html):
         }
     except Exception as exc:
         raise ScraperError(f"Liepin parser failed: {exc}") from exc
+
 
 @register("generic")
 def generic_parse(html):
