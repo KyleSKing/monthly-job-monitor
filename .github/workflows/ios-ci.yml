@@ -19,18 +19,29 @@ jobs:
         run: |
           cd mobile-ios
           xcodegen generate
+      - name: Select an available simulator
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available -j | jq -r '[.devices[][] | select(.isAvailable and (.name | contains("iPhone")))][0].udid // empty')
+          if [ -z "$UDID" ]; then
+            echo "No iPhone simulator available on this runner:"
+            xcrun simctl list devices available
+            exit 1
+          fi
+          echo "Using simulator UDID: $UDID"
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
       - name: Build iOS App
         run: |
           cd mobile-ios
           xcodebuild -project JobMonitorApp.xcodeproj \
             -scheme JobMonitorApp \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
+            -destination "platform=iOS Simulator,id=${{ steps.sim.outputs.udid }}" \
             -derivedDataPath ./Build build
       - name: Run Unit Tests
         run: |
           cd mobile-ios
           xcodebuild test -project JobMonitorApp.xcodeproj \
             -scheme JobMonitorApp \
-            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
+            -destination "platform=iOS Simulator,id=${{ steps.sim.outputs.udid }}" \
             -derivedDataPath ./Build
