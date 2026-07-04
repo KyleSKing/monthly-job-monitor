@@ -2,7 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/*.py",
+      "src": "api/jobs.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "api/job.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "api/latest-report.py",
       "use": "@vercel/python"
     }
   ],
