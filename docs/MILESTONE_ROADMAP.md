@@ -15,6 +15,18 @@
 | **M6 – Polish & Release Prep** | **Planned** | App Store readiness | 4 | • Add app icons & launch screen assets<br>• Configure `Fastlane` for build, code-sign, TestFlight upload<br>• Integrate crash-reporting (Sentry/Firebase)<br>• Write release notes & update README<br>• Run final end-to-end CI (including Fastlane) | Fastlane produces a signed `.ipa` and publishes to TestFlight; CI shows all steps **✅** |
 | **M7 – Post-Launch Ops** | **Planned** | Monitoring & feedback | Ongoing | • Set up monitoring dashboards (App Store Connect, Sentry)<br>• Collect user feedback, triage bugs<br>• Plan next feature sprint | Bugs resolved within sprint; roadmap updated in the repo’s `PROJECT.md` |
 
+**Windows Desktop Client** (`desktop-win/`)
+
+Cross-platform companion to the iOS app, built with PySide6 (Qt for Python). Reuses the same REST API — no backend changes.
+
+| Milestone | Status | Goal / Deliverable | Key Tasks | Success Criteria |
+|-----------|--------|-------------------|-----------|-------------------|
+| **W1 – Client Feature Parity** | **Complete** | Desktop client mirroring iOS | • `Job` model aligned with `Job.swift` (incl. legacy `salary` → `salaryRange`)<br>• `APIClient` for `GET /api/latest-report` + CRUD (`POST/PUT/DELETE /api/jobs`)<br>• Job list, score-filter slider, open-URL-to-apply, add/edit/delete UI<br>• Configurable API base URL (`%APPDATA%/JobMonitor/settings.json`) | Client runs on Windows, loads jobs, filters, opens URLs, and performs CRUD; `pytest desktop-win` green (model parsing + request construction) |
+| **W2 – CI Coverage** | **Planned** | Windows client in CI | • Add GitHub Actions workflow running `pytest desktop-win` (headless, no GUI)<br>• Gate PRs to `develop` on it | CI run shows **✅** on the desktop-win test suite |
+| **W3 – Offline & Persistence** | **Planned** | Cache jobs locally for offline use | • Store fetched jobs locally<br>• Load cache when the API is unreachable<br>• Add test for offline fallback | Client displays cached jobs when offline; CI passes offline-mode test |
+| **W4 – Packaging & Release** | **Planned** | Standalone Windows executable | • PyInstaller build (`--onefile --windowed`)<br>• Optional: build the `.exe` in CI and attach as artifact<br>• Document install/run in `desktop-win/README.md` | PyInstaller produces a runnable `dist/JobMonitor.exe` |
+
+
 **How to use this roadmap**
 
 1. Create a GitHub Milestone for each row (M1-M7).
