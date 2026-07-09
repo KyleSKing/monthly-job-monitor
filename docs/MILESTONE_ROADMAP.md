@@ -15,6 +15,11 @@
 | **M6 – Polish & Release Prep** | **Planned** | App Store readiness | 4 | • Add app icons & launch screen assets<br>• Configure `Fastlane` for build, code-sign, TestFlight upload<br>• Integrate crash-reporting (Sentry/Firebase)<br>• Write release notes & update README<br>• Run final end-to-end CI (including Fastlane) | Fastlane produces a signed `.ipa` and publishes to TestFlight; CI shows all steps **✅** |
 | **M7 – Post-Launch Ops** | **Planned** | Monitoring & feedback | Ongoing | • Set up monitoring dashboards (App Store Connect, Sentry)<br>• Collect user feedback, triage bugs<br>• Plan next feature sprint | Bugs resolved within sprint; roadmap updated in the repo’s `PROJECT.md` |
 
+**Windows Desktop Client** (`desktop-win/`)
+
+Cross-platform companion to the iOS app, built with PySide6 (Qt for Python). Reuses the same REST API — no backend changes. Features mirror iOS: job list from `GET /api/latest-report`, score-filter slider, open-URL-to-apply, and CRUD via `POST/PUT/DELETE /api/jobs`. API base URL is configurable and stored in `%APPDATA%/JobMonitor/settings.json`. Unit tests cover model parsing and request construction (no network). Package with PyInstaller for a standalone `.exe`.
+
+
 **How to use this roadmap**
 
 1. Create a GitHub Milestone for each row (M1-M7).
