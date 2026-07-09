@@ -24,6 +24,7 @@ from .api_client import APIClient
 from .job_dialog import JobDialog
 from .models import Job
 from .settings import load_base_url, save_base_url
+from . import cache
 
 
 class FetchThread(QThread):
@@ -127,13 +128,20 @@ class MainWindow(QMainWindow):
     def _on_fetched(self, jobs: list):
         self.jobs = jobs
         self.refresh_btn.setEnabled(True)
+        cache.save_jobs(jobs)
         self._render()
         self.status.setText(f"{len(jobs)} jobs loaded")
 
     def _on_fetch_failed(self, message: str):
         self.refresh_btn.setEnabled(True)
-        self.status.setText(f"Error: {message}")
-        QMessageBox.warning(self, "Load failed", message)
+        cached = cache.load_jobs()
+        if cached:
+            self.jobs = cached
+            self._render()
+            self.status.setText(f"Offline — showing {len(cached)} cached jobs")
+        else:
+            self.status.setText(f"Error: {message}")
+            QMessageBox.warning(self, "Load failed", message)
 
     def _visible_jobs(self) -> list[Job]:
         return [j for j in self.jobs if j.score >= self.min_score]

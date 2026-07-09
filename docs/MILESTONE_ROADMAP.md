@@ -23,8 +23,8 @@ Cross-platform companion to the iOS app, built with PySide6 (Qt for Python). Reu
 |-----------|--------|-------------------|-----------|-------------------|
 | **W1 – Client Feature Parity** | **Complete** | Desktop client mirroring iOS | • `Job` model aligned with `Job.swift` (incl. legacy `salary` → `salaryRange`)<br>• `APIClient` for `GET /api/latest-report` + CRUD (`POST/PUT/DELETE /api/jobs`)<br>• Job list, score-filter slider, open-URL-to-apply, add/edit/delete UI<br>• Configurable API base URL (`%APPDATA%/JobMonitor/settings.json`) | Client runs on Windows, loads jobs, filters, opens URLs, and performs CRUD; `pytest desktop-win` green (model parsing + request construction) |
 | **W2 – CI Coverage** | **Complete** | Windows client in CI | • Add GitHub Actions workflow running `pytest desktop-win` (headless, no GUI)<br>• Gate PRs to `develop` on it | CI run shows **✅** on the desktop-win test suite |
-| **W3 – Offline & Persistence** | **Planned** | Cache jobs locally for offline use | • Store fetched jobs locally<br>• Load cache when the API is unreachable<br>• Add test for offline fallback | Client displays cached jobs when offline; CI passes offline-mode test |
-| **W4 – Packaging & Release** | **Planned** | Standalone Windows executable | • PyInstaller build (`--onefile --windowed`)<br>• Optional: build the `.exe` in CI and attach as artifact<br>• Document install/run in `desktop-win/README.md` | PyInstaller produces a runnable `dist/JobMonitor.exe` |
+| **W3 – Offline & Persistence** | **Complete** | Cache jobs locally for offline use | • Store fetched jobs locally (`%APPDATA%/JobMonitor/jobs_cache.json`)<br>• Load cache when the API is unreachable<br>• Add test for offline fallback | Client displays cached jobs when offline; CI passes offline-mode test |
+| **W4 – Packaging & Release** | **Complete** | Standalone Windows executable | • PyInstaller spec (`JobMonitor.spec`, windowed)<br>• Document install/run in `desktop-win/README.md` | `pyinstaller JobMonitor.spec` produces a runnable `dist/JobMonitor.exe` |
 
 
 **How to use this roadmap**
