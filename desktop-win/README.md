@@ -14,6 +14,7 @@ are required.
 - **Score filter** — slider filters jobs by `score >= minScore` (same rule as iOS).
 - **Apply** — opens the selected job's URL in the default browser (double-click a row).
 - **CRUD** — add / edit / delete jobs via `POST` / `PUT` / `DELETE /api/jobs`.
+- **Offline cache** — the last successful fetch is cached to `%APPDATA%/JobMonitor/jobs_cache.json`; if the API is unreachable, the client shows the cached jobs.
 - **Settings** — configure the API base URL (stored in `%APPDATA%/JobMonitor/settings.json`).
 
 ## Run
@@ -40,7 +41,7 @@ request construction — no network required.
 
 ```bash
 pip install pyinstaller
-pyinstaller --onefile --windowed --name JobMonitor job_monitor/app.py
+pyinstaller JobMonitor.spec
 ```
 
-Produces `dist/JobMonitor.exe`.
+Produces `dist/JobMonitor.exe` (standalone, windowed).
