@@ -1,0 +1,28 @@
+name: Desktop Windows CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - "desktop-win/**"
+      - ".github/workflows/desktop-win-ci.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install test dependencies
+        run: pip install requests pytest
+
+      - name: Run tests
+        working-directory: desktop-win
+        run: python -m pytest -q
