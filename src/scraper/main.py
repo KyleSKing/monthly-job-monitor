@@ -467,6 +467,11 @@ def main():
         json.dump(jobs, f, ensure_ascii=False, indent=2)
     print(f"\nAll jobs saved to {output_path}")
 
+    # Monthly markdown report (recruitment_report_YYYY-MM.md) for humans
+    from src.main import generate_report
+
+    generate_report(jobs, output_dir=reports_dir)
+
     # Top 10 markdown
     top10 = jobs[:10]
     md = "# 🔥 Top 10 Jobs (3-Tier Scraper)\n\n"
