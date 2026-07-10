@@ -458,8 +458,9 @@ def main():
         print(f"   Score: {job.get('Score', 0):.1f}")
         print(f"   URL: {job.get('url', '#')}")
 
-    # Save reports
-    reports_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "reports")
+    # Save reports (repo-root/reports, what the API + clients read)
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    reports_dir = os.path.join(project_root, "reports")
     os.makedirs(reports_dir, exist_ok=True)
 
     output_path = os.path.join(reports_dir, "jobs.json")
