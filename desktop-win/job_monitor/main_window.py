@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import subprocess
+import sys
 import webbrowser
+from pathlib import Path
 
 from PySide6.QtCore import Qt, QThread, Signal
 from PySide6.QtWidgets import (
@@ -44,6 +47,34 @@ class FetchThread(QThread):
             self.failed.emit(str(exc))
 
 
+class CrawlThread(QThread):
+    """Run the crawler (src.scraper.main) as a subprocess off the UI thread.
+
+    The crawler writes reports/jobs.json, which the API/app reads.
+    """
+
+    done = Signal()
+    failed = Signal(str)
+
+    def run(self):
+        # desktop-win/job_monitor/main_window.py -> project root is two levels up
+        project_root = Path(__file__).resolve().parents[2]
+        try:
+            result = subprocess.run(
+                [sys.executable, "-m", "src.scraper.main"],
+                cwd=str(project_root),
+                capture_output=True,
+                text=True,
+            )
+        except Exception as exc:  # noqa: BLE001 - surface any launch error
+            self.failed.emit(str(exc))
+            return
+        if result.returncode != 0:
+            self.failed.emit(result.stderr.strip() or "Crawler exited with an error")
+        else:
+            self.done.emit()
+
+
 class MainWindow(QMainWindow):
     COLUMNS = ["Score", "Title", "Company", "Location", "Salary"]
 
@@ -56,6 +87,7 @@ class MainWindow(QMainWindow):
         self.jobs: list[Job] = []
         self.min_score = 0
         self._thread: FetchThread | None = None
+        self._crawl_thread: CrawlThread | None = None
 
         self._build_ui()
         self.refresh()
@@ -67,12 +99,14 @@ class MainWindow(QMainWindow):
         # Toolbar
         toolbar = QHBoxLayout()
         self.refresh_btn = QPushButton("Refresh")
+        self.crawl_btn = QPushButton("Crawl Now")
         self.add_btn = QPushButton("Add")
         self.edit_btn = QPushButton("Edit")
         self.delete_btn = QPushButton("Delete")
         self.apply_btn = QPushButton("Apply (open URL)")
         self.settings_btn = QPushButton("Settings")
         self.refresh_btn.clicked.connect(self.refresh)
+        self.crawl_btn.clicked.connect(self.crawl_now)
         self.add_btn.clicked.connect(self.add_job)
         self.edit_btn.clicked.connect(self.edit_job)
         self.delete_btn.clicked.connect(self.delete_job)
@@ -80,6 +114,7 @@ class MainWindow(QMainWindow):
         self.settings_btn.clicked.connect(self.edit_settings)
         for btn in (
             self.refresh_btn,
+            self.crawl_btn,
             self.add_btn,
             self.edit_btn,
             self.delete_btn,
@@ -142,6 +177,26 @@ class MainWindow(QMainWindow):
         else:
             self.status.setText(f"Error: {message}")
             QMessageBox.warning(self, "Load failed", message)
+
+    def crawl_now(self):
+        self.status.setText("Crawling… this may take a few minutes")
+        self.crawl_btn.setEnabled(False)
+        self.refresh_btn.setEnabled(False)
+        self._crawl_thread = CrawlThread()
+        self._crawl_thread.done.connect(self._on_crawl_done)
+        self._crawl_thread.failed.connect(self._on_crawl_failed)
+        self._crawl_thread.start()
+
+    def _on_crawl_done(self):
+        self.crawl_btn.setEnabled(True)
+        self.status.setText("Crawl finished — refreshing")
+        self.refresh()
+
+    def _on_crawl_failed(self, message: str):
+        self.crawl_btn.setEnabled(True)
+        self.refresh_btn.setEnabled(True)
+        self.status.setText(f"Crawl failed: {message}")
+        QMessageBox.warning(self, "Crawl failed", message)
 
     def _visible_jobs(self) -> list[Job]:
         return [j for j in self.jobs if j.score >= self.min_score]
