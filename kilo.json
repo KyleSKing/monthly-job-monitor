@@ -23,7 +23,8 @@
   "instructions": [
     "AGENTS.md",
     "SOUL.md",
-    "USER.md"
+    "USER.md",
+    "CLAUDE.md"
   ],
   "permission": {
     "codegraph_*": "allow"
