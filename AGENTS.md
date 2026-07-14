@@ -37,6 +37,9 @@
 - Exception — delivery data: `reports/` (e.g. `jobs.json`, `top10.md`, monthly
   reports) IS tracked on purpose. It is the data source the API/Vercel serve to
   the web and desktop clients, so it is delivery, not a throwaway artifact.
+- Tracked delivery data is only updated by the authoritative flow (the GitHub
+  Actions scrape). A local/manual scraper run is still a local artifact — don't
+  commit its `reports/` output; `git restore reports/` to discard it.
 - If unsure whether something is a local artifact or delivery, ask before
   untracking — removing delivery data breaks the scraper → git → API → client
   chain.
