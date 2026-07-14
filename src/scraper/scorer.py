@@ -42,39 +42,48 @@ KEYWORDS_TITLE: Dict[str, List[str]] = {
 }
 
 # 匹配目标公司的权重，按层级划分
+# 层级分值：foreign_tech / cn_tech_giant = 4，foreign_traditional = 3，
+#           state_owned = 2，unicorn = 1（见 score_job 中的 COMPANY_TIER_POINTS）
 KEYWORDS_COMPANY: Dict[str, List[str]] = {
-    "top_tier": [
-        "Tencent",
-        "ByteDance",
-        "Huawei",
-        "ZTE",
-        "China Mobile",
-        "China Telecom",
-        "China Unicom",
-        "Alibaba",
-        "Ant Group",
-        "Ping An",
-        "CICC",
-        "CCB",
-        "Bank of China",
-        "ICBC",
+    # 外企 500 强科技行业 + 中国民营科技巨头（最高档）
+    "foreign_tech": [
         "Microsoft",
         "Google",
         "Amazon",
         "Apple",
         "Intel",
         "NVIDIA",
-        "Siemens",
-        "BOSCH",
         "IBM",
         "Oracle",
         "Cisco",
         "SAP",
         "Adobe",
         "Salesforce",
-    ],
-    "unicorn": [
+        "Tencent",
+        "Alibaba",
         "ByteDance",
+        "Huawei",
+        "Ant Group",
+        "ZTE",
+    ],
+    # 外企 500 强传统行业
+    "foreign_traditional": [
+        "Siemens",
+        "BOSCH",
+    ],
+    # 央企
+    "state_owned": [
+        "China Mobile",
+        "China Telecom",
+        "China Unicom",
+        "ICBC",
+        "CCB",
+        "Bank of China",
+        "CICC",
+        "Ping An",
+    ],
+    # 独角兽企业
+    "unicorn": [
         "SpaceX",
         "SHEIN",
         "Stripe",
@@ -90,6 +99,14 @@ KEYWORDS_COMPANY: Dict[str, List[str]] = {
         "Reddit",
         "Palantir",
     ],
+}
+
+# 公司层级 -> 分值（按用户权重：外企科技/民营科技巨头 > 外企传统 > 央企 > 独角兽）
+COMPANY_TIER_POINTS: Dict[str, int] = {
+    "foreign_tech": 4,
+    "foreign_traditional": 3,
+    "state_owned": 2,
+    "unicorn": 1,
 }
 
 # 公司环境、福利关键词（描述中出现的福利/环境词）
@@ -151,27 +168,57 @@ def _match_keywords(text: str, patterns: List[str]) -> bool:
     return False
 
 
-def _extract_salary_points(description: str) -> int:
-    """
-    从岗位描述中提取薪资信息并映射为分数（0-3 分）。
-    支持「¥50k」「50K」「月薪50k」「年薪80w」等多种写法。
-    """
-    desc_upper = description.upper()
-    nums = re.findall(r"\d+\.?\d*", desc_upper)
+def _salary_to_wan_per_month(salary: str) -> float | None:
+    """将 salary 字段归一化为「万元/月」。
 
+    salary 字段来自 main.py 的 _extract_salary，形如 "6000-12000元"、
+    "14-28万/年"、"3 w"、"25000"、"N/A"。尽力解析，无法可靠解析时返回 None。
+    区间取下限（保守估计）。
+    """
+    if not salary or "N/A" in salary:
+        return None
+
+    text = salary.replace(",", "").lower()
+    nums = re.findall(r"\d+\.?\d*", text)
     if not nums:
-        return 0
-
+        return None
     try:
-        salary_val = float(nums[0])
+        low = float(nums[0])
     except ValueError:
-        return 0
+        return None
 
-    if salary_val >= 50:
+    is_yearly = "/年" in text or "年薪" in salary
+    if "万" in text or "w" in text:
+        wan = low
+    elif "元" in text or low >= 1000:
+        # 以「元」计的月薪（或裸数字如 25000）
+        wan = low / 10000.0
+    elif "k" in text or "千" in text:
+        wan = low / 10.0
+    else:
+        # 无单位的小数字，无法可靠判断
+        return None
+
+    if is_yearly:
+        wan = wan / 12.0
+    return wan
+
+
+def _score_salary_points(salary: str) -> int:
+    """按「万元/月」分档给分（0-4 分）。
+
+    >=5 万 -> 4；3.5-5 万 -> 3；2-3.5 万 -> 2；1-2 万 -> 1；其余/无法解析 -> 0。
+    """
+    wan = _salary_to_wan_per_month(salary)
+    if wan is None:
+        return 0
+    if wan >= 5:
+        return 4
+    if wan >= 3.5:
         return 3
-    if 30 <= salary_val < 50:
+    if wan >= 2:
         return 2
-    if 10 <= salary_val < 30:
+    if wan >= 1:
         return 1
     return 0
 
@@ -219,24 +266,25 @@ def score_job(job: dict) -> int:
     company = job.get("company", "")
     location = job.get("location", "")
     description = job.get("description", "")
+    salary = job.get("salary", "")
 
     # ---- 1. 标题关键词 ----
     for cat, patterns in KEYWORDS_TITLE.items():
         if _match_keywords(title, patterns):
             score += 2 if cat == "security" else 1
 
-    # ---- 2. 公司匹配 ----
-    if _match_keywords(company, KEYWORDS_COMPANY["top_tier"]):
-        score += 2
-    elif _match_keywords(company, KEYWORDS_COMPANY["unicorn"]):
-        score += 1
+    # ---- 2. 公司匹配（按层级取最高档，不叠加）----
+    for tier, points in COMPANY_TIER_POINTS.items():
+        if _match_keywords(company, KEYWORDS_COMPANY[tier]):
+            score += points
+            break
 
     # ---- 3. 地点匹配 ----
     if _match_keywords(location, ["beijing", "北京", "remote", "远程", "线上", "异地"]):
         score += 1
 
     # ---- 4. 薪资加分 ----
-    salary_points = _extract_salary_points(description)
+    salary_points = _score_salary_points(salary)
     score += salary_points
 
     # ---- 5. 公司环境与福利 ----
