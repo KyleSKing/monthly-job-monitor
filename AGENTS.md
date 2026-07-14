@@ -46,7 +46,7 @@
 
 ## Goal-Driven Execution
 
-- Define success criteria. Loop until verified.
+- Define success criteria first, then loop until verified (see Loop Engineering).
 - Transform tasks into verifiable goals:
   - "Add validation" → "Write tests for invalid inputs, then make them pass"
   - "Fix the bug" → "Write a test that reproduces it, then make it pass"
@@ -57,6 +57,40 @@
   2. [Step] → verify: [check]
   3. [Step] → verify: [check]
   ```
+
+## Loop Engineering
+
+How to actually run the verify-loop that Goal-Driven Execution sets up.
+
+### Iterate in small steps
+
+- One verifiable goal per loop turn. Make the smallest change that could pass
+  the check, then verify — don't batch many changes before the first check.
+- Prefer fast, narrow verification (one test, one command) over slow full runs
+  while iterating; run the broad check once at the end.
+
+### Verification is the gate, not judgment
+
+- A turn is "done" only when an automated check confirms it: a test passes, a
+  command exits 0, output matches expectation. Not "looks right to me."
+- Write the check before or alongside the change (repro test, assertion, script).
+- Report the actual result — if a check fails or was skipped, say so with output;
+  don't claim done on an unverified step.
+
+### Stop and anti-spin conditions
+
+- Stop the moment success criteria are met — don't keep polishing.
+- If a turn makes no progress, do NOT retry the same thing. After ~2 no-progress
+  turns, stop and surface: what's blocking, what you tried, what you need.
+- Never loop indefinitely on a failing check. Diagnose the root cause or ask;
+  a sleep-retry loop is not a fix.
+
+### Loop context management
+
+- Track state across turns (a short plan/todo list): what's done, in progress,
+  and left — so you don't repeat finished work or drop a thread.
+- Carry forward what you learned each turn (the failing assertion, the file you
+  found) instead of re-deriving it.
 
 ## CodeGraph Usage
 
