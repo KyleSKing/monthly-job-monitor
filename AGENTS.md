@@ -28,6 +28,19 @@
 - When your changes create orphans: remove imports/variables/functions that YOUR changes made unused. Don't remove pre-existing dead code unless asked.
 - Every changed line should trace directly to the user's request.
 
+## Dev vs Artifacts
+
+- Separate source from generated output. Local build/run products are not
+  tracked in git: `__pycache__/`, `*.pyc`, `.pytest_cache/`, `dist/`, `build/`,
+  `*.egg-info/`, virtualenvs, `*.exe`. Add such products to `.gitignore`, don't
+  commit them.
+- Exception — delivery data: `reports/` (e.g. `jobs.json`, `top10.md`, monthly
+  reports) IS tracked on purpose. It is the data source the API/Vercel serve to
+  the web and desktop clients, so it is delivery, not a throwaway artifact.
+- If unsure whether something is a local artifact or delivery, ask before
+  untracking — removing delivery data breaks the scraper → git → API → client
+  chain.
+
 ## Goal-Driven Execution
 
 - Define success criteria. Loop until verified.

@@ -27,6 +27,24 @@ python -m job_monitor.app
 
 Default API base URL: `https://monthly-job-monitor.vercel.app/api` (same as iOS).
 
+### Crawl Now
+
+The **Crawl Now** button runs the repo scraper (`python -m src.scraper.main`)
+from the project root — it is not bundled. To use it, run the app from the
+source tree with the scraper's environment ready:
+
+```bash
+# from the repo root, once
+pip install -r requirements.txt
+python -m playwright install chromium
+# API keys via env vars or config.yaml: TAVILY_API_KEY / EXA_API_KEY / etc.
+```
+
+Browsing (list, Top Picks, filter, Apply, CRUD) works with only
+`pip install -r desktop-win/requirements.txt` — no scraper env needed, since
+data is read from the API.
+
+
 ## Test
 
 ```bash
@@ -44,4 +62,6 @@ pip install pyinstaller
 pyinstaller JobMonitor.spec
 ```
 
-Produces `dist/JobMonitor.exe` (standalone, windowed).
+Produces `dist/JobMonitor.exe` (standalone, windowed). Note: a packaged exe
+covers browsing only; **Crawl Now** won't work in it (the scraper isn't bundled).
+For crawling, run from source as above.

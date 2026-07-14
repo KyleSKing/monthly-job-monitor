@@ -63,3 +63,14 @@ Carthage/Build
 *.backup
 *.old
 __pycache__/
+
+# Python / packaging local artifacts (dev-vs-artifacts separation)
+# Local build products are not tracked; delivery data (reports/) is tracked
+# on purpose as the API data source. See AGENTS.md "Dev vs Artifacts".
+*.pyc
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+dist/
+
