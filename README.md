@@ -46,6 +46,20 @@ cd src
 python main.py
 ```
 
+## Desktop App (Windows)
+
+A PySide6 desktop client to browse scraped jobs, view Top Picks, filter by
+score, and apply. It reads the same API as the iOS app.
+
+```bash
+cd desktop-win
+pip install -r requirements.txt
+python -m job_monitor.app
+```
+
+Browsing needs no scraper setup. The **Crawl Now** button additionally
+requires the scraper environment (see [desktop-win/README.md](desktop-win/README.md)).
+
 ## Configuration
 
 ### Email Settings
