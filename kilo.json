@@ -1,0 +1,32 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "model": "deepseek/deepseek-v4-flash",
+  "small_model": "openrouter/free",
+  "provider": {
+    "openrouter": {
+      "options": {
+        "baseURL": "https://openrouter.ai/api"
+      },
+      "models": {
+        "deepseek/deepseek-v4-flash": { "name": "DeepSeek V4 Flash" },
+        "openrouter/free": { "name": "OpenRouter Free" },
+        "xiaomi/mimo-v2.5": { "name": "Xiaomi Mimo V2.5" }
+      }
+    }
+  },
+  "skills": {
+    "paths": [
+      ".kilo/skills",
+      "C:/Users/orale/.claude/skills"
+    ]
+  },
+  "instructions": [
+    "AGENTS.md",
+    "SOUL.md",
+    "USER.md",
+    "CLAUDE.md"
+  ],
+  "permission": {
+    "codegraph_*": "allow"
+  }
+}
