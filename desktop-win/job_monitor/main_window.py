@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
     QSlider,
     QTableWidget,
     QTableWidgetItem,
+    QTabWidget,
     QVBoxLayout,
     QWidget,
 )
@@ -77,6 +78,7 @@ class CrawlThread(QThread):
 
 class MainWindow(QMainWindow):
     COLUMNS = ["Score", "Title", "Company", "Location", "Salary"]
+    TOP_N = 10
 
     def __init__(self):
         super().__init__()
@@ -125,7 +127,7 @@ class MainWindow(QMainWindow):
         toolbar.addWidget(self.settings_btn)
         layout.addLayout(toolbar)
 
-        # Score filter
+        # Score filter (All Jobs tab)
         filter_row = QHBoxLayout()
         self.score_label = QLabel("Minimum Score: 0")
         self.slider = QSlider(Qt.Horizontal)
@@ -133,22 +135,43 @@ class MainWindow(QMainWindow):
         self.slider.valueChanged.connect(self._on_score_changed)
         filter_row.addWidget(self.score_label)
         filter_row.addWidget(self.slider)
-        layout.addLayout(filter_row)
 
-        # Table
-        self.table = QTableWidget(0, len(self.COLUMNS))
-        self.table.setHorizontalHeaderLabels(self.COLUMNS)
-        self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.table.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        # All Jobs tab: filter + table
+        self.table = self._make_table()
         self.table.doubleClicked.connect(self.apply_job)
-        self.table.horizontalHeader().setStretchLastSection(True)
-        layout.addWidget(self.table)
+        all_tab = QWidget()
+        all_layout = QVBoxLayout(all_tab)
+        all_layout.addLayout(filter_row)
+        all_layout.addWidget(self.table)
+
+        # Top Picks tab: highest-scoring jobs, read-only
+        self.top_table = self._make_table()
+        self.top_table.doubleClicked.connect(self.apply_job)
+        top_tab = QWidget()
+        top_layout = QVBoxLayout(top_tab)
+        top_layout.addWidget(
+            QLabel(f"Top {self.TOP_N} jobs by score")
+        )
+        top_layout.addWidget(self.top_table)
+
+        self.tabs = QTabWidget()
+        self.tabs.addTab(all_tab, "All Jobs")
+        self.tabs.addTab(top_tab, "Top Picks")
+        layout.addWidget(self.tabs)
 
         self.status = QLabel("")
         layout.addWidget(self.status)
 
         self.setCentralWidget(central)
+
+    def _make_table(self) -> QTableWidget:
+        table = QTableWidget(0, len(self.COLUMNS))
+        table.setHorizontalHeaderLabels(self.COLUMNS)
+        table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        table.setSelectionMode(QAbstractItemView.SingleSelection)
+        table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        table.horizontalHeader().setStretchLastSection(True)
+        return table
 
     # --- data ---
 
@@ -201,10 +224,18 @@ class MainWindow(QMainWindow):
     def _visible_jobs(self) -> list[Job]:
         return [j for j in self.jobs if j.score >= self.min_score]
 
+    def _top_jobs(self) -> list[Job]:
+        # Backend already sorts by score (descending) in the report/API.
+        # The frontend only slices — it must not re-sort or re-score.
+        return self.jobs[: self.TOP_N]
+
     def _render(self):
-        visible = self._visible_jobs()
-        self.table.setRowCount(len(visible))
-        for row, job in enumerate(visible):
+        self._fill_table(self.table, self._visible_jobs())
+        self._fill_table(self.top_table, self._top_jobs())
+
+    def _fill_table(self, table: QTableWidget, jobs: list[Job]):
+        table.setRowCount(len(jobs))
+        for row, job in enumerate(jobs):
             values = [
                 str(job.score),
                 job.title,
@@ -213,13 +244,16 @@ class MainWindow(QMainWindow):
                 job.salary_range or "",
             ]
             for col, value in enumerate(values):
-                self.table.setItem(row, col, QTableWidgetItem(value))
+                table.setItem(row, col, QTableWidgetItem(value))
 
     def _selected_job(self) -> Job | None:
-        row = self.table.currentRow()
-        visible = self._visible_jobs()
-        if 0 <= row < len(visible):
-            return visible[row]
+        if self.tabs.currentIndex() == 1:
+            table, jobs = self.top_table, self._top_jobs()
+        else:
+            table, jobs = self.table, self._visible_jobs()
+        row = table.currentRow()
+        if 0 <= row < len(jobs):
+            return jobs[row]
         return None
 
     def _on_score_changed(self, value: int):
