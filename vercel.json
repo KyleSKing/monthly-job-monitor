@@ -12,6 +12,14 @@
     {
       "src": "api/latest-report.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "api/rescrape.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -26,6 +34,14 @@
     {
       "src": "/api/latest-report",
       "dest": "/api/latest-report.py"
+    },
+    {
+      "src": "/api/rescrape",
+      "dest": "/api/rescrape.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
     }
   ]
 }

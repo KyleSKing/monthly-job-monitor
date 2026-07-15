@@ -38,38 +38,40 @@ logger = logging.getLogger(__name__)
 # ── Site-specific search queries ──────────────────────────────────────
 # Tier 1 (Exa) and Tier 2 (Serper) use these; Tier 3 (Tavily) has its own
 JOB_QUERIES = [
-    # LinkedIn (English, Beijing + Remote)
-    ("linkedin", 'site:linkedin.com/jobs "security engineer" Beijing OR remote'),
+    # LinkedIn (English, Beijing + Remote) — 重心:信息安全合规/数据合规/隐私
+    (
+        "linkedin",
+        'site:linkedin.com/jobs "security compliance" OR "IT compliance" Beijing OR remote',
+    ),
+    (
+        "linkedin",
+        'site:linkedin.com/jobs "data compliance" OR "data governance" Beijing OR remote',
+    ),
+    (
+        "linkedin",
+        'site:linkedin.com/jobs "data privacy" OR "privacy officer" OR GDPR Beijing OR remote',
+    ),
+    (
+        "linkedin",
+        'site:linkedin.com/jobs "GRC" OR "information security compliance" Beijing OR remote',
+    ),
     ("linkedin", 'site:linkedin.com/jobs "information security" Beijing OR remote'),
-    ("linkedin", 'site:linkedin.com/jobs "cyber security" Beijing OR remote'),
-    ("linkedin", 'site:linkedin.com/jobs "cloud security" Beijing OR remote'),
-    (
-        "linkedin",
-        'site:linkedin.com/jobs "data security" OR "data protection" Beijing OR remote',
-    ),
-    ("linkedin", 'site:linkedin.com/jobs "data governance" Beijing OR remote'),
-    (
-        "linkedin",
-        'site:linkedin.com/jobs "data privacy" OR "data compliance" Beijing OR remote',
-    ),
-    (
-        "linkedin",
-        'site:linkedin.com/jobs "risk management" OR "risk analyst" Beijing OR remote',
-    ),
     # Zhaopin (Chinese, Beijing/Remote)
-    ("zhaopin", "site:zhaopin.com 安全工程师 OR 信息安全 OR 网络安全 北京 OR 远程"),
-    ("zhaopin", "site:zhaopin.com 数据安全 OR 数据治理 OR 数据合规 北京 OR 远程"),
-    ("zhaopin", "site:zhaopin.com 风险管理 OR 风控 OR 隐私保护 北京 OR 远程"),
+    (
+        "zhaopin",
+        "site:zhaopin.com 信息安全合规 OR 数据合规 OR 网络安全合规 北京 OR 远程",
+    ),
+    ("zhaopin", "site:zhaopin.com 数据安全 OR 数据治理 OR 个人信息保护 北京 OR 远程"),
+    ("zhaopin", "site:zhaopin.com 合规经理 OR 等保 OR 隐私合规 北京 OR 远程"),
     # 51Job
-    ("51job", "site:51job.com 安全工程师 OR 信息安全 OR 网络安全 北京 OR 远程"),
-    ("51job", "site:51job.com 数据安全 OR 数据治理 OR 数据合规 北京 OR 远程"),
-    ("51job", "site:51job.com 风险管理 OR 风控 OR 隐私保护 北京 OR 远程"),
+    ("51job", "site:51job.com 信息安全合规 OR 数据合规 OR 网络安全合规 北京 OR 远程"),
+    ("51job", "site:51job.com 数据安全 OR 个人信息保护 OR 隐私合规 北京 OR 远程"),
     # Liepin
-    ("liepin", "site:liepin.com 安全工程师 OR 信息安全 OR 数据安全 北京 OR 远程"),
-    ("liepin", "site:liepin.com 数据治理 OR 数据合规 OR 风险管理 北京 OR 远程"),
+    ("liepin", "site:liepin.com 信息安全合规 OR 数据合规 OR 数据安全 北京 OR 远程"),
+    ("liepin", "site:liepin.com 数据治理 OR 个人信息保护 OR 等保 北京 OR 远程"),
     # Lagou
-    ("lagou", "site:lagou.com 安全工程师 OR 信息安全 OR 数据安全 北京 OR 远程"),
-    ("lagou", "site:lagou.com 数据合规 OR 风险管理 OR 风控 北京 OR 远程"),
+    ("lagou", "site:lagou.com 信息安全合规 OR 数据合规 OR 数据安全 北京 OR 远程"),
+    ("lagou", "site:lagou.com 数据治理 OR 隐私合规 OR 个人信息保护 北京 OR 远程"),
 ]
 
 

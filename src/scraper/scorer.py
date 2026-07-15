@@ -5,31 +5,27 @@ from typing import List, Dict
 
 # 匹配标题/岗位描述中可能出现的关键词
 KEYWORDS_TITLE: Dict[str, List[str]] = {
-    "security": [
-        "security",
-        "sec",
-        "信息安全",
-        "网络安全",
-        "cyber",
-        "risk",
-        "risk management",
-        "保安",
-        "信息安全工程师",
-        "information security officer",
-        "information security manager",
-        "security analyst",
-        "infosec",
-        "网络安全工程师",
-    ],
+    # 信息安全合规（重点方向，权重最高）
     "compliance": [
         "compliance",
         "合规",
+        "信息安全合规",
+        "数据合规",
+        "网络安全合规",
+        "security compliance",
+        "data compliance",
+        "it compliance",
+        "grc",
+        "等保",
+        "等级保护",
         "合规专员",
         "合规经理",
         "合规总监",
-        "合规审计",
         "合规岗",
+        "iso 27001",
+        "soc 2",
     ],
+    # 数据隐私 / 个人信息保护（信息安全合规核心）
     "privacy": [
         "privacy",
         "个人信息保护",
@@ -38,8 +34,57 @@ KEYWORDS_TITLE: Dict[str, List[str]] = {
         "privacy officer",
         "数据安全",
         "隐私官",
+        "dpo",
+        "data protection officer",
+        "个保法",
+        "隐私合规",
+    ],
+    # 安全技术（保留核心，降权）
+    "security": [
+        "security",
+        "信息安全",
+        "网络安全",
+        "cyber",
+        "risk",
+        "risk management",
+        "信息安全工程师",
+        "information security officer",
+        "information security manager",
+        "security analyst",
+        "infosec",
+        "网络安全工程师",
     ],
 }
+
+# 标题关键词分值（信息安全合规 > 隐私 > 安全技术）
+TITLE_POINTS: Dict[str, int] = {
+    "compliance": 3,
+    "privacy": 2,
+    "security": 1,
+}
+
+# 护栏：非 IT 信息安全方向的岗位（法务/律师/审计会计/财务税务等），
+# 命中则标题不加分，防止"合规"漂移成法务、律师、财务合规等非技术岗位。
+EXCLUDE_TITLE: List[str] = [
+    "lawyer",
+    "attorney",
+    "legal counsel",
+    "律师",
+    "法务",
+    "法律顾问",
+    "auditor",
+    "accountant",
+    "会计",
+    "审计",
+    "税务",
+    "tax",
+    "财务合规",
+    "sales",
+    "销售",
+    "marketing",
+    "市场营销",
+]
+
 
 # 匹配目标公司的权重，按层级划分
 # 层级分值：foreign_tech / cn_tech_giant = 4，foreign_traditional = 3，
@@ -269,9 +314,12 @@ def score_job(job: dict) -> int:
     salary = job.get("salary", "")
 
     # ---- 1. 标题关键词 ----
-    for cat, patterns in KEYWORDS_TITLE.items():
-        if _match_keywords(title, patterns):
-            score += 2 if cat == "security" else 1
+    # 命中非 IT 信息安全方向的排除词（法务/审计/销售等）则标题不加分，
+    # 防止"合规"漂移成法务、律师、财务合规等非技术岗位。
+    if not _match_keywords(title, EXCLUDE_TITLE):
+        for cat, patterns in KEYWORDS_TITLE.items():
+            if _match_keywords(title, patterns):
+                score += TITLE_POINTS[cat]
 
     # ---- 2. 公司匹配（按层级取最高档，不叠加）----
     for tier, points in COMPANY_TIER_POINTS.items():

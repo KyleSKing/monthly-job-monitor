@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>信息安全合规职位监控</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>🛡️ 信息安全合规职位监控</h1>
+    <nav>
+      <a href="#/all" data-nav>全部职位</a>
+      <a href="#/top" data-nav>Top 20</a>
+    </nav>
+  </header>
+
+  <main id="app">
+    <section class="toolbar" id="toolbar">
+      <input id="q-title" type="search" placeholder="职位名称…" />
+      <input id="q-company" type="search" placeholder="公司名称…" />
+      <button id="btn-search">搜索</button>
+      <button id="btn-clear" class="ghost">清除</button>
+      <button id="btn-rescrape" class="accent">重新爬取</button>
+      <span id="rescrape-status" class="status"></span>
+    </section>
+
+    <div id="view"></div>
+  </main>
+
+  <footer class="foot">数据来源：月度爬虫报告 · 分数越高越贴合信息安全合规方向</footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
