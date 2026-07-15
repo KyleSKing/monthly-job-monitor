@@ -4,9 +4,27 @@ from src.scraper.scorer import score_job
 
 class TestScorer(unittest.TestCase):
     def test_all_match(self):
-        # Security(+2) + Tencent 民营科技巨头(+4) + 北京(+1) = 7
+        # Security(+1) + Tencent 民营科技巨头(+4) + 北京(+1) = 6
         job = {"title": "Security Engineer", "company": "Tencent", "location": "北京"}
-        self.assertEqual(score_job(job), 7)
+        self.assertEqual(score_job(job), 6)
+
+    def test_compliance_outranks_security(self):
+        # 信息安全合规岗(+3) 应高于纯安全技术岗(+1),同公司同地点
+        base = {"company": "Tencent", "location": "北京"}
+        compliance = score_job({**base, "title": "信息安全合规经理"})
+        security = score_job({**base, "title": "Security Engineer"})
+        self.assertGreater(compliance, security)
+
+    def test_exclude_legal_roles(self):
+        # 法务/律师岗即使含"合规"字样,标题也不加分(方向护栏)
+        base = {"company": "Tencent", "location": "北京"}  # 公司+4 地点+1 = 5
+        self.assertEqual(score_job({**base, "title": "合规法务律师"}), 5)
+        self.assertEqual(score_job({**base, "title": "Legal Counsel Compliance"}), 5)
+        # 审计/财务合规也属非 IT 方向,标题不加分
+        self.assertEqual(score_job({**base, "title": "审计合规岗"}), 5)
+        self.assertEqual(score_job({**base, "title": "财务合规专员"}), 5)
+        # 对照:纯信息安全合规岗标题加分
+        self.assertEqual(score_job({**base, "title": "数据合规专员"}), 8)
 
     def test_partial_match(self):
         # 无标题词 + Tencent(+4) + 上海(0) = 4
