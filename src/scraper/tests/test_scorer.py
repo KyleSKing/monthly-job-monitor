@@ -23,6 +23,14 @@ class TestScorer(unittest.TestCase):
         # 审计/财务合规也属非 IT 方向,标题不加分
         self.assertEqual(score_job({**base, "title": "审计合规岗"}), 5)
         self.assertEqual(score_job({**base, "title": "财务合规专员"}), 5)
+        # HR/人力资源/招聘/薪酬合规属非 IT 方向,标题不加分
+        self.assertEqual(score_job({**base, "title": "HR合规经理"}), 5)
+        self.assertEqual(score_job({**base, "title": "人力资源合规"}), 5)
+        self.assertEqual(score_job({**base, "title": "招聘合规"}), 5)
+        # "hr" 不应误命中含 hr 的信息安全词(如 threat)
+        self.assertGreater(
+            score_job({**base, "title": "Threat Intelligence Compliance"}), 5
+        )
         # 对照:纯信息安全合规岗标题加分
         self.assertEqual(score_job({**base, "title": "数据合规专员"}), 8)
 
