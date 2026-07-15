@@ -27,9 +27,9 @@ class TestScorer(unittest.TestCase):
         self.assertEqual(score_job({**base, "title": "HR合规经理"}), 5)
         self.assertEqual(score_job({**base, "title": "人力资源合规"}), 5)
         self.assertEqual(score_job({**base, "title": "招聘合规"}), 5)
-        # "hr" 不应误命中含 hr 的信息安全词(如 threat)
+        # "hr" 不应误命中含 hr 的信息安全词(如 threat);用含限定词的真岗验证
         self.assertGreater(
-            score_job({**base, "title": "Threat Intelligence Compliance"}), 5
+            score_job({**base, "title": "网络安全 Threat 合规工程师"}), 5
         )
         # 对照:纯信息安全合规岗标题加分
         self.assertEqual(score_job({**base, "title": "数据合规专员"}), 8)
@@ -42,6 +42,33 @@ class TestScorer(unittest.TestCase):
     def test_no_match(self):
         job = {"title": "产品经理", "company": "Facebook", "location": "上海"}
         self.assertEqual(score_job(job), 0)
+
+    def test_industry_compliance_excluded(self):
+        # 各行业"X合规"岗不含 IT 信息安全限定词,标题不加分(方向护栏)
+        base = {"company": "Tencent", "location": "北京"}  # 公司+4 地点+1 = 5
+        for title in [
+            "质量合规专员",
+            "质量合规工程师",
+            "环保合规经理",
+            "贸易合规专员",
+            "医疗合规专员",
+            "银行合规专员",
+            "反洗钱合规专员",
+            "生产合规专员",
+        ]:
+            self.assertEqual(score_job({**base, "title": title}), 5, title)
+
+    def test_it_compliance_still_scores(self):
+        # 含 IT 信息安全限定词的合规岗仍加分
+        base = {"company": "Tencent", "location": "北京"}  # 公司+4 地点+1 = 5
+        for title in [
+            "信息安全合规工程师",
+            "数据合规专员",
+            "网络安全合规经理",
+            "IT Compliance Officer",
+            "隐私合规专员",
+        ]:
+            self.assertGreater(score_job({**base, "title": title}), 5, title)
 
     def test_company_tiers(self):
         base = {"title": "x", "location": "上海"}
