@@ -1,73 +1,47 @@
 # 🔥 Top 10 Jobs (3-Tier Scraper)
 
-_Generated: 2026-07-15 02:52_
+_Generated: 2026-07-15 09:42_
 
-## 1. 合规经理/总监
+## 1. 568 Information Security Compliance jobs in Detroit
 
-- **Company:** Jobs
+- **Company:** LinkedIn
 - **Location:** Beijing
-- **Salary:** 5-5万
-- **Source:** Tavily-zhaopin (Tier 3)
-- **Score:** 8.0
-- **Apply:** [Job Posting](https://jobs.zhaopin.com/CC380452930J41007819604.htm)
+- **Salary:** 150-195K
+- **Source:** Tavily-linkedin (Tier 3)
+- **Score:** 9.0
+- **Apply:** [Job Posting](https://www.linkedin.com/jobs/information-security-compliance-jobs-detroit-mi)
 
-> Jun 25, 2026 — 好心情健康产业集团有限公司招聘北京海淀区合规经理/总监,薪资2.5-5万,要求:工作经验10年以上,学历:本科,招聘负责人刚在线,随时沟通岗位。...
+> #### Blue Cross Blue Shield of Michigan  ### IT GRC Program Administrator II  #### United Wholesale Mortgage  ### Sr. Specialist, Information Security  #### LG Energy Solution  ### Security and Compliance Lead (Future CISO): $150-195K+  #### IC Resources  ### Security Risk Management Lead  #### Affi...
 
 ---
 
-## 2. 内控合规经理（需要具备数据中心机房项目经历）
+## 2. 7,000+ Data Compliance jobs in New York
 
-- **Company:** M
+- **Company:** LinkedIn
 - **Location:** Beijing
-- **Salary:** 9万
-- **Source:** Tavily-zhaopin (Tier 3)
+- **Salary:** 568K
+- **Source:** Tavily-linkedin (Tier 3)
 - **Score:** 8.0
-- **Apply:** [Job Posting](https://m.zhaopin.com/jobs/CCL1285223320J40860916707.htm)
+- **Apply:** [Job Posting](https://www.linkedin.com/jobs/data-compliance-jobs-new-york-ny)
 
-> 北京中科合盈数据科技有限公司招聘朝阳区内控合规经理（需要具备数据中心机房项目经历）,薪资1.5-1.9万·14薪,要求:工作经验3-5年,学历:本科,风控经验,业务合规,招聘负责...
+> ## LinkedIn respects your privacy  LinkedIn and 3rd parties use essential and non-essential cookies to provide, secure, analyze and improve our Services, and to show you relevant ads (including professional and job ads) on and off LinkedIn. Learn more in our Cookie Policy.  Select Accept to consent...
 
 ---
 
-## 3. 等保测评项目经理
+## 3. 技术主管（CNAS/等保/密评方向）
 
 - **Company:** Zhaopin
 - **Location:** Beijing
 - **Salary:** 5万
 - **Source:** Tavily-zhaopin (Tier 3)
 - **Score:** 8.0
-- **Apply:** [Job Posting](http://www.zhaopin.com/jobdetail/CC520974230J40771991114.htm)
+- **Apply:** [Job Posting](https://www.zhaopin.com/jobdetail/CC145454290J40796193314.htm)
 
-> Mar 1, 2026 — 北京君云天下科技有限公司招聘北京朝阳区等保测评项目经理,薪资1.5-2.5万,要求:工作经验3-5年,学历:本科,招聘负责人刚在线,随时沟通岗位。...
-
----
-
-## 4. 等保测评师（中级）
-
-- **Company:** Zhaopin
-- **Location:** Beijing
-- **Salary:** 5-2万
-- **Source:** Tavily-zhaopin (Tier 3)
-- **Score:** 8.0
-- **Apply:** [Job Posting](https://www.zhaopin.com/jobdetail/CC634148720J41020327104.htm)
-
-> Jul 5, 2026 — 重庆市信息通信咨询设计院有限公司招聘北京海淀区等保测评师（中级）,薪资1.5-2万,要求:工作经验3-5年,学历:本科,招聘负责人刚在线,随时沟通岗位。...
+> 中科信息安全共性技术国家工程研究中心有限公司招聘北京海淀区技术主管（CNAS/等保/密评方向）,薪资2.5-3.5万,要求:工作经验5-10年,学历:本科,招聘负责人刚在线,...
 
 ---
 
-## 5. 等保测评（驻场运维，不出差）
-
-- **Company:** Jobs
-- **Location:** Beijing
-- **Salary:** 6万
-- **Source:** Tavily-zhaopin (Tier 3)
-- **Score:** 8.0
-- **Apply:** [Job Posting](http://jobs.zhaopin.com/CC385402310J40870440410.htm)
-
-> Jul 6, 2026 — 北京卓识网安技术股份有限公司招聘深圳南山区等保测评（驻场运维，不出差）,薪资1.3-1.6万·13薪,要求:工作经验1-3年,学历:本科,招聘负责人刚在线,...
-
----
-
-## 6. 数据中心-数据安全岗-北京(J77109)
+## 4. 数据中心-数据安全岗-北京(J77109)
 
 - **Company:** Msearch
 - **Location:** Beijing
@@ -80,55 +54,81 @@ _Generated: 2026-07-15 02:52_
 
 ---
 
-## 7. Beijing Foreign Enterprise Management Consultants Co.,Ltd. sedang mencari pekerja untuk jawatan Chief Privacy Protection and Cybersecurity Compliance Specialist di Wilayah Persekutuan Kuala Lumpur, Malaysia | LinkedIn
+## 5. Beijing Foreign Enterprise Management Consultants Co.,Ltd. sedang mencari pekerja untuk jawatan Senior Privacy Protection and Cybersecurity Compliance Engineer di Wilayah Persekutuan Kuala Lumpur, Malaysia | LinkedIn
 
 - **Company:** LinkedIn
+- **Location:** Beijing
+- **Salary:** N/A
+- **Source:** Tavily-linkedin (Tier 3)
+- **Score:** 7.0
+- **Apply:** [Job Posting](https://my.linkedin.com/jobs/view/senior-privacy-protection-and-cybersecurity-compliance-engineer-at-beijing-foreign-enterprise-management-consultants-co-ltd-4428215002)
+
+> Work Location: Malaysia Kuala Lumpur  Responsibilities:  Requirements:  Professional abilities required for the job:  Experience：  ### Tahap senioriti  ### Jenis pekerjaan  ### Bidang tugas  ### Industri  Rujukan meningkatkan sebanyak 2x peluang anda untuk mendapatkan temu duga di Beijing Foreign En...
+
+---
+
+## 6. Matchtech hiring Cybersecurity Compliance Officer (Remote – U.S.  East Coast) in Miami, FL | LinkedIn
+
+- **Company:** LinkedIn
+- **Location:** Remote
+- **Salary:** 27K
+- **Source:** Tavily-linkedin (Tier 3)
+- **Score:** 7.0
+- **Apply:** [Job Posting](https://www.linkedin.com/jobs/view/cybersecurity-compliance-officer-remote-%E2%80%93-u-s-east-coast-at-matchtech-4435986188)
+
+> Lead Cybersecurity Compliance in Global Manufacturing & Chemical Environments  We are seeking an experienced Global Cybersecurity Compliance Officer to drive and strengthen cybersecurity and regulatory compliance across complex IT and Operational Technology (OT) environments within a global industri...
+
+---
+
+## 7. Chief Privacy Protection and Cybersecurity Compliance Specialist
+
+- **Company:** My
 - **Location:** Beijing
 - **Salary:** N/A
 - **Source:** Tavily-linkedin (Tier 3)
 - **Score:** 7.0
 - **Apply:** [Job Posting](https://my.linkedin.com/jobs/view/chief-privacy-protection-and-cybersecurity-compliance-specialist-at-beijing-foreign-enterprise-management-consultants-co-ltd-4389030729)
 
-> As the Chief Privacy Protection and Cybersecurity Compliance Specialist, you will be responsible for leading the development and execution of privacy and cybersecurity strategy across the Asia Pacific region. Your role will encompass policy formulation, regulatory intelligence, risk assessment and m...
+> Conduct governance reviews and inspection across Asia Pacific regional countries to assess compliance status, identify gaps, and drive improvement actions....
 
 ---
 
-## 8. Data Protection Officer PII Compliance Lead (Remote) - LinkedIn
+## 8. BairesDev busca personal para el cargo de Senior Data Privacy & Compliance Specialist - Remote Work en San José, San José, Costa Rica | LinkedIn
 
-- **Company:** LinkedIn
-- **Location:** Remote
-- **Salary:** 1 w
-- **Source:** Tavily-linkedin (Tier 3)
-- **Score:** 7.0
-- **Apply:** [Job Posting](https://www.linkedin.com/jobs/view/data-protection-officer-pii-compliance-lead-remote-at-jobs-ai-4409856682)
-
-> Senior Privacy Officer. Exact. Delft, South Holland, Netherlands 1 week ... Data Governance (Data Stewardship, Privacy & Protection) Senior Manager. EY....
-
----
-
-## 9. Securest hiring Governance, Risk, and Compliance (GRC) Analyst in United States | LinkedIn
-
-- **Company:** LinkedIn
+- **Company:** Remote Work en San José, San José, Costa Rica | LinkedIn
 - **Location:** Remote
 - **Salary:** N/A
 - **Source:** Tavily-linkedin (Tier 3)
 - **Score:** 7.0
-- **Apply:** [Job Posting](https://www.linkedin.com/jobs/view/governance-risk-and-compliance-grc-analyst-at-securest-4343688818)
+- **Apply:** [Job Posting](https://cr.linkedin.com/jobs/view/senior-data-privacy-compliance-specialist-remote-work-at-bairesdev-4424200931)
 
-> Fully Remote, US-Based Role: Work from anywhere in the United States with a remote-first culture built around flexibility, accountability, and results.  Professional Development & Certification Support: Annual budget for relevant certifications and training (e.g., CISA, ISO 27001 Lead Implementer, S...
+> Recibe notificaciones sobre nuevos empleos de Especialista en datos en San José, San José, Costa Rica.  ## Empleos similares  ### Senior Data Privacy & Compliance Specialist - Remote Work  #### BairesDev  ### Program Manager – Level III  #### Allyis  ### Data Governance Engineer  #### Lumenalta  ###...
 
 ---
 
-## 10. 数据安全产品经理
+## 9. 数据安全专家招聘_北京卓识网安技术股份有限公司招聘 - 智联招聘
 
-- **Company:** Zhaopin
+- **Company:** 智联招聘
 - **Location:** Beijing
-- **Salary:** 5-3万
+- **Salary:** 5万
 - **Source:** Tavily-zhaopin (Tier 3)
 - **Score:** 7.0
-- **Apply:** [Job Posting](https://www.zhaopin.com/jobdetail/CCL1412704290J40678089816.htm)
+- **Apply:** [Job Posting](https://www.zhaopin.com/jobdetail/CC385402310J40857076210.htm)
 
-> 北京数风科技有限公司招聘北京朝阳区数据安全产品经理,薪资1.5-3万,要求:工作经验3-5年,学历:本科,招聘负责人刚在线,随时沟通岗位。...
+> 岗位职责：   1、实施针对政务、金融、能源等多业务场景数据安全风险评估项目，识别风险；   2、数据业务系统的密评/密改支撑，基于自身数据业务研发或实施经验，提出数据全流程中密码应用缺陷，提出可行改进建议；   3、标准研究与技术沉淀：跟踪数据安全领域相关标准，推动标准转化为研发输入；为团队内部提供数据安全治理、分类分级、风险评估方法论的培训，提升团队综合评估能力。   任职要求：   1、学历与经验： 计算机、信息安全、数据科学等相关专业本科及以上学历；至少2年以上数据业务研发或实施经历（如数据中台、大数据平台、数据治理系统、BI系统等）；   2、数据治理与分类分级：主导或深度参与过至少...
+
+---
+
+## 10. 数据安全工程师招聘_北京筑英达信息技术有限公司招聘 - 智联招聘
+
+- **Company:** 智联招聘
+- **Location:** Beijing
+- **Salary:** 5万
+- **Source:** Tavily-zhaopin (Tier 3)
+- **Score:** 7.0
+- **Apply:** [Job Posting](http://www.zhaopin.com/jobdetail/CC531639820J40849369807.htm)
+
+> logo   首页  职位  城市频道  找副业  政企  校招  高薪  海归  驻外  测评  职Q  我要招人 登录/注册  # 数据安全工程师  2-2.5万   天津 滨海新区  5-10年  硕士  全职  招1人  网站安全信息安全  岗位职责   1、围绕网络安全尤其数据安全方面开展前沿技术研究，推动公司网络安全应用场景创新。   2、主导公司数据分级分类、数据脱敏、数据流转监测、数据安全审计等项目的全生命周期管理；并能结合业务场景输出可落地的技术解决方案。   3、开展业务系统的数据安全风险识别、分析与整改，输出合规性评估报告。   4、结合业务需求完成产品选型、测试与部署，...
 
 ---
 
