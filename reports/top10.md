@@ -1,134 +1,134 @@
 # 🔥 Top 10 Jobs (3-Tier Scraper)
 
-_Generated: 2026-07-15 02:32_
+_Generated: 2026-07-15 02:52_
 
-## 1. IT Security Compliance Administrator - (Remote in Pittsburgh)
+## 1. 合规经理/总监
 
-- **Company:** (Remote in Pittsburgh)
-- **Location:** Remote
-- **Salary:** 401k
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 10.0
-- **Apply:** [Job Posting](https://www.linkedin.com/jobs/view/it-security-compliance-administrator-remote-in-pittsburgh-at-reed-smith-llp-4181952207)
+- **Company:** Jobs
+- **Location:** Beijing
+- **Salary:** 5-5万
+- **Source:** Tavily-zhaopin (Tier 3)
+- **Score:** 8.0
+- **Apply:** [Job Posting](https://jobs.zhaopin.com/CC380452930J41007819604.htm)
 
-> Reed Smith LLP hiring IT Security Compliance Administrator - (Remote in Pittsburgh) in Pittsburgh, PA | LinkedIn[Skip to main content](#main-content) ![Reed Smith LLP]() ### IT Security Compliance Administrator - (Remote in Pittsburgh) [Reed Smith LLP](https://www.linkedin.com/company/reed-smith-llp...
-
----
-
-## 2. Blue J hiring Senior GRC Analyst in Toronto, Ontario, Canada | LinkedIn
-
-- **Company:** LinkedIn
-- **Location:** Remote
-- **Salary:** 130k
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 10.0
-- **Apply:** [Job Posting](https://ca.linkedin.com/jobs/view/senior-grc-analyst-at-blue-j-4434733935)
-
-> Blue J hiring Senior GRC Analyst in Toronto, Ontario, Canada | LinkedIn  Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy.  ### Senior GRC Analyst  Blue J Toronto, Ontario, Canada  Apply  # Senior GRC Analyst  #...
+> Jun 25, 2026 — 好心情健康产业集团有限公司招聘北京海淀区合规经理/总监,薪资2.5-5万,要求:工作经验10年以上,学历:本科,招聘负责人刚在线,随时沟通岗位。...
 
 ---
 
-## 3. Cybersecurity Compliance Lead
+## 2. 内控合规经理（需要具备数据中心机房项目经历）
 
-- **Company:** LinkedIn
-- **Location:** Remote
-- **Salary:** 401k
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 10.0
-- **Apply:** [Job Posting](https://www.linkedin.com/jobs/view/cybersecurity-compliance-lead-at-mindpoint-group-a-tyto-athene-company-4062741754)
+- **Company:** M
+- **Location:** Beijing
+- **Salary:** 9万
+- **Source:** Tavily-zhaopin (Tier 3)
+- **Score:** 8.0
+- **Apply:** [Job Posting](https://m.zhaopin.com/jobs/CCL1285223320J40860916707.htm)
 
-> MindPoint Group, A Tyto Athene Company hiring Cybersecurity Compliance Lead in Washington, DC | LinkedIn LinkedIn and 3rd parties use essential and non-essential cookies to provide, secure, analyze and improve our Services, and to show you relevant ads (including**professional and job ads**) on and...
+> 北京中科合盈数据科技有限公司招聘朝阳区内控合规经理（需要具备数据中心机房项目经历）,薪资1.5-1.9万·14薪,要求:工作经验3-5年,学历:本科,风控经验,业务合规,招聘负责...
 
 ---
 
-## 4. 等保测评（驻场运维，不出差）招聘_北京卓识网安技术股份有限公司招聘 - 智联招聘
+## 3. 等保测评项目经理
 
-- **Company:** 智联招聘
+- **Company:** Zhaopin
+- **Location:** Beijing
+- **Salary:** 5万
+- **Source:** Tavily-zhaopin (Tier 3)
+- **Score:** 8.0
+- **Apply:** [Job Posting](http://www.zhaopin.com/jobdetail/CC520974230J40771991114.htm)
+
+> Mar 1, 2026 — 北京君云天下科技有限公司招聘北京朝阳区等保测评项目经理,薪资1.5-2.5万,要求:工作经验3-5年,学历:本科,招聘负责人刚在线,随时沟通岗位。...
+
+---
+
+## 4. 等保测评师（中级）
+
+- **Company:** Zhaopin
+- **Location:** Beijing
+- **Salary:** 5-2万
+- **Source:** Tavily-zhaopin (Tier 3)
+- **Score:** 8.0
+- **Apply:** [Job Posting](https://www.zhaopin.com/jobdetail/CC634148720J41020327104.htm)
+
+> Jul 5, 2026 — 重庆市信息通信咨询设计院有限公司招聘北京海淀区等保测评师（中级）,薪资1.5-2万,要求:工作经验3-5年,学历:本科,招聘负责人刚在线,随时沟通岗位。...
+
+---
+
+## 5. 等保测评（驻场运维，不出差）
+
+- **Company:** Jobs
 - **Location:** Beijing
 - **Salary:** 6万
-- **Source:** Exa-zhaopin (Tier 1)
-- **Score:** 10.0
-- **Apply:** [Job Posting](https://www.zhaopin.com/jobdetail/CC385402310J40870440410.htm)
+- **Source:** Tavily-zhaopin (Tier 3)
+- **Score:** 8.0
+- **Apply:** [Job Posting](http://jobs.zhaopin.com/CC385402310J40870440410.htm)
 
-> 等保测评（驻场运维，不出差）招聘_北京卓识网安技术股份有限公司招聘 - 智联招聘  更新时间 今天  APP  举报  # 等保测评（驻场运维，不出差）  1.3-1.6万·13薪  - 深圳南山区 - 1-3年 - 本科 - 全职 - 招1人  收藏  立即投递  ### 职位描述  网站安全主机安全密码安全等级保护测评密评评估，密评测评等保测评师计算机软件信息安全电力/水利/热力/燃气  岗位职责：1、依据国家信息安全等级保护相关标准和规范开展信息安全等级保护测评、商用密码评估、信息安全风险评估、应急响应、信息安全咨询服务等相关工作。2、负责公司信息安全相关服务项目的售前、售后技术支持及项...
+> Jul 6, 2026 — 北京卓识网安技术股份有限公司招聘深圳南山区等保测评（驻场运维，不出差）,薪资1.3-1.6万·13薪,要求:工作经验1-3年,学历:本科,招聘负责人刚在线,...
 
 ---
 
-## 5. 北京国际数据服务有限公司 数据合规专家招聘_北京国际大数据交易所有限责任公司招聘 - 智联招聘
+## 6. 数据中心-数据安全岗-北京(J77109)
 
-- **Company:** 智联招聘
+- **Company:** Msearch
 - **Location:** Beijing
-- **Salary:** 8万
-- **Source:** Exa-zhaopin (Tier 1)
-- **Score:** 10.0
-- **Apply:** [Job Posting](https://www.zhaopin.com/jobdetail/CCL1484132360J41019672904.htm)
+- **Salary:** 5万
+- **Source:** Tavily-51job (Tier 3)
+- **Score:** 8.0
+- **Apply:** [Job Posting](https://msearch.51job.com/jobs/beijing-dcq/169334419.html?rc=mq%7Ccodetail%7Cjoblist&jobtype=0_0&req=d16b0d8a26f4616629817a6137a1a209)
 
-> 北京国际数据服务有限公司 数据合规专家招聘_北京国际大数据交易所有限责任公司招聘 - 智联招聘  更新时间 今天  APP  举报  # 北京国际数据服务有限公司 数据合规专家  1.7-2.8万  - 北京大兴区 - 3-5年 - 本科 - 全职  收藏  立即投递  ### 职位描述  云计算信息安全  一、岗位职责1、主导和参与数据治理、数据合规的项目，包括但不限于企业合规现状评估、个人信息保护影响评估、数据出境评估、APP和AI合规和安全治理等。2、持续跟踪并分析数据治理、数据安全、个人信息保护等领域相关法律法规、监管要求、行业标准，支撑业务战略落地、目标市场拓展和合规服务产品创新，为...
-
----
-
-## 6. 【境内数据隐私合规专家招聘网_2026年境内数据隐私合规专家招聘信息】-猎聘
-
-- **Company:** Liepin
-- **Location:** Beijing
-- **Salary:** 10万
-- **Source:** Tavily-liepin (Tier 3)
-- **Score:** 10.0
-- **Apply:** [Job Posting](https://www.liepin.com/zpjnsjyshgzji9i3)
-
-> 10万起  全国 学历不限 经验不限 公司名  汇聚众多行业名企  领导好 发展空间大 五险一金   【 芜湖 】    28-45k·15薪    5-10年 本科    某国内知名整车制造公司    某国内知名整车制造公司    整车制造 已上市 10000人以上      【 北京-马甸 】    20-30k·14薪    3-5年 本科 五险一金年终奖金团队聚餐全勤奖 麦芽传媒    麦芽传媒    互联网 不需要融资 1000-2000人      【 福田区 】    30-45k·16薪    5-10年 硕士    某深圳大型互联网公司    某深圳大型互联网公司    互联...
+> 数据中心-数据安全岗-北京(J77109). 2-3.5万. 北京-东城区 | 硕士 | 3年及以上. 五险一金补充医疗保险餐饮补贴绩效奖金全额社保采暖补贴高温补贴定期体检带薪年假周末双休....
 
 ---
 
-## 7. Cisco hiring Security Governance & Compliance Manager (Remote) in Fulton, MD | LinkedIn
-
-- **Company:** LinkedIn
-- **Location:** Remote
-- **Salary:** 4 w
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 9.0
-- **Apply:** [Job Posting](https://www.linkedin.com/jobs/view/security-governance-compliance-manager-remote-at-cisco-4427196644)
-
-> Cisco hiring Security Governance & Compliance Manager (Remote) in Fulton, MD | LinkedIn  Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy.  ### Security Governance & Compliance Manager (Remote)  Cisco Fulton, MD...
-
----
-
-## 8. JetBrains hiring Security Compliance Specialist in Belgrade, Serbia | LinkedIn
-
-- **Company:** LinkedIn
-- **Location:** Remote
-- **Salary:** 3 w
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 9.0
-- **Apply:** [Job Posting](https://rs.linkedin.com/jobs/view/security-compliance-specialist-at-jetbrains-4427389208)
-
-> JetBrains hiring Security Compliance Specialist in Belgrade, Serbia | LinkedIn  Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy.  ### Security Compliance Specialist  JetBrains Belgrade, Serbia  # Security Compl...
-
----
-
-## 9. ByteDance hiring Security Compliance Engineer in Singapore | LinkedIn
+## 7. Beijing Foreign Enterprise Management Consultants Co.,Ltd. sedang mencari pekerja untuk jawatan Chief Privacy Protection and Cybersecurity Compliance Specialist di Wilayah Persekutuan Kuala Lumpur, Malaysia | LinkedIn
 
 - **Company:** LinkedIn
 - **Location:** Beijing
-- **Salary:** 3 w
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 9.0
-- **Apply:** [Job Posting](https://sg.linkedin.com/jobs/view/security-compliance-engineer-at-bytedance-4078783797)
+- **Salary:** N/A
+- **Source:** Tavily-linkedin (Tier 3)
+- **Score:** 7.0
+- **Apply:** [Job Posting](https://my.linkedin.com/jobs/view/chief-privacy-protection-and-cybersecurity-compliance-specialist-at-beijing-foreign-enterprise-management-consultants-co-ltd-4389030729)
 
-> ByteDance hiring Security Compliance Engineer in Singapore | LinkedIn  Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy.  ### Security Compliance Engineer  # Security Compliance Engineer  #### ByteDance Singapor...
+> As the Chief Privacy Protection and Cybersecurity Compliance Specialist, you will be responsible for leading the development and execution of privacy and cybersecurity strategy across the Asia Pacific region. Your role will encompass policy formulation, regulatory intelligence, risk assessment and m...
 
 ---
 
-## 10. 308 Information Security Compliance jobs in Raleigh
+## 8. Data Protection Officer PII Compliance Lead (Remote) - LinkedIn
 
 - **Company:** LinkedIn
 - **Location:** Remote
-- **Salary:** 40 k
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 9.0
-- **Apply:** [Job Posting](https://www.linkedin.com/jobs/information-security-compliance-jobs-raleigh-nc?pageNum=0&position=1)
+- **Salary:** 1 w
+- **Source:** Tavily-linkedin (Tier 3)
+- **Score:** 7.0
+- **Apply:** [Job Posting](https://www.linkedin.com/jobs/view/data-protection-officer-pii-compliance-lead-remote-at-jobs-ai-4409856682)
 
-> 419 Information Security Compliance jobs in Raleigh  Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy.  25 miles (40 km)  Exact location  5 miles (8 km)  10 miles (16 km)  25 miles (40 km)  50 miles (80 km)  Don...
+> Senior Privacy Officer. Exact. Delft, South Holland, Netherlands 1 week ... Data Governance (Data Stewardship, Privacy & Protection) Senior Manager. EY....
+
+---
+
+## 9. Securest hiring Governance, Risk, and Compliance (GRC) Analyst in United States | LinkedIn
+
+- **Company:** LinkedIn
+- **Location:** Remote
+- **Salary:** N/A
+- **Source:** Tavily-linkedin (Tier 3)
+- **Score:** 7.0
+- **Apply:** [Job Posting](https://www.linkedin.com/jobs/view/governance-risk-and-compliance-grc-analyst-at-securest-4343688818)
+
+> Fully Remote, US-Based Role: Work from anywhere in the United States with a remote-first culture built around flexibility, accountability, and results.  Professional Development & Certification Support: Annual budget for relevant certifications and training (e.g., CISA, ISO 27001 Lead Implementer, S...
+
+---
+
+## 10. 数据安全产品经理
+
+- **Company:** Zhaopin
+- **Location:** Beijing
+- **Salary:** 5-3万
+- **Source:** Tavily-zhaopin (Tier 3)
+- **Score:** 7.0
+- **Apply:** [Job Posting](https://www.zhaopin.com/jobdetail/CCL1412704290J40678089816.htm)
+
+> 北京数风科技有限公司招聘北京朝阳区数据安全产品经理,薪资1.5-3万,要求:工作经验3-5年,学历:本科,招聘负责人刚在线,随时沟通岗位。...
 
 ---
 
