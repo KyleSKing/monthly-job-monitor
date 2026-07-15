@@ -127,7 +127,20 @@ function wireToolbar() {
     document.getElementById("q-company").value = "";
     router();
   });
+  document.getElementById("btn-refresh").addEventListener("click", refresh);
   document.getElementById("btn-rescrape").addEventListener("click", rescrape);
+}
+
+async function refresh() {
+  const status = document.getElementById("rescrape-status");
+  status.textContent = "正在刷新…";
+  try {
+    await loadJobs();
+    router();
+    status.textContent = `✅ 已刷新，共 ${allJobs.length} 条`;
+  } catch (e) {
+    status.textContent = "刷新失败：" + e.message;
+  }
 }
 
 async function rescrape() {
