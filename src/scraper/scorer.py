@@ -94,6 +94,30 @@ EXCLUDE_TITLE: List[str] = [
     "市场营销",
 ]
 
+# "合规/compliance" 极易漂移到各行业（质量/环保/贸易/医疗/金融/生产…）。
+# 只有标题同时含以下 IT 信息安全限定词时，compliance 命中才算 IT 方向而加分；
+# 否则视为非 IT 合规，不加分。一条白名单规则覆盖所有行业变体，无需逐个枚举。
+INFOSEC_QUALIFIERS: List[str] = [
+    "信息安全",
+    "网络安全",
+    "数据",
+    "隐私",
+    "网安",
+    "infosec",
+    "cyber",
+    "information security",
+    "data ",
+    "it compliance",
+    "it security",
+    "privacy",
+    "gdpr",
+    "等保",
+    "等级保护",
+    "iso 27001",
+    "soc 2",
+    "grc",
+]
+
 
 # 匹配目标公司的权重，按层级划分
 # 层级分值：foreign_tech / cn_tech_giant = 4，foreign_traditional = 3，
@@ -323,10 +347,14 @@ def score_job(job: dict) -> int:
     salary = job.get("salary", "")
 
     # ---- 1. 标题关键词 ----
-    # 命中非 IT 信息安全方向的排除词（法务/审计/销售等）则标题不加分，
-    # 防止"合规"漂移成法务、律师、财务合规等非技术岗位。
+    # 命中非 IT 信息安全方向的排除词（法务/审计/HR/销售等）则标题不加分。
+    # 此外 compliance 类只有在标题含 IT 信息安全限定词时才加分，
+    # 防止"质量合规/环保合规/医疗合规"等各行业合规岗漂移进来。
     if not _match_keywords(title, EXCLUDE_TITLE):
+        has_infosec = _match_keywords(title, INFOSEC_QUALIFIERS)
         for cat, patterns in KEYWORDS_TITLE.items():
+            if cat == "compliance" and not has_infosec:
+                continue
             if _match_keywords(title, patterns):
                 score += TITLE_POINTS[cat]
 
