@@ -73,6 +73,8 @@ How to actually run the verify-loop that Goal-Driven Execution sets up.
 
 - A turn is "done" only when an automated check confirms it: a test passes, a
   command exits 0, output matches expectation. Not "looks right to me."
+- Take ground truth from the environment each step — judge progress on real tool
+  output, test results, and execution, never on assumptions about what happened.
 - Write the check before or alongside the change (repro test, assertion, script).
 - Report the actual result — if a check fails or was skipped, say so with output;
   don't claim done on an unverified step.
@@ -82,6 +84,10 @@ How to actually run the verify-loop that Goal-Driven Execution sets up.
 - Stop the moment success criteria are met — don't keep polishing.
 - If a turn makes no progress, do NOT retry the same thing. After ~2 no-progress
   turns, stop and surface: what's blocking, what you tried, what you need.
+- Set an explicit iteration ceiling for open-ended loops; hitting it is a valid
+  stop condition — surface progress and ask rather than looping past it.
+- When blocked or facing an irreversible/ambiguous choice, pause for human input
+  at that checkpoint instead of guessing forward.
 - Never loop indefinitely on a failing check. Diagnose the root cause or ask;
   a sleep-retry loop is not a fix.
 
@@ -91,6 +97,9 @@ How to actually run the verify-loop that Goal-Driven Execution sets up.
   and left — so you don't repeat finished work or drop a thread.
 - Carry forward what you learned each turn (the failing assertion, the file you
   found) instead of re-deriving it.
+- Compact errors before feeding them back: keep the failing assertion, message,
+  and key frames so the next turn can recover — don't paste whole stack dumps or
+  silently drop the error.
 
 ## CodeGraph Usage
 
