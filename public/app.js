@@ -2,7 +2,10 @@
 // 四视图:全部职位 / Top 20 / 职位详情 / 搜索过滤(复用列表视图)
 // 数据源:GET /api/jobs (统一 job shape,含 score)
 
-const API_JOBS = "/api/jobs";
+// 数据源:GET /api/latest-report (返回 {jobs:[...]},统一 job shape,含 score)
+// 注:不用 /api/jobs —— 它在 Vercel serverless 上 sibling import 失败(500)。
+
+const API_REPORT = "/api/latest-report";
 const API_RESCRAPE = "/api/rescrape";
 
 let allJobs = [];       // 已加载的全量职位
@@ -11,9 +14,10 @@ let filter = { title: "", company: "" };
 // ---------- 数据 ----------
 
 async function loadJobs() {
-  const res = await fetch(API_JOBS);
+  const res = await fetch(API_REPORT);
   if (!res.ok) throw new Error(`加载失败: ${res.status}`);
-  const jobs = await res.json();
+  const report = await res.json();
+  const jobs = report.jobs || [];
   // 按 score 降序
   allJobs = jobs.slice().sort((a, b) => (b.score || 0) - (a.score || 0));
 }
