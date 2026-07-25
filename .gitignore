@@ -74,3 +74,6 @@ __pycache__/
 venv/
 dist/
 
+# Claude Code local session artifacts
+.claude/
+
