@@ -2,6 +2,8 @@
 
 🤖 Automated job scraping and recruitment report delivery system
 
+🌐 **Live site:** https://monthly-job-monitor.vercel.app
+
 ## Features
 
 - 📅 **Monthly Scheduling** - Automatically runs on the 1st of every month
