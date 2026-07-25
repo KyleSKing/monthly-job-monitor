@@ -345,30 +345,21 @@ class TieredScraper:
         )
 
         # ── Quality filter for company-targeted results ──
-        # Company-targeted queries have two noise sources:
-        # 1. URL noise: search returns LinkedIn posts/articles/profiles, not
-        #    just jobs — keep only /jobs/view/ pages.
-        # 2. Location false positives: "Beijing" mentioned anywhere in the text
-        #    doesn't mean the job is in Beijing — require "in beijing" in the
-        #    TITLE (LinkedIn's standard "Company hiring Role in Beijing" format).
+        # Company queries return LinkedIn posts/articles/profiles as well as real
+        # jobs — keep only /jobs/view/ job-detail pages. No location hard-filter:
+        # occasional false positives (e.g. "hiring in Beijing for Singapore") are
+        # obvious from the title and better than accidentally filtering out
+        # Chinese-language titles, which rarely use the "in Beijing" pattern.
         before = len(all_jobs)
-        filtered = []
-        for j in all_jobs:
-            if j.get("source", "").endswith("-company"):
-                # 1. Must be a real job page
-                if "/jobs/view/" not in (j.get("url", "") or ""):
-                    continue
-                # 2. Must have "in beijing" pattern in title (not just Beijing
-                #    mentioned anywhere in text — fixes "hiring in Beijing for a
-                #    role based in Singapore" false positives)
-                title = (j.get("title") or "").lower()
-                if "in beijing" not in title and "北京" not in title:
-                    continue
-            filtered.append(j)
-        all_jobs = filtered
+        all_jobs = [
+            j
+            for j in all_jobs
+            if not j.get("source", "").endswith("-company")
+            or "/jobs/view/" in (j.get("url", "") or "")
+        ]
         logger.info(
             f"Company-job quality filter: kept {len(all_jobs)}/{before} "
-            f"(dropped {before - len(all_jobs)} non-job / non-Beijing company results)"
+            f"(dropped {before - len(all_jobs)} non-job company results)"
         )
 
         # ── CSV targets ──
