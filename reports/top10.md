@@ -1,138 +1,134 @@
 # 🔥 Top 10 Jobs (3-Tier Scraper)
 
-_Generated: 2026-07-25 04:53_
+_Generated: 2026-07-25 05:28_
 
-## 1. Senior IT Security Compliance Analyst - REMOTE
+## 1. Hiring: Senior Manager – Risk Advisory (GRC) | CyberSRC® Consultancy
 
-- **Company:** REMOTE
-- **Location:** Remote
-- **Salary:** 401k
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 10.0
-- **Apply:** [Job Posting](https://www.linkedin.com/jobs/view/senior-it-security-compliance-analyst-remote-at-velera-4436853591)
-
-> Velera hiring Senior IT Security Compliance Analyst - REMOTE in United States | LinkedIn  Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy.  ### Senior IT Security Compliance Analyst - REMOTE  Velera United Stat...
-
----
-
-## 2. Fahrizal Nugraha - Cybersecurity & GRC Advisor | Risk Management | Security Architecture | Privacy & Compliance | LinkedIn
-
-- **Company:** Cybersecurity & GRC Advisor | Risk Management | Security Architecture | Privacy & Compliance | LinkedIn
-- **Location:** Remote
-- **Salary:** 1,000-2,000 w
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 10.0
-- **Apply:** [Job Posting](https://id.linkedin.com/in/fahrizal-nugraha-b582b2115)
-
-> # Fahrizal Nugraha  Cybersecurity Consultant & Security Architect | Security Operations, Architecture & Cyber Resilience  Jakarta Metropolitan Area (ID)  500 connections • 891 followers  ## About  My expertise spans Security Operations Center (SOC) development, threat detection engineering, incident...
-
----
-
-## 3. Global remote teams are the new normal,but they come with compliance traps many orgs still overlook. | Cyber Sierra
-
-- **Company:** Cyber Sierra
-- **Location:** Remote
-- **Salary:** 5
-
-W
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 9.0
-- **Apply:** [Job Posting](https://www.linkedin.com/posts/cybersierra_top-compliance-pitfalls-for-global-remote-activity-7417445454948352003-88ic)
-
-> # Global remote teams are the new normal,but they come with compliance traps many orgs still overlook. | Cyber Sierra · LinkedIn · 2026-01-15  **Cyber Sierra**: Cyber Sierra is an AI-powered cybersecurity platform that offers automated continuous control monitoring, third-party risk management, and...
-
----
-
-## 4. Elite IT Team is looking for a Governance, Risk & Compliance (GRC) Intern to join its team. This full-time remote internship is ideal for students and recent graduates interested in cybersecurity governance, … | Nust Placement Office
-
-- **Company:** Nust Placement Office
-- **Location:** Remote
-- **Salary:** 900
-
-W
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 9.0
-- **Apply:** [Job Posting](https://www.linkedin.com/posts/nustplacementoffice_nust-eliteitteam-hiring-activity-7483473451387871232-glFv)
-
-> # Elite IT Team is looking for a Governance, Risk & Compliance (GRC) Intern to join its team. This full-time remote internship is ideal for students and recent graduates interested in cybersecurity governance, … | Nust Placement Office · LinkedIn · 2026-07-16  **Nust Placement Office**: Nust Placeme...
-
----
-
-## 5. 🚀 We’re Hiring: GRC Analyst (Remote-first) | Waseem A.
-
-- **Company:** Waseem A.
-- **Location:** Remote
-- **Salary:** 207K
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 9.0
-- **Apply:** [Job Posting](https://www.linkedin.com/posts/waseemsec_grc-cybersecurityjobs-infosecjobs-activity-7400500479627161600-ckh7)
-
-> # 🚀 We’re Hiring: GRC Analyst (Remote-first) | Waseem A. · LinkedIn · 2025-11-29  **Waseem A.**: Waseem Akram. currently works as Sr. IT & Security Consultant at Neusol LLC with 13 years 6 months of experience. Previous roles include Network & Systems Engineer at GAC Group and Network & System Suppo...
-
----
-
-## 6. Hello All👋, We are hiring for Sr. GRC Engineer at Workstreet for India (Remote) location with 4+ years of experience in GRC and cloud security. | Deshmukh Reddy
-
-- **Company:** Workstreet for India (Remote) location with 4+ years of experience in GRC and cloud security. | Deshmukh Reddy
-- **Location:** Remote
-- **Salary:** 5W
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 9.0
-- **Apply:** [Job Posting](https://www.linkedin.com/posts/deshmukhreddy_senior-grc-engineer-career-opportunities-activity-7435622759147384832-hWzh)
-
-> # Hello All👋, We are hiring for Sr. GRC Engineer at Workstreet for India (Remote) location with 4+ years of experience in GRC and cloud security. | Deshmukh Reddy · LinkedIn · 2026-03-06  **Deshmukh Reddy**: Analyst, Trust Services at Workstreet with 1 year 9 months of experience. Previous roles inc...
-
----
-
-## 7. GRC engineering role available - remote is an option with travel, ideally this would be on site in San Fran (relocation provided) - 300-350k base salary + equity | Lee Hills
-
-- **Company:** remote is an option with travel, ideally this would be on site in San Fran (relocation provided) - 300-350k base salary + equity | Lee Hills
-- **Location:** Remote
-- **Salary:** 300-350k
-- **Source:** Exa-linkedin (Tier 1)
-- **Score:** 9.0
-- **Apply:** [Job Posting](https://www.linkedin.com/posts/leemarkhills_grc-engineering-role-available-remote-is-activity-7404867789930262528-bIBq)
-
-> # GRC engineering role available - remote is an option with travel, ideally this would be on site in San Fran (relocation provided) - 300-350k base salary + equity | Lee Hills · LinkedIn · 2025-12-11  **Lee Hills**: Vice President - Cyber Security Recruitment at Hampton North with 19 years 2 months...
-
----
-
-## 8. In 2025, China continued to strengthen its data security and privacy framework, and with the main rules largely in place, regulators have become more active in enforcement. Multinationals operating in China should … | JunHe LLP
-
-- **Company:** JunHe LLP
+- **Company:** CyberSRC® Consultancy
 - **Location:** Beijing
-- **Salary:** 9w
+- **Salary:** 82W
 - **Source:** Exa-linkedin (Tier 1)
-- **Score:** 8.0
-- **Apply:** [Job Posting](https://www.linkedin.com/posts/jun-he-law-offices_china-data-cybersecurity-activity-7418409009948512257-M2zg)
+- **Score:** 9.0
+- **Apply:** [Job Posting](https://www.linkedin.com/posts/cybersrc_hiring-grc-riskadvisory-activity-7475526146428694528-rsq1)
 
-> # In 2025, China continued to strengthen its data security and privacy framework, and with the main rules largely in place, regulators have become more active in enforcement. Multinationals operating in China should … | JunHe LLP · LinkedIn · 2026-01-17  **JunHe LLP**: JunHe is a Chinese law firm fo...
+> Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s [User Agreement](https://www.linkedin.com/legal/user-agreement?trk=linkedin-tc_auth-button_user-agreement), [Privacy Policy](https://www.linkedin.com/legal/privacy-policy?trk=linkedin-tc_auth-button_privacy-polic...
 
 ---
 
-## 9. 7000+ Data Privacy Compliance jobs in United States
+## 2. 🚀 Hiring:Governance, Risk & Compliance (GRC) Internship | Haumaru Whanau
 
-- **Company:** LinkedIn
-- **Location:** Remote
-- **Salary:** 1 w
+- **Company:** Haumaru Whanau
+- **Location:** Beijing
+- **Salary:** 63w
 - **Source:** Exa-linkedin (Tier 1)
-- **Score:** 8.0
-- **Apply:** [Job Posting](https://www.linkedin.com/jobs/data-privacy-compliance-jobs)
+- **Score:** 9.0
+- **Apply:** [Job Posting](https://www.linkedin.com/posts/haumaruwhanau_cybersecurity-grc-riskmanagement-activity-7470064742959722496-0-8E)
 
-> 7,000+ Data Privacy Compliance jobs in United States  Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy.  Any time  Any time (7,106)  Past month (5,827)  Past week (2,467)  Past 24 hours (144)  Done  Company  Lin...
+> Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s [User Agreement](https://www.linkedin.com/legal/user-agreement?trk=linkedin-tc_auth-button_user-agreement), [Privacy Policy](https://www.linkedin.com/legal/privacy-policy?trk=linkedin-tc_auth-button_privacy-polic...
 
 ---
 
-## 10. Data Protection Officer PII Compliance Lead (Remote)
+## 3. 🚀 We’re Hiring: GRC Manager (Remote / UK Time Zone) | Tiya Panwar
+
+- **Company:** Tiya Panwar
+- **Location:** Remote
+- **Salary:** 408-2w
+- **Source:** Exa-linkedin (Tier 1)
+- **Score:** 8.0
+- **Apply:** [Job Posting](https://www.linkedin.com/posts/tiya-panwar-a9910a394_hiring-grc-informationsecurity-activity-7414897179154321408-2wfi)
+
+> Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s [User Agreement](https://www.linkedin.com/legal/user-agreement?trk=linkedin-tc_auth-button_user-agreement), [Privacy Policy](https://www.linkedin.com/legal/privacy-policy?trk=linkedin-tc_auth-button_privacy-polic...
+
+---
+
+## 4. We’re hiring a Local Data Protection Officer in Beijing/Shanghai! Ensure regulatory compliance, manage data risks, and contribute to SAP’s privacy excellence. | Cyla Wang
+
+- **Company:** Cyla Wang
+- **Location:** Beijing
+- **Salary:** N/A
+- **Source:** Exa-linkedin (Tier 1)
+- **Score:** 7.0
+- **Apply:** [Job Posting](https://www.linkedin.com/posts/cyla-wang-38a749212_lead-sr-legal-counsel-local-data-protection-activity-7414294035135381504-eYS5)
+
+> Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s [User Agreement](https://www.linkedin.com/legal/user-agreement?trk=linkedin-tc_auth-button_user-agreement), [Privacy Policy](https://www.linkedin.com/legal/privacy-policy?trk=linkedin-tc_auth-button_privacy-polic...
+
+---
+
+## 5. 【北京 AI Agent安全专家（信息安全/AI治理方向）(A145945)招聘】-水滴公司北京招聘信息-猎聘
+
+- **Company:** Liepin
+- **Location:** Beijing
+- **Salary:** 50-80k
+- **Source:** Exa-liepin (Tier 1)
+- **Score:** 7.0
+- **Apply:** [Job Posting](https://www.liepin.com/job/1983833531.shtml)
+
+> [![](https://www.liepin.com/job/1983833531.shtml)](https://www.liepin.com "猎聘")[全国](https://www.liepin.com/citylist/ "城市切换")   * [首页](https://www.liepin.com)   * [职位](https://www.liepin.com/zhaopin/?inputFrom=head_navigation&scene=init&workYearCode=0&ckId=0tsm0h4b9xu8ubbrcx7urrz7tzhb9p8a)   * [校园](h...
+
+---
+
+## 6. Had the privilege of joining the Global Data Compliance Forum 2026 this weekend. It was an honor to engage in a panel discussion alongside Ken Dai (Partner at Dentons) and Liu (DPO … | Kevin Z.
+
+- **Company:** Dentons) and Liu (DPO … | Kevin Z.
+- **Location:** Beijing
+- **Salary:** N/A
+- **Source:** Exa-linkedin (Tier 1)
+- **Score:** 6.0
+- **Apply:** [Job Posting](https://www.linkedin.com/posts/kevin-z-b9603122_datacompliance-globalexpansion-advancedmanufacturing-activity-7464342234503618560-HDo0)
+
+> Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s [User Agreement](https://www.linkedin.com/legal/user-agreement?trk=linkedin-tc_auth-button_user-agreement), [Privacy Policy](https://www.linkedin.com/legal/privacy-policy?trk=linkedin-tc_auth-button_privacy-polic...
+
+---
+
+## 7. Data Protection Officer PII Compliance Lead (Remote)
 
 - **Company:** LinkedIn
 - **Location:** Remote
-- **Salary:** 2 w
+- **Salary:** N/A
 - **Source:** Exa-linkedin (Tier 1)
-- **Score:** 8.0
+- **Score:** 6.0
 - **Apply:** [Job Posting](https://www.linkedin.com/jobs/view/data-protection-officer-pii-compliance-lead-remote-at-jobs-ai-4409841794)
 
-> Jobs Ai hiring Data Protection Officer PII Compliance Lead (Remote) in EMEA | LinkedIn  Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy.  ### Data Protection Officer PII Compliance Lead (Remote)  Jobs Ai EMEA...
+> [ Skip to main content ](https://www.linkedin.com/jobs/view/data-protection-officer-pii-compliance-lead-remote-at-jobs-ai-4409841794#main-content) [ LinkedIn ](https://www.linkedin.com/?trk=public_jobs_nav-header-logo) Data Protection Officer PII Compliance Lead (Remote) in Phoenix, AZ  Expand searc...
+
+---
+
+## 8. 【北京 科技风险管理岗/个人信息保护合规管理岗招聘】-泰康保险集团股份有限公司北京招聘信息-猎聘
+
+- **Company:** Liepin
+- **Location:** Beijing
+- **Salary:** 08w
+- **Source:** Exa-liepin (Tier 1)
+- **Score:** 6.0
+- **Apply:** [Job Posting](https://www.liepin.com/job/1982671941.shtml)
+
+> [![](https://www.liepin.com/job/1982671941.shtml)](https://www.liepin.com "猎聘")[全国](https://www.liepin.com/citylist/ "城市切换")   * [首页](https://www.liepin.com)   * [职位](https://www.liepin.com/zhaopin/?inputFrom=head_navigation&scene=init&workYearCode=0&ckId=k27e08wb29obont2z28fwyquctw9woja)   * [校园](h...
+
+---
+
+## 9. 【北京 高级咨询顾问/项目经理（数据治理方向）招聘】-中大咨询集团北京招聘信息-猎聘
+
+- **Company:** M
+- **Location:** Beijing
+- **Salary:** 69w
+- **Source:** Exa-liepin (Tier 1)
+- **Score:** 6.0
+- **Apply:** [Job Posting](https://m.liepin.com/job/1947466461.shtml)
+
+> [![](https://www.liepin.com/job/1947466461.shtml)](https://www.liepin.com "猎聘")[全国](https://www.liepin.com/citylist/ "城市切换")   * [首页](https://www.liepin.com)   * [职位](https://www.liepin.com/zhaopin/?inputFrom=head_navigation&scene=init&workYearCode=0&ckId=69wfnm0smb9u2x7uar40p3ayy8uboxob)   * [校园](h...
+
+---
+
+## 10. Looking for IT Compliance Manager, Enterprise Security Governance, base in Beijng, more detials please contact me via 15001179582 or add my wechat: 935006864, thanks | Eva Chao
+
+- **Company:** Eva Chao
+- **Location:** Beijing
+- **Salary:** N/A
+- **Source:** Exa-linkedin (Tier 1)
+- **Score:** 5.0
+- **Apply:** [Job Posting](https://www.linkedin.com/posts/eva-chao-949b1a67_looking-for-it-compliance-manager-enterprise-activity-7194151709999345664-eg5e)
+
+> Agree & Join LinkedIn  By clicking Continue to join or sign in, you agree to LinkedIn’s [User Agreement](https://www.linkedin.com/legal/user-agreement?trk=linkedin-tc_auth-button_user-agreement), [Privacy Policy](https://www.linkedin.com/legal/privacy-policy?trk=linkedin-tc_auth-button_privacy-polic...
 
 ---
 
