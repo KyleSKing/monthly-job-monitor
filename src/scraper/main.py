@@ -90,13 +90,20 @@ def _load_target_companies() -> List[str]:
 
 
 def _company_queries() -> List[tuple]:
-    """Build per-company LinkedIn queries targeting Beijing security/compliance roles."""
+    """Build per-company LinkedIn queries targeting Beijing security/compliance roles.
+
+    Only the top N highest-compensation companies are queried to save API credits.
+    """
+    TOP_N_COMPANIES = 50  # Adjust this to expand/cut scope
     template = (
         'site:linkedin.com/jobs "{c}" '
         'security OR compliance OR "information security" OR "信息安全" OR "数据合规" '
         "Beijing"
     )
-    return [("company", template.format(c=c)) for c in _load_target_companies()]
+    return [
+        ("company", template.format(c=c))
+        for c in _load_target_companies()[:TOP_N_COMPANIES]
+    ]
 
 
 # Append company-targeted queries to the site queries above
