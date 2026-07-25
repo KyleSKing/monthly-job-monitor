@@ -399,20 +399,47 @@ class TieredScraper:
 
     @staticmethod
     def _extract_salary(content: str, title: str) -> str:
-        """Extract salary info from content."""
+        """Extract salary info from content.
+
+        Strips URL noise first, then matches clean salary patterns.
+        Prefers precision over recall — better to miss a few than to
+        emit URL fragments like "82W" or "408-2w".
+        """
         if not content:
             return "N/A"
         import re
 
+        # Kill URL fragments, markdown links, tracking params that pollute
+        text = re.sub(
+            r"https?://\S+|ckId=\S+|workYearCode=\S+|trk[=:]\S+",
+            " ",
+            content,
+            flags=re.I,
+        )
+
         patterns = [
-            r"(?:薪资|工资|月薪|年薪|salary|compensation)[：:]\s*([^，。,\n]{2,30})",
-            r"(¥|$|€|£)?\s*(\d{1,3}(?:,\d{3})*(?:-\d{1,3}(?:,\d{3})?)?)\s*(?:元|K|千|万|w|k|/月|/年)",
-            r"(\d{4,5})\s*(?:元|K)",
+            # Label-prefixed: 薪资/月薪/年薪 30,000 - 50,000
+            r"(?:薪资|月薪|年薪|salary|compensation)[：:\s]+([\d,．.\-～~$￥¥€£万wWkK\s]{2,25})",
+            # Chinese range: 50-80k·16薪 or 40-70k·15薪
+            r"\b\d{1,3}\s*[-–~]\s*\d{1,3}\s*[kK](?:[·、]\d{1,2}薪)?",
+            # Chinese range (万): 30-50万·16薪
+            r"\b\d{1,2}\s*[-–~]\s*\d{1,2}\s*[万wW](?:[·、]\d{1,2}薪)?",
+            # USD: $100,000/year or $120k-$150k
+            r"\$[\d,]{3,}(?:\s*[-–]\s*\$?[\d,]{3,})?(?:\s*/\s*(?:year|month|年|月))?",
+            # CNY/¥: ￥30,000 - 50,000/year
+            r"[￥¥][\d,]{3,}(?:\s*[-–]\s*[￥¥]?[\d,]{3,})?(?:\s*/\s*(?:year|month|年|月))?",
         ]
         for pat in patterns:
-            m = re.search(pat, content, re.IGNORECASE)
+            m = re.search(pat, text, re.I)
             if m:
-                return m.group(0).strip()
+                val = m.group(0).strip()
+                # For raw-currency amounts (no k/万 unit), reject unrealistically
+                # small numbers that are really prices/IDs, not salaries.
+                if not re.search(r"[kK万wW薪]", val):
+                    nums = re.findall(r"\d+(?:,\d{3})*", val)
+                    if nums and max(int(n.replace(",", "")) for n in nums) < 3000:
+                        continue
+                return val
         return "N/A"
 
     @staticmethod
