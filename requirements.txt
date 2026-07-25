@@ -5,5 +5,6 @@ PyYAML>=6.0
 flake8==7.1.1
 black==24.10.0
 exa-py>=1.0          # Exa search API
+crawl4ai>=0.4        # Tier 1 content extraction (headless Chromium → markdown)
 fake-useragent>=1.4
 lxml>=4.9
