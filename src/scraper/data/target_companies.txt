@@ -1,0 +1,109 @@
+# 目标公司名单 — 在华有实体的 Fortune 500 级西方企业
+# 新增公司时添加一行，不用改代码
+# 格式：一行一个公司名（引号已在查询模板中处理）
+
+# 科技/硬件/软件
+Microsoft
+Amazon
+NVIDIA
+Intel
+Qualcomm
+IBM
+Dell
+Cisco
+SAP
+Oracle
+Salesforce
+HP
+HPE
+Texas Instruments
+Micron
+Applied Materials
+Broadcom
+VMware
+Adobe
+Google
+
+# 通信/网络设备
+Ericsson
+Nokia
+Corning
+
+# 金融/保险
+Goldman Sachs
+Morgan Stanley
+JPMorgan
+Citi
+HSBC
+Standard Chartered
+Bank of America
+American Express
+Allianz
+AIA
+Prudential
+Manulife
+UBS
+Deutsche Bank
+
+# 消费/零售/食品
+P&G
+Johnson & Johnson
+Coca-Cola
+PepsiCo
+Unilever
+Nestle
+L'Oreal
+Colgate-Palmolive
+Mondelez
+Danone
+Mars
+Estee Lauder
+Nike
+Adidas
+Starbucks
+McDonald's
+Walmart
+IKEA
+
+# 汽车/工业/制造
+Tesla
+BMW
+Mercedes-Benz
+Volkswagen
+Ford
+General Motors
+Bosch
+Continental
+Siemens
+Schneider Electric
+ABB
+Honeywell
+3M
+GE
+Caterpillar
+Emerson
+Michelin
+
+# 制药/医疗/化工
+Pfizer
+Roche
+Novartis
+AstraZeneca
+Merck
+Bayer
+Sanofi
+GSK
+Abbott
+Medtronic
+BASF
+Dow
+DuPont
+Boeing
+Airbus
+
+# 能源/其他
+Shell
+BP
+ExxonMobil
+TotalEnergies
+Schlumberger
