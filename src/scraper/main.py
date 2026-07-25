@@ -2,7 +2,7 @@
 Monthly Job Monitor — 3-Tier Scraper Orchestrator
 
 Search Tier Strategy:
-  Tier 1 (Primary):   Exa search → Jina Reader content extraction
+  Tier 1 (Primary):   Exa search → crawl4ai content extraction
   Tier 2 (Secondary): Serper search → Firecrawl content extraction
   Tier 3 (Fallback):  Tavily search → Tavily content extraction
 
@@ -22,7 +22,7 @@ from typing import List, Dict, Optional
 
 from .config import load_config, ScraperConfig
 from .exa_client import ExaClient
-from .jina_client import JinaClient
+from .crawl4ai_client import Crawl4aiClient
 from .serper_client import SerperClient
 from .tavily_client import TavilyClient
 from .firecrawl_client import FirecrawlClient
@@ -85,7 +85,7 @@ class TieredScraper:
         self.exa = ExaClient(
             api_key=self.cfg.exa_api_key, max_results=self.cfg.max_results
         )
-        self.jina = JinaClient(api_key=self.cfg.jina_api_key)
+        self.reader = Crawl4aiClient(timeout=self.cfg.timeout)
         self.serper = SerperClient(
             api_key=self.cfg.serper_api_key,
             max_results=self.cfg.max_results,
@@ -99,11 +99,15 @@ class TieredScraper:
     # ── Tier 1: Exa + Jina ────────────────────────────────────
 
     def _tier1_search(self, site: str, query: str) -> List[Dict]:
-        """Tier 1: Exa search → Jina Reader for content."""
+        """Tier 1: Exa search → crawl4ai (batch) for content."""
         results = self.exa.search(query, limit=self.cfg.max_results)
         if not results:
             logger.debug(f"[Tier1] Exa returned 0 results for {site}")
             return []
+
+        # Batch-fetch all URLs concurrently instead of one at a time.
+        urls = [r.get("url", "") for r in results if r.get("url")]
+        content_by_url = self.reader.fetch_many(urls)
 
         jobs = []
         for r in results:
@@ -112,8 +116,7 @@ class TieredScraper:
             text = r.get("text", "") or ""
             summary = r.get("summary", "") or ""
 
-            # Jina Reader for clean markdown content
-            content = self.jina.fetch(url)
+            content = content_by_url.get(url)
             if content:
                 description = content[:2000]
             else:
@@ -132,7 +135,7 @@ class TieredScraper:
             }
             jobs.append(job)
 
-        logger.info(f"[Tier1] Exa+Jina: {len(jobs)} jobs from {site}")
+        logger.info(f"[Tier1] Exa+crawl4ai: {len(jobs)} jobs from {site}")
         return jobs
 
     # ── Tier 2: Serper + Firecrawl ──────────────────────────────
@@ -326,10 +329,13 @@ class TieredScraper:
         for j in all_jobs:
             tier_counts[j.get("tier", 3)] += 1
         logger.info(
-            f"Tier usage — Exa+Jina: {tier_counts[1]}, "
+            f"Tier usage — Exa+crawl4ai: {tier_counts[1]}, "
             f"Serper+Firecrawl: {tier_counts[2]}, "
             f"Tavily: {tier_counts[3]}, CSV: {tier_counts[0]}"
         )
+
+        # Release the crawl4ai browser/event loop
+        self.reader.close()
 
         return all_jobs
 
