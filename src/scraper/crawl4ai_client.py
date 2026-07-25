@@ -11,7 +11,7 @@ browser per URL for 500+ pages would be prohibitively slow).
 
 import asyncio
 import logging
-from typing import Optional
+from typing import Optional, List, Dict
 
 logger = logging.getLogger(__name__)
 
@@ -19,8 +19,9 @@ logger = logging.getLogger(__name__)
 class Crawl4aiClient:
     """Fetch URL content as clean markdown via crawl4ai (headless Chromium)."""
 
-    def __init__(self, timeout: int = 30):
+    def __init__(self, timeout: int = 15, max_concurrent: int = 8):
         self.timeout = timeout
+        self.max_concurrent = max_concurrent
         self._loop = None
         self._crawler = None
         self._ready = False
@@ -63,14 +64,62 @@ class Crawl4aiClient:
                 err = getattr(result, "error_message", "unknown") if result else "no result"
                 logger.warning(f"[Crawl4AI] fetch failed for {url}: {err}")
                 return None
-            md = getattr(result, "markdown", None)
-            # markdown may be a str or a MarkdownGenerationResult object
-            if md is not None and not isinstance(md, str):
-                md = getattr(md, "fit_markdown", None) or getattr(md, "raw_markdown", None)
-            return md or None
+            return self._markdown_of(result)
         except Exception as e:
             logger.warning(f"[Crawl4AI] fetch error for {url}: {e}")
             return None
+
+    def fetch_many(self, urls: List[str]) -> Dict[str, str]:
+        """Fetch many URLs concurrently. Returns {url: markdown} for successes.
+
+        Uses crawl4ai's arun_many with the default MemoryAdaptiveDispatcher so
+        concurrency backs off if the (memory-limited) CI runner gets tight.
+        """
+        clean = [u.strip() for u in urls if u and u.strip()]
+        if not clean:
+            return {}
+        if not self._ensure():
+            return {}
+
+        try:
+            from crawl4ai import CrawlerRunConfig, CacheMode
+            from crawl4ai.async_dispatcher import MemoryAdaptiveDispatcher
+
+            run_conf = CrawlerRunConfig(
+                cache_mode=CacheMode.BYPASS,
+                page_timeout=self.timeout * 1000,
+                stream=False,
+            )
+            dispatcher = MemoryAdaptiveDispatcher(
+                memory_threshold_percent=80.0,
+                max_session_permit=self.max_concurrent,
+            )
+            results = self._loop.run_until_complete(
+                self._crawler.arun_many(
+                    urls=clean, config=run_conf, dispatcher=dispatcher
+                )
+            )
+            out: Dict[str, str] = {}
+            ok = 0
+            for r in results or []:
+                if getattr(r, "success", False):
+                    md = self._markdown_of(r)
+                    if md:
+                        out[getattr(r, "url", "")] = md
+                        ok += 1
+            logger.info(f"[Crawl4AI] fetch_many: {ok}/{len(clean)} URLs extracted")
+            return out
+        except Exception as e:
+            logger.warning(f"[Crawl4AI] fetch_many error: {e}")
+            return {}
+
+    @staticmethod
+    def _markdown_of(result) -> Optional[str]:
+        """Pull markdown text off a CrawlResult (str or MarkdownGenerationResult)."""
+        md = getattr(result, "markdown", None)
+        if md is not None and not isinstance(md, str):
+            md = getattr(md, "fit_markdown", None) or getattr(md, "raw_markdown", None)
+        return md or None
 
     def close(self):
         """Tear down the crawler + loop. Safe to call multiple times."""

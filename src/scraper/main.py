@@ -99,11 +99,15 @@ class TieredScraper:
     # ── Tier 1: Exa + Jina ────────────────────────────────────
 
     def _tier1_search(self, site: str, query: str) -> List[Dict]:
-        """Tier 1: Exa search → Jina Reader for content."""
+        """Tier 1: Exa search → crawl4ai (batch) for content."""
         results = self.exa.search(query, limit=self.cfg.max_results)
         if not results:
             logger.debug(f"[Tier1] Exa returned 0 results for {site}")
             return []
+
+        # Batch-fetch all URLs concurrently instead of one at a time.
+        urls = [r.get("url", "") for r in results if r.get("url")]
+        content_by_url = self.reader.fetch_many(urls)
 
         jobs = []
         for r in results:
@@ -112,8 +116,7 @@ class TieredScraper:
             text = r.get("text", "") or ""
             summary = r.get("summary", "") or ""
 
-            # crawl4ai for clean markdown content
-            content = self.reader.fetch(url)
+            content = content_by_url.get(url)
             if content:
                 description = content[:2000]
             else:
@@ -132,7 +135,7 @@ class TieredScraper:
             }
             jobs.append(job)
 
-        logger.info(f"[Tier1] Exa+Jina: {len(jobs)} jobs from {site}")
+        logger.info(f"[Tier1] Exa+crawl4ai: {len(jobs)} jobs from {site}")
         return jobs
 
     # ── Tier 2: Serper + Firecrawl ──────────────────────────────
