@@ -134,6 +134,21 @@ class TieredScraper:
             logger.debug(f"[Tier1] Exa returned 0 results for {site}")
             return []
 
+        # For company-targeted queries: keep only real LinkedIn job pages
+        # (/jobs/view/), and use the queried company name directly instead of
+        # guessing it from noisy titles (which yields people names / "LinkedIn").
+        target_company = ""
+        if site == "company":
+            import re as _re
+            m = _re.search(r'"([^"]+)"', query)
+            target_company = m.group(1) if m else ""
+            results = [
+                r for r in results if "/jobs/view/" in (r.get("url", "") or "")
+            ]
+            if not results:
+                logger.info(f"[Tier1] {target_company}: no /jobs/view/ results")
+                return []
+
         # Batch-fetch all URLs concurrently instead of one at a time.
         urls = [r.get("url", "") for r in results if r.get("url")]
         content_by_url = self.reader.fetch_many(urls)
@@ -155,7 +170,7 @@ class TieredScraper:
                 "source": f"Exa-{site}",
                 "tier": 1,
                 "title": title,
-                "company": self._extract_company(r, title, url),
+                "company": target_company or self._extract_company(r, title, url),
                 "location": self._extract_location(description, title),
                 "salary": self._extract_salary(description, title),
                 "url": url,
