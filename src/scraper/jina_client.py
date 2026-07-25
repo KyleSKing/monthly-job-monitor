@@ -6,8 +6,11 @@ No API key needed for limited usage; set JINA_API_KEY for higher rate limits.
 """
 
 import os
+import logging
 import requests
 from typing import Optional
+
+logger = logging.getLogger(__name__)
 
 JINA_API_KEY = os.getenv("JINA_API_KEY", "")
 JINA_BASE = "https://r.jina.ai"
@@ -40,7 +43,8 @@ class JinaClient:
             resp = self.session.get(reader_url, timeout=8)
             resp.raise_for_status()
             return resp.text
-        except Exception:
+        except Exception as e:
+            logger.warning(f"[Jina] fetch failed for {url}: {e}")
             return None
 
     def fetch_json(self, url: str) -> Optional[dict]:

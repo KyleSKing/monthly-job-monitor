@@ -3,8 +3,11 @@
 import json
 import os
 import re
+import logging
 import requests
 from typing import List, Dict
+
+logger = logging.getLogger(__name__)
 
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")
 TAVILY_ENDPOINT = "https://api.tavily.com/search"
@@ -36,8 +39,16 @@ class TavilyClient:
             answer = data.get("answer", "")
             for r in results:
                 r["tavily_answer"] = answer
+            logger.info(f"[Tavily] query={query[:60]!r} → {len(results)} results")
             return results
-        except Exception:
+        except requests.HTTPError as e:
+            logger.warning(
+                f"[Tavily] HTTP {e.response.status_code} for query={query[:60]!r}: "
+                f"{e.response.text[:200]}"
+            )
+            return []
+        except Exception as e:
+            logger.warning(f"[Tavily] request failed for query={query[:60]!r}: {e}")
             return []
 
     def fallback_fetch(self, target_url: str) -> List[str]:
