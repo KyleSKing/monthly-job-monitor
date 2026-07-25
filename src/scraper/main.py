@@ -345,19 +345,30 @@ class TieredScraper:
         )
 
         # ── Quality filter for company-targeted results ──
-        # Company queries (any tier) pull in LinkedIn posts/articles/profiles as
-        # well as jobs. Keep only real job-detail pages (/jobs/view/); drop the
-        # rest. Non-company results (generic site/CSV queries) are untouched.
+        # Company-targeted queries have two noise sources:
+        # 1. URL noise: search returns LinkedIn posts/articles/profiles, not
+        #    just jobs — keep only /jobs/view/ pages.
+        # 2. Location false positives: "Beijing" mentioned anywhere in the text
+        #    doesn't mean the job is in Beijing — require "in beijing" in the
+        #    TITLE (LinkedIn's standard "Company hiring Role in Beijing" format).
         before = len(all_jobs)
-        all_jobs = [
-            j
-            for j in all_jobs
-            if not j.get("source", "").endswith("-company")
-            or "/jobs/view/" in (j.get("url", "") or "")
-        ]
+        filtered = []
+        for j in all_jobs:
+            if j.get("source", "").endswith("-company"):
+                # 1. Must be a real job page
+                if "/jobs/view/" not in (j.get("url", "") or ""):
+                    continue
+                # 2. Must have "in beijing" pattern in title (not just Beijing
+                #    mentioned anywhere in text — fixes "hiring in Beijing for a
+                #    role based in Singapore" false positives)
+                title = (j.get("title") or "").lower()
+                if "in beijing" not in title and "北京" not in title:
+                    continue
+            filtered.append(j)
+        all_jobs = filtered
         logger.info(
             f"Company-job quality filter: kept {len(all_jobs)}/{before} "
-            f"(dropped {before - len(all_jobs)} non-job company results)"
+            f"(dropped {before - len(all_jobs)} non-job / non-Beijing company results)"
         )
 
         # ── CSV targets ──
