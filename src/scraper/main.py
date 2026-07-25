@@ -75,6 +75,12 @@ JOB_QUERIES = [
 ]
 
 
+# Tier activation — disable tiers to save API credits; enable only as needed
+ENABLE_TIER_1 = True
+ENABLE_TIER_2 = False
+ENABLE_TIER_3 = False
+
+
 def _load_target_companies() -> List[str]:
     """Read target_companies.txt (one company per line; # comments, blanks skipped)."""
     path = os.path.join(os.path.dirname(__file__), "data", "target_companies.txt")
@@ -322,26 +328,29 @@ class TieredScraper:
         for site, query in JOB_QUERIES:
             site_results = []
 
-            # Tier 1: Exa + Jina
-            tier1 = self._tier1_search(site, query)
-            if tier1:
-                site_results.extend(tier1)
-                seen_site_queries[f"{site}:{query}"] = 1
-                tier_hits[1] += 1
-            else:
-                # Tier 2: Serper + Firecrawl
+            # Tier 1: Exa + crawl4ai (DEFAULT)
+            if ENABLE_TIER_1:
+                tier1 = self._tier1_search(site, query)
+                if tier1:
+                    site_results.extend(tier1)
+                    seen_site_queries[f"{site}:{query}"] = 1
+                    tier_hits[1] += 1
+
+            # Tier 2: Serper + Firecrawl (DISABLED BY DEFAULT - save API credits)
+            if ENABLE_TIER_2 and not site_results:
                 tier2 = self._tier2_search(site, query)
                 if tier2:
                     site_results.extend(tier2)
                     seen_site_queries[f"{site}:{query}"] = 2
                     tier_hits[2] += 1
-                else:
-                    # Tier 3: Tavily
-                    tier3 = self._tier3_search(site, query)
-                    if tier3:
-                        site_results.extend(tier3)
-                        seen_site_queries[f"{site}:{query}"] = 3
-                        tier_hits[3] += 1
+
+            # Tier 3: Tavily (DISABLED BY DEFAULT - save API credits)
+            if ENABLE_TIER_3 and not site_results:
+                tier3 = self._tier3_search(site, query)
+                if tier3:
+                    site_results.extend(tier3)
+                    seen_site_queries[f"{site}:{query}"] = 3
+                    tier_hits[3] += 1
 
             all_jobs.extend(site_results)
 
