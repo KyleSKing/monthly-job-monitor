@@ -134,20 +134,15 @@ class TieredScraper:
             logger.debug(f"[Tier1] Exa returned 0 results for {site}")
             return []
 
-        # For company-targeted queries: keep only real LinkedIn job pages
-        # (/jobs/view/), and use the queried company name directly instead of
-        # guessing it from noisy titles (which yields people names / "LinkedIn").
+        # For company-targeted queries, use the queried company name directly
+        # instead of guessing it from noisy titles (which yields people names /
+        # "LinkedIn"). Job-page filtering happens globally in scrape_all so a
+        # strict filter here doesn't cascade the whole query down to Tavily.
         target_company = ""
         if site == "company":
             import re as _re
             m = _re.search(r'"([^"]+)"', query)
             target_company = m.group(1) if m else ""
-            results = [
-                r for r in results if "/jobs/view/" in (r.get("url", "") or "")
-            ]
-            if not results:
-                logger.info(f"[Tier1] {target_company}: no /jobs/view/ results")
-                return []
 
         # Batch-fetch all URLs concurrently instead of one at a time.
         urls = [r.get("url", "") for r in results if r.get("url")]
@@ -230,6 +225,12 @@ class TieredScraper:
             logger.debug(f"[Tier3] Tavily returned 0 results for {site}")
             return []
 
+        target_company = ""
+        if site == "company":
+            import re as _re
+            m = _re.search(r'"([^"]+)"', query)
+            target_company = m.group(1) if m else ""
+
         jobs = []
         for r in results:
             url = r.get("url", "")
@@ -243,7 +244,7 @@ class TieredScraper:
                 "source": f"Tavily-{site}",
                 "tier": 3,
                 "title": title,
-                "company": self._extract_company(r, title, url),
+                "company": target_company or self._extract_company(r, title, url),
                 "location": self._extract_location(description, title),
                 "salary": self._extract_salary(description, title),
                 "url": url,
@@ -341,6 +342,22 @@ class TieredScraper:
             f"Search-tier hits across {len(JOB_QUERIES)} queries — "
             f"Tier1(Exa): {tier_hits[1]}, Tier2(Serper): {tier_hits[2]}, "
             f"Tier3(Tavily): {tier_hits[3]}"
+        )
+
+        # ── Quality filter for company-targeted results ──
+        # Company queries (any tier) pull in LinkedIn posts/articles/profiles as
+        # well as jobs. Keep only real job-detail pages (/jobs/view/); drop the
+        # rest. Non-company results (generic site/CSV queries) are untouched.
+        before = len(all_jobs)
+        all_jobs = [
+            j
+            for j in all_jobs
+            if not j.get("source", "").endswith("-company")
+            or "/jobs/view/" in (j.get("url", "") or "")
+        ]
+        logger.info(
+            f"Company-job quality filter: kept {len(all_jobs)}/{before} "
+            f"(dropped {before - len(all_jobs)} non-job company results)"
         )
 
         # ── CSV targets ──
