@@ -1,7 +1,10 @@
 """Firecrawl client wrapper - Tier 2 content extraction."""
 
 import os
+import logging
 import requests
+
+logger = logging.getLogger(__name__)
 
 FIRECRAWL_API = "https://api.firecrawl.dev/v1/scrape"
 # Token stored as base64 to avoid detection
@@ -45,7 +48,14 @@ class FirecrawlClient:
             )
             resp.raise_for_status()
             return resp.json()
-        except Exception:
+        except requests.HTTPError as e:
+            logger.warning(
+                f"[Firecrawl] HTTP {e.response.status_code} for {url}: "
+                f"{e.response.text[:200]}"
+            )
+            return {"markdown": "", "text": ""}
+        except Exception as e:
+            logger.warning(f"[Firecrawl] scrape failed for {url}: {e}")
             return {"markdown": "", "text": ""}
 
 

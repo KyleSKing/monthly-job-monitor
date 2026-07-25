@@ -262,6 +262,7 @@ class TieredScraper:
         """Run the full 3-tier scraping pipeline."""
         all_jobs = []
         seen_site_queries = {}  # site → had results at tier
+        tier_hits = {1: 0, 2: 0, 3: 0}  # queries that produced results per tier
 
         for site, query in JOB_QUERIES:
             site_results = []
@@ -271,20 +272,29 @@ class TieredScraper:
             if tier1:
                 site_results.extend(tier1)
                 seen_site_queries[f"{site}:{query}"] = 1
+                tier_hits[1] += 1
             else:
                 # Tier 2: Serper + Firecrawl
                 tier2 = self._tier2_search(site, query)
                 if tier2:
                     site_results.extend(tier2)
                     seen_site_queries[f"{site}:{query}"] = 2
+                    tier_hits[2] += 1
                 else:
                     # Tier 3: Tavily
                     tier3 = self._tier3_search(site, query)
                     if tier3:
                         site_results.extend(tier3)
                         seen_site_queries[f"{site}:{query}"] = 3
+                        tier_hits[3] += 1
 
             all_jobs.extend(site_results)
+
+        logger.info(
+            f"Search-tier hits across {len(JOB_QUERIES)} queries — "
+            f"Tier1(Exa): {tier_hits[1]}, Tier2(Serper): {tier_hits[2]}, "
+            f"Tier3(Tavily): {tier_hits[3]}"
+        )
 
         # ── CSV targets ──
         for target in self.cfg.targets:

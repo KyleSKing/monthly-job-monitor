@@ -1,8 +1,11 @@
 """Serper (serper.dev) search client — Tier 2 search engine."""
 
 import os
+import logging
 import requests
 from typing import List, Dict
+
+logger = logging.getLogger(__name__)
 
 SERPER_API_KEY = os.getenv("SERPER_API_KEY", "")
 SERPER_ENDPOINT = "https://google.serper.dev/search"
@@ -28,7 +31,7 @@ class SerperClient:
         Returns list of dicts with: url, title, snippet, position
         """
         if not self.api_key:
-            print("[Serper] No API key configured (set SERPER_API_KEY)")
+            logger.warning("[Serper] No API key configured (set SERPER_API_KEY)")
             return []
 
         limit = limit or self.max_results
@@ -39,6 +42,7 @@ class SerperClient:
             resp.raise_for_status()
             data = resp.json()
             results = data.get("organic", [])
+            logger.info(f"[Serper] query={query[:60]!r} → {len(results)} results")
             out = []
             for r in results[:limit]:
                 out.append(
@@ -50,6 +54,12 @@ class SerperClient:
                     }
                 )
             return out
+        except requests.HTTPError as e:
+            logger.warning(
+                f"[Serper] HTTP {e.response.status_code} for query={query[:60]!r}: "
+                f"{e.response.text[:200]}"
+            )
+            return []
         except Exception as e:
-            print(f"[Serper] Search failed for '{query}': {e}")
+            logger.warning(f"[Serper] request failed for query={query[:60]!r}: {e}")
             return []
