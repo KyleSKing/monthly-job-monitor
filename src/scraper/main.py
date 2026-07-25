@@ -75,6 +75,35 @@ JOB_QUERIES = [
 ]
 
 
+def _load_target_companies() -> List[str]:
+    """Read target_companies.txt (one company per line; # comments, blanks skipped)."""
+    path = os.path.join(os.path.dirname(__file__), "data", "target_companies.txt")
+    if not os.path.isfile(path):
+        return []
+    companies = []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#"):
+                companies.append(line)
+    return companies
+
+
+def _company_queries() -> List[tuple]:
+    """Build per-company LinkedIn queries targeting Beijing security/compliance roles."""
+    template = (
+        'site:linkedin.com/jobs "{c}" '
+        'security OR compliance OR "information security" OR "信息安全" OR "数据合规" '
+        "Beijing"
+    )
+    return [("company", template.format(c=c)) for c in _load_target_companies()]
+
+
+# Append company-targeted queries to the site queries above
+JOB_QUERIES += _company_queries()
+
+
+
 class TieredScraper:
     """Orchestrates 3-tier scraping: Exa→Jina, Serper→Firecrawl, Tavily."""
 
