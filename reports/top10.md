@@ -1,6 +1,6 @@
 # 🔥 Top 10 Jobs (3-Tier Scraper)
 
-_Generated: 2026-07-25 10:15_
+_Generated: 2026-08-01 10:04_
 
 ## 1. Various positions at Amazon
 
